@@ -5,26 +5,13 @@ export function createStorefront({ React, useStore, Currency }) {
   const label = (value, lang) => value?.[lang] || value?.en || value?.ar || '';
   const categoryLabel = (category, lang) => category[lang];
   const price = (variant) => Number.isFinite(variant.offerPrice) && variant.offerPrice > 0 && variant.offerPrice < variant.price ? variant.offerPrice : variant.price;
-  const iconPaths = {
-    phones: ['M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z', 'M10 5h4M11 19h2'],
-    tablets: ['M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z', 'M11 18h2'],
-    headphones: ['M4 14v-3a8 8 0 0 1 16 0v3', 'M4 12H3v7h4v-7H4ZM20 12h1v7h-4v-7h3Z'],
-    speakers: ['M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z', 'M9 15a3 3 0 1 0 6 0 3 3 0 0 0-6 0M11 7h2'],
-    watches: ['M9 2h6l1 5H8l1-5ZM8 17h8l-1 5H9l-1-5Z', 'M8 7h8a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2ZM12 9v3l2 1'],
-    accessories: ['M8 7h8v7a4 4 0 0 1-8 0V7ZM10 3v4M14 3v4M12 18v4'],
-  };
-
-  function CategoryIcon({ category }) {
-    return h('svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true },
-      (iconPaths[category] || iconPaths.accessories).map((d, i) => h('path', { d, key: i })));
-  }
-
   function ProductImage({ product, className = '', artClass = '', eager = false }) {
     const { lang } = useStore();
     const media = getProductMedia(product);
     const source = media?.src;
     const [failedSource, setFailedSource] = React.useState(null);
     const clipId = React.useId();
+    const maskId = `${clipId}-mask`;
     const crop = media?.viewBox?.split(' ').map(Number);
     const name = label(product.name, lang);
     return h('div', { className: `flick-product-media ${className}`, 'data-product-media': product.id },
@@ -40,11 +27,24 @@ export function createStorefront({ React, useStore, Currency }) {
             },
             // Clip the cell itself: a wide SVG viewport can otherwise expose
             // neighbouring cells in its letterbox margins.
-            h('defs', null, h('clipPath', { id: clipId, clipPathUnits: 'userSpaceOnUse' },
-              h('rect', { x: crop[0], y: crop[1], width: crop[2], height: crop[3] }))),
+            h('defs', null,
+              h('clipPath', { id: clipId, clipPathUnits: 'userSpaceOnUse' },
+                h('rect', { x: crop[0], y: crop[1], width: crop[2], height: crop[3] })),
+              media.maskSrc && h('mask', {
+                id: maskId,
+                maskUnits: 'userSpaceOnUse', maskContentUnits: 'userSpaceOnUse',
+                x: 0, y: 0, width: media.width, height: media.height,
+                style: { maskType: 'luminance' },
+              }, h('image', {
+                href: media.maskSrc, width: media.width, height: media.height,
+                preserveAspectRatio: 'none', 'aria-hidden': true,
+                onError: () => setFailedSource(source),
+              }))),
             h('image', {
               href: source, width: media.width, height: media.height,
               clipPath: `url(#${clipId})`,
+              mask: media.maskSrc ? `url(#${maskId})` : undefined,
+              'data-product-raster': true,
               'aria-hidden': true,
               onError: () => setFailedSource(source),
             })),
@@ -66,21 +66,14 @@ export function createStorefront({ React, useStore, Currency }) {
     const products = content.products.filter(p => p.visible);
     return h('section', { className: 'flick-categories flick-section', 'aria-labelledby': 'flick-categories-title' },
       h('div', { className: 'flick-section-heading' },
-        h('div', null,
-          h('p', { className: 'flick-eyebrow' }, lang === 'ar' ? 'كل اللي بدك إياه' : 'FIND YOUR NEXT DEVICE'),
-          h('h2', { id: 'flick-categories-title' }, lang === 'ar' ? 'شو عم تدوّر عليه؟' : 'What are you looking for?')),
+        h('h2', { id: 'flick-categories-title' }, lang === 'ar' ? 'شو عم تدوّر عليه؟' : 'What are you looking for?'),
         h('a', { href: '#/shop', className: 'flick-text-link' }, lang === 'ar' ? 'شوف كل المنتجات' : 'View all products')),
       h('div', { className: 'flick-category-grid' }, categories.map(category => {
-        const count = products.filter(p => p.cat === category.id).length;
-        if (!count) return null;
+        if (!products.some(p => p.cat === category.id)) return null;
         return h('a', { href: `#/shop/${category.id}`, className: 'flick-category-card', key: category.id },
-          h('span', { className: 'flick-category-icon' }, h(CategoryIcon, { category: category.id })),
-          h('div', { className: 'flick-category-copy' },
-            h('h3', null, categoryLabel(category, lang)),
-            h('p', null, lang === 'ar' ? category.hintAr : category.hintEn),
-            h('span', { className: 'flick-category-count' }, lang === 'ar' ? `${count} ${count === 1 ? 'منتج' : 'منتجات'}` : `${count} ${count === 1 ? 'product' : 'products'}`)),
+          h('span', { className: 'flick-category-name' }, categoryLabel(category, lang)),
           h('svg', { className: 'flick-category-arrow', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, 'aria-hidden': true },
-            h('path', { d: 'M7 17 17 7M7 7h10v10' })));
+            h('path', { d: 'M5 12h14m-5-5 5 5-5 5' })));
       })));
   }
 
