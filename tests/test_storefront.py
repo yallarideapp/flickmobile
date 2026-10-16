@@ -144,21 +144,19 @@ class StorefrontTests(unittest.TestCase):
         self.page.wait_for_function('document.querySelector("main article img")?.naturalWidth === 1')
         expect(self.page.locator('main article .flick-photo-placeholder')).to_have_count(0)
 
-    def test_generated_catalog_images_are_local_accessible_and_labelled(self):
+    def test_generated_catalog_images_are_local_accessible_without_badges(self):
         self.page.goto(self.base + '#/shop')
         cards = self.page.locator('main article')
         illustrations = cards.locator('svg.flick-product-illustration')
         expect(cards).to_have_count(23)
         expect(illustrations).to_have_count(23)
         expect(cards.locator('.flick-photo-placeholder')).to_have_count(0)
-        for expected_label in ('صورة مولّدة', 'AI illustration'):
-            labels = cards.locator('.flick-media-label')
-            expect(labels).to_have_text([expected_label] * 23)
+        for lang in ('ar', 'en'):
+            expect(self.page.locator('.flick-media-label')).to_have_count(0)
             for card in cards.all():
                 name = card.locator('h3').inner_text()
                 expect(card.get_by_role('img', name=name, exact=True)).to_be_visible()
-                expect(card.locator('.flick-media-label')).to_be_visible()
-            if expected_label == 'صورة مولّدة':
+            if lang == 'ar':
                 self.english()
 
         # Decode the underlying sheet URLs: SVG presence alone cannot prove that
@@ -198,6 +196,85 @@ class StorefrontTests(unittest.TestCase):
         expect(self.page.locator('main')).to_contain_text('AI')
         expect(self.page.locator('main')).to_contain_text('illustration')
         expect(self.page.locator('main')).not_to_contain_text('Model photograph')
+        expect(self.page.locator('[data-product-media] .flick-media-label')).to_have_count(0)
+
+    def test_category_tiles_show_images_above_titles_and_filter_every_category(self):
+        for width in (390, 1440):
+            self.page.set_viewport_size({'width': width, 'height': 1000})
+            self.page.goto(self.base)
+            if self.page.locator('html').get_attribute('lang') == 'en':
+                self.page.get_by_role('button', name='التبديل للعربية', exact=True).click()
+            for lang in ('ar', 'en'):
+                tiles = self.page.locator('.flick-category-card')
+                expect(tiles).to_have_count(6)
+                for tile in tiles.all():
+                    title = tile.locator('.flick-category-name')
+                    picture = tile.locator('.flick-category-picture')
+                    expect(title).to_be_visible()
+                    self.assertTrue(title.inner_text().strip())
+                    expect(picture.get_by_role('img')).to_be_visible()
+                    expect(picture.locator('[data-product-media]')).to_have_count(1)
+                    image_box, title_box = picture.bounding_box(), title.bounding_box()
+                    self.assertGreater(image_box['height'], 0)
+                    self.assertLessEqual(image_box['y'] + image_box['height'], title_box['y'] + 1)
+                expect(self.page.locator('.flick-media-label')).to_have_count(0)
+                if lang == 'ar':
+                    self.english()
+
+        expected_categories = [
+            ('phones', 'Phones', 8),
+            ('tablets', 'Tablets', 3),
+            ('headphones', 'Earbuds & headphones', 4),
+            ('speakers', 'Speakers', 1),
+            ('watches', 'Smartwatches', 3),
+            ('accessories', 'Accessories', 4),
+        ]
+        for category, title, count in expected_categories:
+            self.page.goto(self.base)
+            self.page.locator(f'.flick-category-card[href="#/shop/{category}"]').click()
+            expect(self.page.locator('main h1')).to_have_text(title)
+            expect(self.page.locator('main article')).to_have_count(count)
+
+    def assert_distinct_product_cards(self, cards):
+        self.assertGreater(cards.count(), 0)
+        visuals = cards.evaluate_all('''cards => cards.map(card => {
+            const style = getComputedStyle(card);
+            const media = card.querySelector('[data-product-media]');
+            return {
+                styled: card.classList.contains('flick-product-card'),
+                background: style.backgroundColor,
+                pageBackground: getComputedStyle(document.body).backgroundColor,
+                borderWidth: parseFloat(style.borderTopWidth),
+                borderColor: style.borderTopColor,
+                borderStyle: style.borderTopStyle,
+                padding: [style.paddingTop, style.paddingRight, style.paddingBottom, style.paddingLeft].map(parseFloat),
+                imageBackground: getComputedStyle(media).backgroundColor,
+            };
+        })''')
+        for visual in visuals:
+            self.assertTrue(visual['styled'])
+            self.assertNotEqual(visual['background'], 'rgba(0, 0, 0, 0)')
+            self.assertNotEqual(visual['background'], visual['pageBackground'])
+            self.assertGreater(visual['borderWidth'], 0)
+            self.assertNotEqual(visual['borderStyle'], 'none')
+            self.assertNotEqual(visual['borderColor'], visual['background'])
+            self.assertTrue(all(value > 0 for value in visual['padding']))
+            self.assertEqual(visual['imageBackground'], 'rgb(255, 255, 255)')
+
+    def test_home_and_devices_product_cards_have_distinct_surfaces(self):
+        for width in (390, 1440):
+            self.page.set_viewport_size({'width': width, 'height': 1000})
+            self.page.goto(self.base)
+            for title in ('عروض هالفترة', 'مختارات إلك'):
+                section = self.page.locator('.flick-home-content section').filter(
+                    has=self.page.get_by_role('heading', name=title, exact=True))
+                self.assert_distinct_product_cards(section.locator('article'))
+            self.assertEqual(self.page.locator('.flick-hero-image').evaluate(
+                'element => getComputedStyle(element).backgroundColor'), 'rgba(0, 0, 0, 0)')
+            expect(self.page.locator('.flick-media-label')).to_have_count(0)
+            self.page.goto(self.base + '#/shop')
+            expect(self.page.locator('main article')).to_have_count(23)
+            self.assert_distinct_product_cards(self.page.locator('main article'))
 
     def test_failed_generated_images_show_unavailable_fallback(self):
         self.context.route('**/assets/products/*.png', lambda route: route.abort())

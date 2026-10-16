@@ -47,8 +47,7 @@ export function createStorefront({ React, useStore, Currency }) {
               'data-product-raster': true,
               'aria-hidden': true,
               onError: () => setFailedSource(source),
-            })),
-            h('span', { className: 'flick-media-label' }, lang === 'ar' ? 'صورة مولّدة' : 'AI illustration'))
+            })))
           : h('img', {
           key: source, src: source, alt: name,
           className: `flick-product-photo ${artClass}`,
@@ -69,11 +68,13 @@ export function createStorefront({ React, useStore, Currency }) {
         h('h2', { id: 'flick-categories-title' }, lang === 'ar' ? 'شو عم تدوّر عليه؟' : 'What are you looking for?'),
         h('a', { href: '#/shop', className: 'flick-text-link' }, lang === 'ar' ? 'شوف كل المنتجات' : 'View all products')),
       h('div', { className: 'flick-category-grid' }, categories.map(category => {
-        if (!products.some(p => p.cat === category.id)) return null;
-        return h('a', { href: `#/shop/${category.id}`, className: 'flick-category-card', key: category.id },
-          h('span', { className: 'flick-category-name' }, categoryLabel(category, lang)),
-          h('svg', { className: 'flick-category-arrow', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, 'aria-hidden': true },
-            h('path', { d: 'M5 12h14m-5-5 5 5-5 5' })));
+        const candidates = products.filter(p => p.cat === category.id);
+        const product = candidates.find(p => p.id === category.pictureId) || candidates.find(p => getProductMedia(p)) || candidates[0];
+        if (!product) return null;
+        return h('a', { href: `#/shop/${category.id}`, className: 'flick-category-card', key: category.id, 'aria-label': categoryLabel(category, lang) },
+          h('div', { className: 'flick-category-picture' },
+            h(ProductImage, { product, className: 'flick-category-media' })),
+          h('h3', { className: 'flick-category-name' }, categoryLabel(category, lang)));
       })));
   }
 
