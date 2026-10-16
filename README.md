@@ -10,9 +10,9 @@ No dependency installation or application build is required. The original applic
 
 ## Product images
 
-All 23 demo products have generated illustrations, designed around the named models' camera layouts, silhouettes and materials. Six original image sheets and a dedicated Galaxy Buds3 Pro image are stored under `assets/products/`. `productIllustrations` in `assets/catalog.js` maps each product ID to its image and viewport. Generated luminance mattes in `assets/products/mattes/` remove the sheet backgrounds during SVG rendering; the refined Buds image has its own transparent background. The homepage displays larger cutouts directly on its yellow and dark sections. All image resources are served locally.
+All 23 demo products have generated illustrations, designed around the named models' camera layouts, silhouettes and materials. Six original image sheets and a dedicated Galaxy Buds3 Pro image are stored under `assets/products/`. `productIllustrations` in `assets/catalog.js` maps each product ID to its image and viewport. Generated luminance mattes in `assets/products/mattes/` remove the sheet backgrounds during SVG rendering; the refined Buds image has its own transparent background. The hero displays a large cutout on yellow; category tiles and separated product cards use white image backgrounds. All image resources are served locally.
 
-These images are illustrations, not manufacturer photographs or proof of stock. Generated images carry a short bilingual label, with a fuller note on the product page. Generic accessories remain unbranded. For exact item photography, upload a store photo in the admin panel or add a verified source to `productPhotos`; both take priority over generated illustrations. Missing or failed images display the bilingual unavailable placeholder.
+These images are illustrations, not manufacturer photographs or proof of stock. Product pages retain a bilingual explanatory note; there are no overlaid image badges. Generic accessories remain unbranded. For exact item photography, upload a store photo in the admin panel or add a verified source to `productPhotos`; both take priority over generated illustrations. Missing or failed images display the bilingual unavailable placeholder.
 
 ## Validation
 

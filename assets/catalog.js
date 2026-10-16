@@ -52,12 +52,12 @@ export function getProductMedia(product) {
 }
 
 export const categories = [
-  { id: 'phones', ar: 'موبايلات', en: 'Phones', hintAr: 'آيفون وسامسونج', hintEn: 'iPhone & Samsung' },
-  { id: 'tablets', ar: 'تابلت', en: 'Tablets', hintAr: 'آيباد وجالكسي تاب', hintEn: 'iPad & Galaxy Tab' },
-  { id: 'headphones', ar: 'سماعات', en: 'Earbuds & headphones', hintAr: 'سماعات أذن ورأس', hintEn: 'In-ear & over-ear' },
-  { id: 'speakers', ar: 'سبيكرات', en: 'Speakers', hintAr: 'سبيكرات بلوتوث محمولة', hintEn: 'Portable Bluetooth speakers' },
-  { id: 'watches', ar: 'ساعات ذكية', en: 'Smartwatches', hintAr: 'آبل ووتش وجالكسي ووتش', hintEn: 'Apple Watch & Galaxy Watch' },
-  { id: 'accessories', ar: 'إكسسوارات', en: 'Accessories', hintAr: 'شواحن، كوابل وحماية', hintEn: 'Charging, cables & protection' },
+  { id: 'phones', ar: 'موبايلات', en: 'Phones', pictureId: 'iphone-17-pro-max' },
+  { id: 'tablets', ar: 'تابلت', en: 'Tablets', pictureId: 'ipad-a16' },
+  { id: 'headphones', ar: 'سماعات', en: 'Earbuds & headphones', pictureId: 'galaxy-buds3-pro' },
+  { id: 'speakers', ar: 'سبيكرات', en: 'Speakers', pictureId: 'bt-speaker' },
+  { id: 'watches', ar: 'ساعات ذكية', en: 'Smartwatches', pictureId: 'apple-watch-s11' },
+  { id: 'accessories', ar: 'إكسسوارات', en: 'Accessories', pictureId: 'charger-20w' },
 ];
 
 // Migrate the old broad category without changing IDs, uploads, prices or carts.
