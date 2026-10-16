@@ -2,10 +2,11 @@
 // Generated artwork is deliberately kept separate from actual photography.
 export const productPhotos = {};
 
-// Each source is an unmodified, generated 1254 × 1254 sheet. An SVG viewport
-// selects one square cell; no image processing or external image host is needed.
+// Unmodified 1254 × 1254 sheets use generated luminance mattes to remove the
+// backdrop at display time. SVG viewports select individual square cells.
 const illustration = (sheet, column, row) => ({
   src: new URL(`./products/${sheet}.png`, import.meta.url).href,
+  maskSrc: new URL(`./products/mattes/${sheet}.png`, import.meta.url).href,
   width: 1254,
   height: 1254,
   viewBox: `${column * 627} ${row * 627} 627 627`,
@@ -28,7 +29,12 @@ export const productIllustrations = {
   'galaxy-watch8': illustration('watches-earbuds', 1, 0),
   'airpods-pro-3': illustration('watches-earbuds', 0, 1),
   'airpods-4': illustration('watches-earbuds', 1, 1),
-  'galaxy-buds3-pro': illustration('audio-power', 0, 0),
+  'galaxy-buds3-pro': {
+    src: new URL('./products/galaxy-buds3-pro-refined.png', import.meta.url).href,
+    width: 1536,
+    height: 1024,
+    viewBox: '0 0 1536 1024',
+  },
   'bt-speaker': illustration('audio-power', 1, 0),
   'bt-headphones': illustration('audio-power', 0, 1),
   'powerbank-20k': illustration('audio-power', 1, 1),

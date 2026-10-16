@@ -2,7 +2,9 @@
 
 Created for this storefront at the user's request. These are model-inspired illustrations, not official manufacturer assets. No manufacturer photographs were downloaded or claimed as sources.
 
-The six PNGs are the unmodified generated outputs. Each is 1254 × 1254 pixels, with four 627 × 627 cells. `../catalog.js` records the exact product-to-cell mapping. The bottom-right cell of `accessories.png` is intentionally unused. Browser SVG viewports select the appropriate cell without duplicating or raster-editing the source images.
+The six original sheets are unmodified generated outputs. Each is 1254 × 1254 pixels, with four 627 × 627 cells. `../catalog.js` records the product-to-cell mapping. The bottom-right cell of `accessories.png` is intentionally unused. Browser SVG viewports select the appropriate cell without duplicating or raster-editing the source images.
+
+Generated black-and-white silhouette mattes under `mattes/` remove the white background during SVG compositing. They retain the original hardware colours and avoid the rough white debris produced by direct background removal. `galaxy-buds3-pro-refined.png` is a separate 1536 × 1024 transparent illustration with two visible blade-stem earbuds and their open case; it overrides the earlier top-left cell of `audio-power.png`.
 
 | Sheet | Top left | Top right | Bottom left | Bottom right |
 | --- | --- | --- | --- | --- |

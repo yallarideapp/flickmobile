@@ -165,7 +165,7 @@ class StorefrontTests(unittest.TestCase):
         # its raster resource loaded, or that a viewBox points inside the sheet.
         resources = self.page.evaluate('''async () => {
             const crops = [...document.querySelectorAll('main article svg.flick-product-illustration')].map(svg => {
-                const image = svg.querySelector('image');
+                const image = svg.querySelector('[data-product-raster]');
                 const url = new URL(image.getAttribute('href'), location.href);
                 const box = svg.viewBox.baseVal;
                 return {url: url.href, path: url.pathname, sameOrigin: url.origin === location.origin,
@@ -209,6 +209,14 @@ class StorefrontTests(unittest.TestCase):
         expect(cards.locator('.flick-media-label')).to_have_count(0)
         self.english()
         expect(cards.locator('.flick-placeholder-note')).to_have_text(['Photo unavailable'] * 23)
+
+    def test_failed_background_mask_shows_unavailable_fallback(self):
+        self.context.route('**/assets/products/mattes/*.png', lambda route: route.abort())
+        self.page.goto(self.base + '#/p/iphone-17-pro-max')
+        media = self.page.locator('main [data-product-media="iphone-17-pro-max"]')
+        expect(media.locator('.flick-placeholder-note')).to_have_text('الصورة غير متوفرة')
+        expect(media.locator('svg.flick-product-illustration')).to_have_count(0)
+        expect(media.locator('.flick-media-label')).to_have_count(0)
 
     def test_uploaded_photo_overrides_a_generated_builtin_image(self):
         png = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1sAAAAASUVORK5CYII='
