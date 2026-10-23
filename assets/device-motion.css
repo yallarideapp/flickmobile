@@ -13,41 +13,9 @@
   animation-play-state: paused;
 }
 
-.flick-hero[data-motion-active="true"][data-motion-paused="false"]
+.flick-hero[data-motion-active="true"]
   .flick-hero-image > :is(.flick-product-illustration, .flick-product-photo) {
   animation-play-state: running;
-}
-
-.flick-motion-toggle {
-  position: absolute;
-  z-index: 1;
-  top: 8px;
-  inset-inline-start: 8px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 36px;
-  padding: 7px 10px;
-  border: 1px solid #15140f40;
-  border-radius: 99px;
-  background: #fff500e6;
-  color: #15140f;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.flick-motion-toggle:hover {
-  border-color: #15140f;
-  background: #fff500;
-}
-
-.flick-motion-toggle svg {
-  width: 12px;
-  height: 12px;
-}
-
-.flick-motion-toggle:focus-visible {
-  outline-color: #15140f;
 }
 
 .flick-home-content :is(.flick-category-card, .flick-product-card)
@@ -90,10 +58,6 @@
   .flick-hero-image > :is(.flick-product-illustration, .flick-product-photo) {
     animation: none;
     transform: none;
-  }
-
-  .flick-motion-toggle {
-    display: none;
   }
 
   .flick-home-content :is(.flick-category-card, .flick-product-card)
