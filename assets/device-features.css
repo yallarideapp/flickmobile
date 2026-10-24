@@ -1,0 +1,357 @@
+/* Device options and specifications share the storefront's ink/yellow palette. */
+.flick-device-options {
+  min-width: 0;
+  margin-block: 24px 0;
+  padding: 0;
+  border: 0;
+}
+
+.flick-device-options > legend,
+.flick-device-options fieldset > legend {
+  margin-block-end: 10px;
+  padding: 0;
+  color: #f6f5ef;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.flick-device-option-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.flick-device-option {
+  display: flex;
+  flex: 1 1 150px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  min-height: 68px;
+  padding: 12px 14px;
+  border: 1px solid #555147;
+  border-radius: 10px;
+  background: #1d1c18;
+  color: #f6f5ef;
+  text-align: start;
+}
+
+.flick-device-option:hover:not(:disabled) {
+  border-color: #fff500;
+}
+
+.flick-device-option[aria-pressed="true"] {
+  border-color: #fff500;
+  background: #fff500;
+  color: #15140f;
+}
+
+.flick-device-option:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+.flick-device-option-name {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.flick-device-option-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  max-width: 100%;
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.flick-device-option-price s {
+  opacity: .65;
+  font-size: 12px;
+  font-weight: 400;
+  text-decoration-thickness: 1px;
+}
+
+.flick-device-details {
+  min-width: 0;
+  margin-block-start: 28px;
+  padding-block-start: 24px;
+  border-block-start: 1px solid #3d3a32;
+}
+
+.flick-device-details h2 {
+  margin: 0 0 12px;
+  color: #f6f5ef;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.flick-device-summary {
+  margin-block: 0 18px;
+  color: #b1ada1;
+  font-size: 15px;
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+}
+
+.flick-device-specs {
+  margin: 0;
+  border-block-start: 1px solid #3d3a32;
+}
+
+.flick-device-specs > div {
+  display: grid;
+  grid-template-columns: minmax(110px, .8fr) minmax(0, 1.6fr);
+  gap: 8px 20px;
+  padding-block: 12px;
+  border-block-end: 1px solid #3d3a32;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.flick-device-specs dt {
+  min-width: 0;
+  color: #b1ada1;
+  overflow-wrap: anywhere;
+}
+
+.flick-device-specs dd {
+  min-width: 0;
+  margin: 0;
+  color: #f6f5ef;
+  overflow-wrap: anywhere;
+}
+
+.flick-device-editor {
+  min-width: 0;
+  margin-block: 16px;
+  padding: 16px;
+  border: 1px solid #454137;
+  border-radius: 12px;
+  background: #1d1c18;
+  color: #f6f5ef;
+}
+
+.flick-device-editor fieldset {
+  min-width: 0;
+  margin-block: 16px;
+  padding: 0;
+  border: 0;
+}
+
+.flick-device-editor > legend,
+.flick-device-editor fieldset > legend {
+  margin-block-end: 10px;
+  padding-inline: 4px;
+  color: #fff500;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.flick-device-editor h2,
+.flick-device-editor h3 {
+  margin-block: 0 12px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.flick-device-field-grid,
+.flick-device-spec-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  min-width: 0;
+}
+
+.flick-device-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+  color: #f6f5ef;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.flick-device-field :is(input, select, textarea) {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #555147;
+  border-radius: 8px;
+  background: #27251f;
+  color: #f6f5ef;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.flick-device-field textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.flick-device-field :is(input, textarea)::placeholder {
+  color: #9c9789;
+  opacity: 1;
+}
+
+.flick-device-field [aria-invalid="true"] {
+  border-color: #ff675b;
+}
+
+.flick-device-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-block-start: 10px;
+}
+
+.flick-device-checks label {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  color: #f6f5ef;
+  font-size: 13px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.flick-device-checks input {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  accent-color: #fff500;
+}
+
+.flick-device-editor-help {
+  margin-block: 10px 0;
+  color: #b1ada1;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.flick-device-editor-error {
+  margin-block: 10px 0;
+  color: #ff897f;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.flick-device-editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block-start: 16px;
+}
+
+.flick-device-editor-actions button,
+.flick-device-remove {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 14px;
+  border: 1px solid #605a4b;
+  border-radius: 8px;
+  background: #27251f;
+  color: #f6f5ef;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.flick-device-editor-actions button:hover,
+.flick-device-remove:hover {
+  border-color: #fff500;
+  color: #fff500;
+}
+
+.flick-device-spec-editor {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  margin-block-start: 16px;
+}
+
+.flick-device-spec-editor > div {
+  min-width: 0;
+  padding-block: 12px;
+  border-block-start: 1px solid #454137;
+}
+
+.flick-device-spec-editor .flick-device-remove {
+  margin-block-start: 10px;
+}
+
+.flick-device-card-summary {
+  display: grid;
+  justify-items: start;
+  gap: 7px;
+  min-width: 0;
+  margin-block-start: 8px;
+}
+
+.flick-device-card-summary p {
+  margin: 0;
+  color: #b1ada1;
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.flick-device-condition {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 4px 8px;
+  border: 1px solid #777024;
+  border-radius: 99px;
+  background: #fff5000d;
+  color: #fff500;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+:is(.flick-device-option, .flick-device-editor button,
+  .flick-device-editor input, .flick-device-editor select,
+  .flick-device-editor textarea):focus-visible {
+  outline: 2px solid #fff500;
+  outline-offset: 3px;
+}
+
+@media (width <= 560px) {
+  .flick-device-editor {
+    padding: 12px;
+  }
+
+  .flick-device-field-grid,
+  .flick-device-spec-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (width <= 400px) {
+  .flick-device-option {
+    flex-basis: 125px;
+    padding-inline: 10px;
+  }
+
+  .flick-device-specs > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+}
