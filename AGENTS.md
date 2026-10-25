@@ -11,6 +11,16 @@ For future updates:
 - Preserve existing local changes. Do not reset or overwrite unrelated work.
 - Commit the source files, assets, and tests needed for the requested update,
   then push the completed changes to GitHub.
+- Stage only files belonging to the requested update; do not publish unrelated
+  local work.
+- The one-time Mac setup is `scripts/Setup-Flick-Mac.command`. Once installed,
+  its background updater pulls GitHub changes into a clean Mac `main` checkout.
+  Local coding changes still need to be committed and pushed when complete.
+- A completed local update can be synchronized with the installed
+  `FlickSync/flick-sync.sh` helper using `--directory` and `--sync`; it preserves
+  local edits and refuses non-fast-forward operations.
+- If the Mac setup script changes, rebuild `downloads/Flick-Mac-Sync.zip` and
+  verify its executable matches `scripts/Setup-Flick-Mac.command`.
 - Verify the local project and GitHub contain the update before reporting that
   both copies are saved.
 - A cloud workspace is a separate copy, not the user's Mac folder. If Mac access
