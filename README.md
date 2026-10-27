@@ -2,7 +2,33 @@
 
 Website repository: <https://github.com/yallarideapp/flickmobile>
 
-Live website: <https://yallarideapp.github.io/flickmobile/>
+Preserved static demo: <https://yallarideapp.github.io/flickmobile/>
+
+## Updated app source and local preview
+
+The maintained storefront, including the device carousel, is in `src/`.
+The Cloudflare Worker, shared rules and D1 migrations are in `server/`,
+`shared/` and `migrations/`. See [source recovery](src/RECOVERY.md) and
+[Cloudflare setup](Cloudflare-guide.md) for the implementation and setup details.
+
+With Node.js 24 installed:
+
+```bash
+npm ci
+npm run build
+npm test
+node scripts/local-preview.mjs --port 8790
+```
+
+Open <http://127.0.0.1:8790/ar/> or <http://127.0.0.1:8790/en/>.
+The preview uses disposable local D1/KV storage and dummy admin credentials;
+its data disappears when it stops. The default port is 8788 if omitted.
+
+The build generates `dist/demo` (portable demo) and `dist/live` (Worker app).
+Generated output is ignored by Git. The root `index.html` and the linked
+GitHub Pages site retain the original exported demo; they do not display the
+new source build. Production Cloudflare setup and deployment remain separate
+from uploading this repository. The GitHub workflow runs build and tests only.
 
 ## Keep the Mac folder and GitHub updated
 
@@ -54,6 +80,7 @@ that Mac. Downloading the setup alone does not activate synchronization.
 ## Checks
 
 ```bash
-node tests/device-features.test.cjs
+npm run build
+npm test
 bash tests/mac-sync.test.sh
 ```
