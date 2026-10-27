@@ -160,8 +160,18 @@
 }
 
 .flick-hero[data-hero-tone] .flick-hero-stage[data-transitioning="true"]
-  .flick-hero-slide-target {
+  .flick-hero-slide .flick-hero-slide-target {
   pointer-events: none;
+  transform: none;
+  translate: none;
+  rotate: none;
+  transition: none;
+}
+
+.flick-hero[data-hero-tone] .flick-hero-stage[data-transitioning="true"]
+  .flick-hero-slide :is(.flick-hero-art, .flick-hero-ground) {
+  animation: none;
+  transform: none;
 }
 
 .flick-hero[data-hero-tone] .flick-hero-slide[data-position="active"]

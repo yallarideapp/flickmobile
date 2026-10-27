@@ -1,9 +1,9 @@
 const flickHeroPoses = {
-  before: { x: -74, y: -28, r: -4, s: 0.24, o: 0 },
+  before: { x: -110, y: -42, r: -6, s: 0.16, o: 0 },
   previous: { x: -74, y: -28, r: -4, s: 0.24, o: 1 },
   active: { x: 0, y: 0, r: 0, s: 1, o: 1 },
   next: { x: 74, y: 28, r: 4, s: 0.24, o: 1 },
-  after: { x: 74, y: 28, r: 4, s: 0.24, o: 0 },
+  after: { x: 110, y: 42, r: 6, s: 0.16, o: 0 },
 };
 
 function flickHeroPose(position, direction) {
@@ -15,13 +15,16 @@ function flickHeroTransform(pose) {
   return `translate3d(${pose.x}%, ${pose.y}%, 0) rotate(${pose.r}deg) scale(${pose.s})`;
 }
 
-function flickHeroMotion(from, to, direction, current) {
+function flickHeroMotion(from, to, direction) {
   if (to === "hidden" && from === "hidden") return null;
-  const start = flickHeroPose(from, direction);
+  const start = flickHeroPose(
+    from,
+    direction === "forward" ? "backward" : "forward",
+  );
   const target = flickHeroPose(to, direction);
   const first = {
-    transform: current?.transform || flickHeroTransform(start),
-    opacity: current?.opacity ?? start.o,
+    transform: flickHeroTransform(start),
+    opacity: start.o,
     visibility: "visible",
   };
   const last = {
@@ -29,20 +32,33 @@ function flickHeroMotion(from, to, direction, current) {
     opacity: target.o,
     visibility: "visible",
   };
+  const wrapping =
+    (from === "previous" && to === "next") ||
+    (from === "next" && to === "previous");
   return {
-    keyframes: [
-      { ...first, offset: 0, easing: "ease-in" },
-      { ...first, offset: 0.32, opacity: 0 },
-      {
-        ...last,
-        offset: 0.32,
-        transform: flickHeroTransform({ ...target, s: target.s * 0.96 }),
-        opacity: 0,
-        easing: "cubic-bezier(.2, .75, .25, 1)",
-      },
-      { ...last, offset: 1 },
-    ],
-    timing: { duration: 360, easing: "linear" },
+    keyframes: wrapping
+      ? [
+          { ...first, offset: 0 },
+          {
+            transform: flickHeroTransform(
+              flickHeroPoses[from === "previous" ? "before" : "after"],
+            ),
+            opacity: 0,
+            visibility: "visible",
+            offset: 0.48,
+          },
+          {
+            transform: flickHeroTransform(
+              flickHeroPoses[to === "next" ? "after" : "before"],
+            ),
+            opacity: 0,
+            visibility: "visible",
+            offset: 0.52,
+          },
+          { ...last, offset: 1 },
+        ]
+      : [first, last],
+    timing: { duration: 720, easing: "cubic-bezier(.22, .68, 0, 1)" },
   };
 }
 
@@ -85,6 +101,9 @@ function l4() {
   const focusAfterNavigation = w.useRef(false);
   const slideAnimations = w.useRef(new Map());
   const lastPositions = w.useRef(null);
+  const selectionRef = w.useRef(selection);
+  const pendingSelection = w.useRef(null);
+  const transitioning = w.useRef(false);
   const drag = w.useRef(null);
   const suppressClick = w.useRef(false);
   const h = w.createElement;
@@ -102,6 +121,7 @@ function l4() {
     const stage = stageRef.current;
     if (!previous || !stage) return;
     const animate =
+      items.length > 2 &&
       typeof stage.animate === "function" &&
       !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     for (const slide of stage.querySelectorAll(".flick-hero-slide")) {
@@ -109,15 +129,7 @@ function l4() {
       const from = previous.get(id);
       const to = positions.get(id);
       if (!from || from === to) continue;
-      const running = slideAnimations.current.get(id);
-      let current = null;
-      if (running && running.playState !== "finished") {
-        const style = getComputedStyle(slide);
-        current = { transform: style.transform, opacity: style.opacity };
-      }
-      running?.cancel();
-      slideAnimations.current.delete(id);
-      const motion = animate && flickHeroMotion(from, to, selection.direction, current);
+      const motion = animate && flickHeroMotion(from, to, selection.direction);
       if (!motion) continue;
       const animation = slide.animate(motion.keyframes, {
         ...motion.timing,
@@ -127,43 +139,92 @@ function l4() {
       animation.onfinish = () => {
         if (slideAnimations.current.get(id) === animation)
           slideAnimations.current.delete(id);
-        if (!slideAnimations.current.size) delete stage.dataset.transitioning;
+        if (!slideAnimations.current.size) {
+          delete stage.dataset.transitioning;
+          transitioning.current = false;
+          if (pendingSelection.current?.id === selectionRef.current.id)
+            focusAfterNavigation.current = false;
+          advanceSelection();
+        }
       };
     }
     if (slideAnimations.current.size) stage.dataset.transitioning = "true";
-    else delete stage.dataset.transitioning;
+    else {
+      delete stage.dataset.transitioning;
+      transitioning.current = false;
+      advanceSelection();
+    }
   });
+
+  w.useEffect(
+    () => () => {
+      for (const animation of slideAnimations.current.values())
+        animation.cancel();
+      slideAnimations.current.clear();
+    },
+    [],
+  );
 
   w.useLayoutEffect(() => {
     if (!focusAfterNavigation.current) return;
-    focusAfterNavigation.current = false;
+    focusAfterNavigation.current =
+      pendingSelection.current?.id !== active?.category.id;
     stageRef.current
       ?.querySelector('.flick-hero-slide[data-position="active"] a')
       ?.focus({ preventScroll: true });
   }, [active?.category.id]);
 
+  function advanceSelection() {
+    if (transitioning.current || !items.length) return;
+    const target = pendingSelection.current;
+    if (!target || target.id === selectionRef.current.id) return;
+    if (!items.some((item) => item.category.id === target.id)) {
+      pendingSelection.current = null;
+      return;
+    }
+    const current = Math.max(
+      0,
+      items.findIndex((item) => item.category.id === selectionRef.current.id),
+    );
+    const targetIndex = items.findIndex(
+      (item) => item.category.id === target.id,
+    );
+    const forward = (targetIndex - current + items.length) % items.length;
+    const backward = (current - targetIndex + items.length) % items.length;
+    const delta =
+      forward === backward
+        ? target.direction === "backward"
+          ? -1
+          : 1
+        : forward < backward
+          ? 1
+          : -1;
+    const next = {
+      id: items[(current + delta + items.length) % items.length].category.id,
+      direction: delta > 0 ? "forward" : "backward",
+    };
+    transitioning.current = true;
+    selectionRef.current = next;
+    setSelection(next);
+  }
+
   function select(index, direction) {
     if (!items.length) return;
-    const item = items[(index + items.length) % items.length];
-    setSelection((previous) =>
-      previous.id === item.category.id
-        ? previous
-        : { id: item.category.id, direction },
-    );
+    pendingSelection.current = {
+      id: items[(index + items.length) % items.length].category.id,
+      direction,
+    };
+    advanceSelection();
   }
 
   function step(delta) {
     if (items.length < 2) return;
-    setSelection((previous) => {
-      const current = Math.max(
-        0,
-        items.findIndex((item) => item.category.id === previous.id),
-      );
-      return {
-        id: items[(current + delta + items.length) % items.length].category.id,
-        direction: delta > 0 ? "forward" : "backward",
-      };
-    });
+    const target = pendingSelection.current ?? selectionRef.current;
+    const current = Math.max(
+      0,
+      items.findIndex((item) => item.category.id === target.id),
+    );
+    select(current + delta, delta > 0 ? "forward" : "backward");
   }
 
   function handleKeys(event) {
@@ -183,7 +244,11 @@ function l4() {
 
   // Horizontal swipes follow the finger with resistance; vertical drags scroll.
   function handlePointerDown(event) {
-    if (items.length < 2 || (event.pointerType === "mouse" && event.button !== 0))
+    if (
+      transitioning.current ||
+      items.length < 2 ||
+      (event.pointerType === "mouse" && event.button !== 0)
+    )
       return;
     drag.current = {
       id: event.pointerId,

@@ -140,3 +140,29 @@ CSSv6, exact RGB(252,244,1), and no visible artwork intersections through rapid
 next/next/previous input at408px. No console errors. Refreshed the user's
 previously stale open website tab and verified the same current module/colour.
 Published URL remains https://yallarideapp.github.io/flickmobile/.
+
+## 2026-10-27 — continuous diagonal device exchange
+
+User requested the Pinterest video motion again rather than the fade-only
+solution. Replaced the central fade/swap with a shared720ms eased diagonal
+exchange: next preview grows into the center while the featured device shrinks
+into the opposite corner. Both stay fully opaque. Outer previews exit/re-enter
+at their own edges. Background stays the exact logo yellow #fcf401; CSSv7.
+
+Navigation coalesces a requested target and takes adjacent steps on the shortest
+remaining path. Rapid reversals no longer interrupt devices into crossing
+trajectories. Idle float, hover and drag transforms reset during an exchange;
+keyboard focus follows queued steps. Three-category layouts wrap the outer
+preview only at zero opacity, while two-category layouts switch immediately.
+Reduced-motion users also switch immediately. No new dependencies.
+
+Both outputs build; device helper checks and12 local backend tests pass. CUA
+checks observed continuous transform changes with main-pair opacity1 and idle
+animations disabled during movement. Rapid next/previous input at390 and
+keyboard input in Arabic320 had no visible artwork-box intersections or page
+overflow; focus followed the selected device and there were no console errors.
+Independent geometry checks over10,001 progress samples at320,390,641,900,
+and1280 found no full-wrapper intersections for4- or3-category motion; minimum
+gap was12.92px at320. The Pinterest player currently renders black in Chrome
+and requires login in the in-app browser, so exact frame/timing equivalence
+could not be verified. A directly attached video is needed for that comparison.
