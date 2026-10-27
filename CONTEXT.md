@@ -102,4 +102,7 @@ Stylesheet cache key is v5. No runtime dependencies changed.
 Both builds pass. Local browser checks covered all four category transitions
 with the same computed background, rapid reversal and keyboard focus, matching
 prices/links, Arabic390 and English320 without horizontal overflow, and no
-console errors. Public deployment still needs verification after CI completes.
+console errors. GitHub Actions run40455381080 passed build/tests and deployment at commit
+`8235467`. Public browser checks confirmed the v5 stylesheet and the same
+background across phones/tablets/headphones/watches, matching captions/prices,
+working artwork and no console errors.
