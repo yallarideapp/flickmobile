@@ -166,3 +166,16 @@ and1280 found no full-wrapper intersections for4- or3-category motion; minimum
 gap was12.92px at320. The Pinterest player currently renders black in Chrome
 and requires login in the in-app browser, so exact frame/timing equivalence
 could not be verified. A directly attached video is needed for that comparison.
+
+## 2026-10-27 — slightly larger mobile banner devices
+
+User requested slightly larger devices in the phone banner. At viewport widths
+up to640px, increased the slide width from56% to62% (+10.7%), capping the extra
+width at28px to preserve edge clearance on wider phones. Insets keep the slides
+centered. Shared poses, timing, exact logo yellow and desktop sizing stay the
+same. Stylesheet cache key isv8.
+
+Both outputs build. CUA checks at390 and320 verified the new size, separate
+device boxes during rapid next/previous movement, no horizontal page overflow,
+and no console errors. English and Arabic layouts were checked. At641px the
+original56% slide width still applies.
