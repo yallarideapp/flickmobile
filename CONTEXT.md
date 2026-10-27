@@ -63,3 +63,17 @@ Build plus device helper and 12 backend tests passed. Focused browser checks at
 for visible devices), swipe/tap/vertical-drag via synthetic pointer events, no
 horizontal overflow. Not checked on a real phone. Review preview on port 8791;
 the 8790 preview still serves the previous build. No push or deployment.
+
+## 2026-10-27 — publish current storefront on GitHub Pages
+
+User explicitly approved replacing the old public website with the updated
+carousel version. Added `.github/workflows/pages.yml`: builds both outputs,
+runs the device/helper and 12 backend tests, then publishes only `dist/demo`.
+Pages uses GitHub Actions; the original root export remains preserved.
+The public preview retains demo-only browser storage/admin/orders. No Cloudflare
+Worker, D1, KV or real account/order delivery is deployed by this workflow.
+
+Local build and all12 backend tests passed. A focused browser check served
+`dist/demo` at `/flickmobile/`: four device slides, selection/tint/price/link
+updates, no missing images or console errors. The public deployment must also
+be checked after the GitHub Actions run finishes.

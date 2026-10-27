@@ -2,7 +2,7 @@
 
 Website repository: <https://github.com/yallarideapp/flickmobile>
 
-Preserved static demo: <https://yallarideapp.github.io/flickmobile/>
+Website: <https://yallarideapp.github.io/flickmobile/>
 
 ## Updated app source and local preview
 
@@ -25,10 +25,12 @@ The preview uses disposable local D1/KV storage and dummy admin credentials;
 its data disappears when it stops. The default port is 8788 if omitted.
 
 The build generates `dist/demo` (portable demo) and `dist/live` (Worker app).
-Generated output is ignored by Git. The root `index.html` and the linked
-GitHub Pages site retain the original exported demo; they do not display the
-new source build. Production Cloudflare setup and deployment remain separate
-from uploading this repository. The GitHub workflow runs build and tests only.
+Generated output is ignored by Git. GitHub Pages publishes `dist/demo` through
+`.github/workflows/pages.yml` after the build and tests pass on `main`.
+The root `index.html` remains the preserved original export; edit `src/` for
+website changes. The published site is a browser-only demonstration, with
+sample orders/admin data. Production Cloudflare setup and backend deployment
+remain separate. `.github/workflows/check.yml` also runs checks without deploying.
 
 ## Keep the Mac folder and GitHub updated
 

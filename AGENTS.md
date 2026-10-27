@@ -2,9 +2,10 @@
 
 ## Cloudflare/live invariants
 
-- Current phase is local preparation and tests; the user's explicit request to
-  test first takes precedence over the general push workflow below. Do not push
-  or deploy this backend until the user authorizes that next phase.
+- The user authorized uploading the source and publishing the updated static
+  storefront on GitHub Pages. Publish `dist/demo` through the Pages workflow.
+  Cloudflare backend deployment/resources remain unapproved; keep that backend
+  in local preparation/testing until the user authorizes the production phase.
 - Read `CONTEXT.md`, `Cloudflare-guide.md`, and `src/RECOVERY.md` before backend work.
 - The original exported `index.html` is a preserved portable demo. Edit recovered
   application source in `src/`, pure shared rules in `shared/`, server in `server/`.
