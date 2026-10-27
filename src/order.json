@@ -1,0 +1,12 @@
+[
+  "vendor/runtime.js",
+  "app-core.js",
+  "vendor/tailwind.js",
+  "store.js",
+  "vendor/dialog.js",
+  "hero-showcase.js",
+  "app.js",
+  "integration.js",
+  "live-adapter.js",
+  "mount.js"
+]

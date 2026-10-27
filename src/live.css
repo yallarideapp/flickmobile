@@ -1,0 +1,134 @@
+.flick-live-state {
+  max-width: 520px;
+  margin: 8vh auto;
+  padding: 24px;
+  background: #1d1b17;
+  border: 1px solid #494537;
+  border-radius: 16px;
+  font:
+    16px "IBM Plex Sans Arabic",
+    system-ui;
+}
+.flick-live-state h1,
+.flick-live-panel h1 {
+  font-size: 28px;
+  margin: 20px 0;
+}
+.flick-live-brand {
+  color: #fdf402;
+  font-size: 30px;
+}
+.flick-live-field {
+  display: grid;
+  gap: 6px;
+  margin: 14px 0;
+}
+.flick-live-field input,
+.flick-live-field select {
+  background: #29261f;
+  border: 1px solid #77715e;
+  color: #f5f3ed;
+  padding: 10px 12px;
+  min-height: 44px;
+  border-radius: 8px;
+  width: 100%;
+  min-width: 0;
+}
+.flick-live-state button,
+.flick-live-panel button,
+.flick-live-notice button {
+  background: #fdf402;
+  color: #14130e;
+  padding: 10px 18px;
+  border-radius: 8px;
+  min-height: 44px;
+  margin: 8px 0;
+  font-weight: 700;
+}
+.flick-live-state button:disabled,
+.flick-live-panel button:disabled {
+  opacity: 0.5;
+}
+.flick-live-state .flick-live-secondary,
+.flick-live-panel .flick-live-secondary {
+  background: #333024;
+  color: #f5f3ed;
+  margin-inline-end: 12px;
+}
+.flick-live-panel {
+  max-width: 960px;
+  margin: 24px auto;
+  padding: 24px;
+  border: 1px solid #514b3c;
+  border-radius: 16px;
+}
+.flick-live-panel form {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0;
+}
+.flick-live-panel fieldset {
+  border: 1px solid #514b3c;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px 0;
+}
+.flick-live-panel label:has(input[type="checkbox"]) {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-height: 44px;
+}
+.flick-live-toolbar {
+  position: relative;
+  z-index: 41;
+  padding: 10px 20px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  background: #29261b;
+  color: #fdf402;
+  min-height: 48px;
+  align-items: center;
+}
+.flick-live-error {
+  color: #ffaaa0;
+}
+.flick-live-notice {
+  padding: 12px;
+  background: #493e15;
+  color: #fff;
+}
+.flick-live-notice button {
+  margin-inline-start: 16px;
+}
+.flick-live-saving {
+  position: fixed;
+  bottom: 24px;
+  inset-inline-end: 24px;
+  z-index: 120;
+  background: #fdf402;
+  color: #111;
+  padding: 12px 20px;
+  border-radius: 10px;
+}
+.flick-live-panel h2 {
+  font-size: 24px;
+}
+.flick-live-panel h3 {
+  font-size: 20px;
+  margin-top: 16px;
+}
+@media (max-width: 600px) {
+  .flick-live-state {
+    margin: 28px 12px;
+  }
+  .flick-live-panel {
+    margin: 16px 10px;
+    padding: 16px;
+  }
+  .flick-live-toolbar {
+    gap: 12px;
+    font-size: 14px;
+  }
+}

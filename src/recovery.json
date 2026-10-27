@@ -1,0 +1,50 @@
+{
+  "from": "yallarideapp/flickmobile@a69224d1c268c189705b400a66028bc8e5d7f8c6:index.html",
+  "exportSha256": "3bbe2ab027906de934f8fcabdb9bf943d2529a1c00ebb832dccadaffcbe55839",
+  "bundleSha256": "c2ff3ad529b156317c6b9c882114fd1071bfb2f041f5affbfe4720482672550b",
+  "description": "Recovered emitted JavaScript; original JSX, module names, package metadata and source maps were not published.",
+  "order": [
+    {
+      "path": "vendor/runtime.js",
+      "start": 0,
+      "end": 263287,
+      "sha256": "669432ea9868516470d735dd15f287f3ea57da51090127510c380ff20764c8e9"
+    },
+    {
+      "path": "app-core.js",
+      "start": 263287,
+      "end": 292739,
+      "sha256": "a4aedc7584079b0c1f746f32c52fa6d8a04413595ca355c40995f0b2f3c7ffaa"
+    },
+    {
+      "path": "vendor/tailwind.js",
+      "start": 292739,
+      "end": 320451,
+      "sha256": "41707723a4acbe53d107d5c3d285557f1faa7acb694a58b2fd993a283bb389d9"
+    },
+    {
+      "path": "store.js",
+      "start": 320451,
+      "end": 361707,
+      "sha256": "2cedd26b03358a14deeb4dd0f88cf2f0b3c4b4cbe8393e3d3f65bf8d40e4b837"
+    },
+    {
+      "path": "vendor/dialog.js",
+      "start": 361707,
+      "end": 400480,
+      "sha256": "12c4a3782e2e3aaca9ff37767958450a58921c3232f676910e4ef272ef7fdab5"
+    },
+    {
+      "path": "app.js",
+      "start": 400480,
+      "end": 509254,
+      "sha256": "1fd2610ac968d4ddbb2dd599c71da596a00291806caf9ee03f8e88fa58bee93b"
+    },
+    {
+      "path": "mount.js",
+      "start": 509254,
+      "end": 509421,
+      "sha256": "e3870a75e2537f64f787d1946647747231bfa2b1e111f96184a6a607b3e420ec"
+    }
+  ]
+}

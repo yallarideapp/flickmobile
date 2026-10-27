@@ -1,0 +1,21 @@
+{
+  "name": "flickmobile",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node tests/device-features.test.cjs && node --test tests/backend*.mjs",
+    "test:api": "node --test tests/backend*.mjs",
+    "preview:local": "npm run build && node scripts/local-preview.mjs",
+    "dev": "npm run build && wrangler dev --local",
+    "migrate:local": "wrangler d1 migrations apply DB --local",
+    "deploy": "wrangler d1 migrations apply DB --remote && wrangler deploy"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "miniflare": "4.20260730.0",
+    "prettier": "3.9.10",
+    "wrangler": "4.152.0"
+  }
+}

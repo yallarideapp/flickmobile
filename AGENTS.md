@@ -1,5 +1,27 @@
 # Flick project workflow
 
+## Cloudflare/live invariants
+
+- Current phase is local preparation and tests; the user's explicit request to
+  test first takes precedence over the general push workflow below. Do not push
+  or deploy this backend until the user authorizes that next phase.
+- Read `CONTEXT.md`, `Cloudflare-guide.md`, and `src/RECOVERY.md` before backend work.
+- The original exported `index.html` is a preserved portable demo. Edit recovered
+  application source in `src/`, pure shared rules in `shared/`, server in `server/`.
+  Run the build; do not hand-edit `dist/` or vendor runtime segments.
+- Live startup must never fall back to browser/demo inventory or customer data.
+  D1 owns stock, content, orders, repairs, authentication and rate limits; KV owns
+  uploaded media only. Public responses must omit hidden products/private counts.
+- Keep integer-fils server pricing, atomic stock/idempotency and optimistic
+  revisions. Archiving/cancelling an order does not restore its consumed stock.
+- Runtime secrets are owner-entered; never commit or expose them. AUTH_PEPPER
+  must remain stable after admin setup. Keep ordering/indexing disabled in seed.
+- Tests use disposable local D1/KV and fake providers. `npm run preview:local`
+  refuses real secret files and loses data on exit. Never use production to test.
+- Keep bilingual routes, unknown versus zero battery/stock semantics, existing
+  curated homepage exclusions, and the removal of WhatsApp ordering.
+- Add migrations for schema changes. A Worker rollback does not undo a migration.
+
 The user expects each requested Flick update to be saved in both places:
 
 - The local Flick project folder on the user's Mac.
