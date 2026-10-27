@@ -134,5 +134,9 @@ and verified the fade phases remain safe on rapid reversals/direct jumps.
 GitHub Actions run40528337807 passed build/tests/deployment at707d8ae.
 Added content-hashed JS filenames (app.<12-char-sha256>.js) so a new HTML/CSS
 version cannot reuse cached older carousel poses. The rendered-route test now
-extracts and fetches that actual module URL. Final public verification follows
-the build change's CI deployment.
+extracts and fetches that actual module URL. GitHub Actions run40529037321 passed build/tests
+and deployment atae74f98. Final public checks confirmed the hashed module,
+CSSv6, exact RGB(252,244,1), and no visible artwork intersections through rapid
+next/next/previous input at408px. No console errors. Refreshed the user's
+previously stale open website tab and verified the same current module/colour.
+Published URL remains https://yallarideapp.github.io/flickmobile/.
