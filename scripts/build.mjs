@@ -1,6 +1,7 @@
 import { readFile, writeFile, mkdir, cp, rm } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { createHash } from "node:crypto";
 import { build } from "esbuild";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
@@ -34,10 +35,10 @@ for (const mode of ["demo", "live"]) {
     format: "esm",
     target: "es2022",
   });
-  await writeFile(
-    path.join(destination, "assets/app.js"),
-    bundled.outputFiles[0].text,
-  );
+  const appContent = bundled.outputFiles[0].text;
+  const appHash = createHash("sha256").update(appContent).digest("hex").slice(0, 12);
+  const appName = `app.${appHash}.js`;
+  await writeFile(path.join(destination, "assets", appName), appContent);
   await cp(path.join(root, "assets"), path.join(destination, "assets"), {
     recursive: true,
     filter: (file) => !path.basename(file).startsWith("."),
@@ -48,10 +49,10 @@ for (const mode of ["demo", "live"]) {
     .replace("{{BOOTSTRAP}}", modeScript + bootstrap)
     .replace(
       /<script type="module">\s*\{\{APP\}\}\s*<\/script>/,
-      '<script type="module" src="/assets/app.js"></script>',
+      `<script type="module" src="/assets/${appName}"></script>`,
     );
   if (mode === "demo")
-    html = html.replace('src="/assets/app.js"', 'src="assets/app.js"');
+    html = html.replace(`src="/assets/${appName}"`, `src="assets/${appName}"`);
   else
     html = html
       .replace(/(href|src)="assets\//g, '$1="/assets/')

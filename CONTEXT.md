@@ -131,4 +131,8 @@ computed as RGB(252,244,1); repeated keyboard navigation kept focus on the
 active device and its matching product link. Independent geometry review at
 320,390,641,900 and1280 found positive clearance including hover/float/max drag,
 and verified the fade phases remain safe on rapid reversals/direct jumps.
-Public deployment verification follows CI.
+GitHub Actions run40528337807 passed build/tests/deployment at707d8ae.
+Added content-hashed JS filenames (app.<12-char-sha256>.js) so a new HTML/CSS
+version cannot reuse cached older carousel poses. The rendered-route test now
+extracts and fetches that actual module URL. Final public verification follows
+the build change's CI deployment.

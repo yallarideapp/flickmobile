@@ -187,11 +187,12 @@ test("rendered routes include real catalog, safe bootstrap, working assets and i
   assert.match(page, /id="flick-first-paint"/);
   assert.match(page, /window\.__FLICK_BOOTSTRAP__=/);
   assert.match(page, /<article /);
-  assert.match(page, /src="\/assets\/app.js"/);
+  const appSource = page.match(/<script type="module" src="([^"]+)"/)[1];
+  assert.match(appSource, /^\/assets\/app\.[a-f0-9]{12}\.js$/);
   assert.doesNotMatch(page, /\{\{(?:APP|STYLES|BOOTSTRAP)\}\}|\bAPP;/);
   assert.doesNotMatch(page, /(?:src|href)="assets\//);
   assert.match(
-    expectStatus(await visitor.request("/assets/app.js"), 200),
+    expectStatus(await visitor.request(appSource), 200),
     /FlickApp/,
   );
   for (const path of [
