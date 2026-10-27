@@ -1,17 +1,10 @@
-const flickHeroTints = {
-  phones: "#fff84a",
-  tablets: "#e9eef5",
-  headphones: "#ffe0a3",
-  watches: "#e3edbd",
-};
-
 // Resting poses in percentages of the slide box. "before" and "after" sit just
 // past the miniatures so devices leave and enter on their own side.
 const flickHeroPoses = {
   before: { x: -65, y: -45, r: -28, s: 0.16, o: 0 },
-  previous: { x: -42, y: -28, r: -17, s: 0.32, o: 0.68 },
+  previous: { x: -42, y: -28, r: -11, s: 0.32, o: 0.82 },
   active: { x: 0, y: 0, r: 0, s: 1, o: 1 },
-  next: { x: 42, y: 28, r: 15, s: 0.32, o: 0.68 },
+  next: { x: 42, y: 28, r: 11, s: 0.32, o: 0.82 },
   after: { x: 65, y: 45, r: 28, s: 0.16, o: 0 },
 };
 
@@ -74,7 +67,7 @@ function flickHeroMotion(from, to, direction, current) {
       middle = [
         flickHeroFrame({ ...flickBlendPose(start, exit, { x: 0.55 }), o: 0 }, 0.55),
       ];
-    timing = { duration: 620, easing: "cubic-bezier(.45, 0, .7, .45)" };
+    timing = { duration: 480, easing: "cubic-bezier(.45, 0, .7, .45)" };
   } else if (to === "active") {
     // Arrive on an arc, swing slightly past level, then settle.
     if (!live)
@@ -85,11 +78,11 @@ function flickHeroMotion(from, to, direction, current) {
         ),
       );
     middle.push(
-      flickHeroFrame({ x: 0, y: 0, r: forward ? -2.2 : 2.2, s: 1.02, o: 1 }, 0.78),
+      flickHeroFrame({ x: 0, y: 0, r: forward ? -1.3 : 1.3, s: 1.012, o: 1 }, 0.82),
     );
     timing = {
-      duration: 980,
-      delay: from === "hidden" ? 120 : 50,
+      duration: 700,
+      delay: from === "hidden" ? 60 : 0,
       easing: "cubic-bezier(.22, .8, .26, 1)",
     };
   } else if (from === "active") {
@@ -100,17 +93,17 @@ function flickHeroMotion(from, to, direction, current) {
           0.45,
         ),
       ];
-    timing = { duration: 820, easing: "cubic-bezier(.4, 0, .2, 1)" };
+    timing = { duration: 600, easing: "cubic-bezier(.4, 0, .2, 1)" };
   } else if (from === "hidden") {
     if (!live)
       middle.push(
         flickHeroFrame(flickBlendPose(start, target, { x: 0.85, o: 1 }), 0.6),
       );
-    timing = { duration: 820, delay: 170, easing: "cubic-bezier(.2, .75, .25, 1)" };
+    timing = { duration: 620, delay: 60, easing: "cubic-bezier(.2, .75, .25, 1)" };
   } else {
     // With three devices the miniatures swap ends: leave, then re-enter.
     middle = [flickHeroFrame(exit, 0.42), flickHeroFrame(entry, 0.42)];
-    timing = { duration: 900, delay: 60, easing: "cubic-bezier(.35, 0, .25, 1)" };
+    timing = { duration: 660, delay: 20, easing: "cubic-bezier(.35, 0, .25, 1)" };
   }
   // A delay would freeze an interrupted device in mid-air.
   if (live || fading) timing.delay = 0;
@@ -318,10 +311,6 @@ function l4() {
       ref: motion.ref,
       "aria-labelledby": "flick-hero-title",
       "data-hero-tone": active?.category.id || "phones",
-      style: {
-        "--flick-hero-tint":
-          flickHeroTints[active?.category.id] || flickHeroTints.phones,
-      },
     },
     h(
       "div",

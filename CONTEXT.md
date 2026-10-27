@@ -87,3 +87,19 @@ both workflows. Public browser verification observed four slides, tablet
 selection with matching tint/price/link, working images, no console errors,
 and Arabic mobile390 with no horizontal overflow. Public URL remains
 https://yallarideapp.github.io/flickmobile/.
+
+## 2026-10-27 — consistent hero background and calmer movement
+
+User disliked the changing background colors. Replaced category-specific full
+page tints with one warm Flick yellow (#fff36a) and a static soft highlight
+behind the device stage. Removed the background color transition. Neighboring
+devices have gentler tilt/bobbing and clearer opacity; the main arrival now
+takes700ms with a smaller settle. Caption/counter transitions are shorter and
+no longer blur. Removed permanent slide will-change hints. Existing swipe,
+interruption handling, focus navigation and reduced-motion behavior remain.
+Stylesheet cache key is v5. No runtime dependencies changed.
+
+Both builds pass. Local browser checks covered all four category transitions
+with the same computed background, rapid reversal and keyboard focus, matching
+prices/links, Arabic390 and English320 without horizontal overflow, and no
+console errors. Public deployment still needs verification after CI completes.

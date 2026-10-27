@@ -68,8 +68,7 @@
 }
 
 .flick-hero[data-hero-tone] {
-  background-color: var(--flick-hero-tint, #fff500);
-  transition: background-color 900ms cubic-bezier(.4, 0, .2, 1);
+  background-color: #fff36a;
 }
 
 .flick-hero[data-hero-tone] .flick-hero-caption > div:first-child {
@@ -107,6 +106,15 @@
   overflow: visible;
 }
 
+.flick-hero[data-hero-tone] .flick-hero-stage::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -2% -4%;
+  background: radial-gradient(ellipse, #fffde8b3 0%, #fffde84d 42%, #fffde800 72%);
+  pointer-events: none;
+}
+
 .flick-hero[data-hero-tone] .flick-hero-stage {
   touch-action: pan-y;
   -webkit-user-select: none;
@@ -124,7 +132,6 @@
   width: 82%;
   height: 100%;
   transform-origin: 50% 50%;
-  will-change: transform, opacity;
 }
 
 .flick-hero[data-hero-tone] .flick-hero-slide[data-position="active"] {
@@ -202,7 +209,7 @@
 .flick-hero[data-hero-tone]
   .flick-hero-slide:is([data-position="previous"], [data-position="next"])
   .flick-hero-art {
-  animation: flick-stage-bob 4.6s ease-in-out infinite;
+  animation: flick-stage-bob 5.8s ease-in-out infinite;
   animation-play-state: paused;
 }
 
@@ -321,7 +328,7 @@
 
   .flick-hero[data-hero-tone] .flick-hero-arrow:not(:disabled):hover {
     background-color: #15140f;
-    color: var(--flick-hero-tint, #fff500);
+    color: #fff36a;
     transform: translateY(-2px);
   }
 
@@ -385,21 +392,21 @@
 
 @keyframes flick-stage-bob {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  50% { transform: translate3d(0, -14px, 0) rotate(2deg); }
+  50% { transform: translate3d(0, -7px, 0) rotate(1deg); }
 }
 
 .flick-hero[data-hero-tone] .flick-hero-caption > *,
 .flick-hero[data-hero-tone] .flick-hero-progress {
-  animation: flick-caption-in 520ms cubic-bezier(.2, .75, .25, 1) 160ms both;
+  animation: flick-caption-in 320ms cubic-bezier(.2, .75, .25, 1) 80ms both;
 }
 
 .flick-hero[data-hero-tone] .flick-hero-caption > .flick-hero-price {
-  animation-delay: 230ms;
+  animation-delay: 120ms;
 }
 
 .flick-hero[data-hero-tone] .flick-hero-progress {
-  animation-duration: 420ms;
-  animation-delay: 80ms;
+  animation-duration: 260ms;
+  animation-delay: 40ms;
 }
 
 .flick-hero[data-hero-tone] .flick-hero-categories button {
@@ -418,12 +425,10 @@
   from {
     opacity: 0;
     transform: translate3d(0, 10px, 0);
-    filter: blur(2px);
   }
   to {
     opacity: 1;
     transform: none;
-    filter: none;
   }
 }
 
