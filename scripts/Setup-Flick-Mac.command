@@ -3,7 +3,7 @@
 set -eu
 
 label=com.flickmobile.github-sync
-sync_directory=${FLICK_SYNC_DIR:-"$HOME/Documents/Flick"}
+sync_directory=${FLICK_SYNC_DIR:-"$HOME/Documents/ChatGPT/Flick"}
 repository=https://github.com/yallarideapp/flickmobile.git
 support_directory=$HOME/Library/Application\ Support/FlickSync
 agents_directory=$HOME/Library/LaunchAgents

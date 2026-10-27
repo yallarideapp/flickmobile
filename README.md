@@ -7,7 +7,7 @@ Live website: <https://yallarideapp.github.io/flickmobile/>
 ## Keep the Mac folder and GitHub updated
 
 Run the Mac setup once to copy the website into
-`~/Documents/Flick` and keep that folder updated from GitHub:
+`~/Documents/ChatGPT/Flick` and keep that folder updated from GitHub:
 
 1. Download [Flick-Mac-Sync.zip](https://github.com/yallarideapp/flickmobile/raw/refs/heads/main/downloads/Flick-Mac-Sync.zip).
 2. Extract it and open `Setup-Flick-Mac.command` on the Mac.
@@ -41,7 +41,7 @@ To sync completed commits from a Mac Terminal:
 
 ```bash
 /bin/bash "$HOME/Library/Application Support/FlickSync/flick-sync.sh" \
-  --directory "$HOME/Documents/Flick" --sync
+  --directory "$HOME/Documents/ChatGPT/Flick" --sync
 ```
 
 The setup installs a stable copy of the sync helper outside the repository.
