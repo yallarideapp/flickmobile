@@ -77,3 +77,13 @@ Local build and all12 backend tests passed. A focused browser check served
 `dist/demo` at `/flickmobile/`: four device slides, selection/tint/price/link
 updates, no missing images or console errors. The public deployment must also
 be checked after the GitHub Actions run finishes.
+
+Publication verified: GitHub Actions run40453960189 completed build/tests and
+Pages deployment successfully at commit `b48509d`. Initial clean installs failed
+because the lock file omitted `@esbuild/android-arm@0.28.2`. Regenerated the lock
+with a writable temporary npm cache, adding only that optional package entry;
+no package versions changed. `npm ci --dry-run` then passed, and Linux CI passed
+both workflows. Public browser verification observed four slides, tablet
+selection with matching tint/price/link, working images, no console errors,
+and Arabic mobile390 with no horizontal overflow. Public URL remains
+https://yallarideapp.github.io/flickmobile/.
