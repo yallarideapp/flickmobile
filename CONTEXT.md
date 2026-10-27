@@ -106,3 +106,29 @@ console errors. GitHub Actions run40455381080 passed build/tests and deployment 
 `8235467`. Public browser checks confirmed the v5 stylesheet and the same
 background across phones/tablets/headphones/watches, matching captions/prices,
 working artwork and no console errors.
+
+## 2026-10-27 — exact logo yellow and separated carousel devices
+
+User clarified that the hero background must match the Flick logo exactly and
+that devices conflict with each other. Sampled the embedded WebP logo: dominant
+opaque yellow is RGB(252,244,1), #fcf401. Hero background and arrow hover text
+now use that exact color; removed the pale spotlight entirely.
+
+The previous layout overlapped even at rest: a82%-wide active box shared space
+with the miniatures. Changed the base box to56% with22% side inset, and placed
+the side previews farther out at±74%, scale.24 and4-degree tilt. Changes use a
+shared360ms fade: devices fade out in their existing slots, reposition only at
+zero opacity, then fade/grow from96% into the new slots. They no longer travel
+through one another. Drag follow is capped at6px; hover no longer expands or
+rotates hit targets. Transient slide pointer blocking avoids wrong links during
+the fade; arrows, category chips and keyboard navigation remain available.
+Stylesheet cache key is v6. Original export/vendor and backend stay unchanged.
+
+Both outputs build. Focused CUA checks sampled8 rapid next/previous changes at
+390px using visible artwork bounding boxes, with no intersections. English320
+also had separate boxes (~16px horizontal gaps) and no page overflow. Background
+computed as RGB(252,244,1); repeated keyboard navigation kept focus on the
+active device and its matching product link. Independent geometry review at
+320,390,641,900 and1280 found positive clearance including hover/float/max drag,
+and verified the fade phases remain safe on rapid reversals/direct jumps.
+Public deployment verification follows CI.

@@ -1,11 +1,9 @@
-// Resting poses in percentages of the slide box. "before" and "after" sit just
-// past the miniatures so devices leave and enter on their own side.
 const flickHeroPoses = {
-  before: { x: -65, y: -45, r: -28, s: 0.16, o: 0 },
-  previous: { x: -42, y: -28, r: -11, s: 0.32, o: 0.82 },
+  before: { x: -74, y: -28, r: -4, s: 0.24, o: 0 },
+  previous: { x: -74, y: -28, r: -4, s: 0.24, o: 1 },
   active: { x: 0, y: 0, r: 0, s: 1, o: 1 },
-  next: { x: 42, y: 28, r: 11, s: 0.32, o: 0.82 },
-  after: { x: 65, y: 45, r: 28, s: 0.16, o: 0 },
+  next: { x: 74, y: 28, r: 4, s: 0.24, o: 1 },
+  after: { x: 74, y: 28, r: 4, s: 0.24, o: 0 },
 };
 
 function flickHeroPose(position, direction) {
@@ -17,100 +15,35 @@ function flickHeroTransform(pose) {
   return `translate3d(${pose.x}%, ${pose.y}%, 0) rotate(${pose.r}deg) scale(${pose.s})`;
 }
 
-function flickHeroFrame(pose, offset) {
-  return {
-    offset,
-    transform: flickHeroTransform(pose),
-    opacity: pose.o,
-    visibility: "visible",
-  };
-}
-
-// Blends each property separately so paths bow instead of running straight.
-function flickBlendPose(from, to, amount) {
-  const mix = (key) => from[key] + (to[key] - from[key]) * (amount[key] ?? amount.x);
-  return { x: mix("x"), y: mix("y"), r: mix("r"), s: mix("s"), o: mix("o") };
-}
-
-// Horizontal side (-1 or 1) a computed transform matrix is translated toward.
-function flickHeroSide(transform) {
-  const values = /matrix\(([^)]+)\)/.exec(transform)?.[1].split(",");
-  return values ? Math.sign(Number(values[4])) : 0;
-}
-
-// Choreography for one slide changing position. `current` is the live style of
-// an interrupted animation, so rapid input continues from where the device is.
 function flickHeroMotion(from, to, direction, current) {
   if (to === "hidden" && from === "hidden") return null;
-  const forward = direction !== "backward";
-  const entry = flickHeroPoses[forward ? "after" : "before"];
-  const exit = flickHeroPoses[forward ? "before" : "after"];
-  const start = from === "hidden" ? entry : flickHeroPoses[from];
+  const start = flickHeroPose(from, direction);
   const target = flickHeroPose(to, direction);
-  // A device still fading out either turns back (it was leaving by the side it
-  // now enters from) or finishes leaving before re-entering from the far side.
-  const fading = from === "hidden" && current && Number(current.opacity) > 0.02;
-  const returning =
-    fading && flickHeroSide(current.transform) === Math.sign(entry.x);
-  const live = current && (from !== "hidden" || returning);
-  const first =
-    live || fading
-      ? { offset: 0, ...current, visibility: "visible" }
-      : flickHeroFrame(start, 0);
-  let middle =
-    fading && !returning
-      ? [flickHeroFrame(exit, 0.28), flickHeroFrame(entry, 0.28)]
-      : [];
-  let timing;
-  if (to === "hidden") {
-    if (!live)
-      middle = [
-        flickHeroFrame({ ...flickBlendPose(start, exit, { x: 0.55 }), o: 0 }, 0.55),
-      ];
-    timing = { duration: 480, easing: "cubic-bezier(.45, 0, .7, .45)" };
-  } else if (to === "active") {
-    // Arrive on an arc, swing slightly past level, then settle.
-    if (!live)
-      middle.push(
-        flickHeroFrame(
-          flickBlendPose(start, target, { x: 0.55, y: 0.8, r: 0.7, s: 0.72, o: 1 }),
-          0.45,
-        ),
-      );
-    middle.push(
-      flickHeroFrame({ x: 0, y: 0, r: forward ? -1.3 : 1.3, s: 1.012, o: 1 }, 0.82),
-    );
-    timing = {
-      duration: 700,
-      delay: from === "hidden" ? 60 : 0,
-      easing: "cubic-bezier(.22, .8, .26, 1)",
-    };
-  } else if (from === "active") {
-    if (!live)
-      middle = [
-        flickHeroFrame(
-          flickBlendPose(start, target, { x: 0.42, y: 0.62, r: 0.5, s: 0.6, o: 0.5 }),
-          0.45,
-        ),
-      ];
-    timing = { duration: 600, easing: "cubic-bezier(.4, 0, .2, 1)" };
-  } else if (from === "hidden") {
-    if (!live)
-      middle.push(
-        flickHeroFrame(flickBlendPose(start, target, { x: 0.85, o: 1 }), 0.6),
-      );
-    timing = { duration: 620, delay: 60, easing: "cubic-bezier(.2, .75, .25, 1)" };
-  } else {
-    // With three devices the miniatures swap ends: leave, then re-enter.
-    middle = [flickHeroFrame(exit, 0.42), flickHeroFrame(entry, 0.42)];
-    timing = { duration: 660, delay: 20, easing: "cubic-bezier(.35, 0, .25, 1)" };
-  }
-  // A delay would freeze an interrupted device in mid-air.
-  if (live || fading) timing.delay = 0;
-  let keyframes = [first, ...middle, flickHeroFrame(target, 1)];
-  if (to === "active")
-    keyframes = keyframes.map((frame) => ({ ...frame, zIndex: 4 }));
-  return { keyframes, timing };
+  const first = {
+    transform: current?.transform || flickHeroTransform(start),
+    opacity: current?.opacity ?? start.o,
+    visibility: "visible",
+  };
+  const last = {
+    transform: flickHeroTransform(target),
+    opacity: target.o,
+    visibility: "visible",
+  };
+  return {
+    keyframes: [
+      { ...first, offset: 0, easing: "ease-in" },
+      { ...first, offset: 0.32, opacity: 0 },
+      {
+        ...last,
+        offset: 0.32,
+        transform: flickHeroTransform({ ...target, s: target.s * 0.96 }),
+        opacity: 0,
+        easing: "cubic-bezier(.2, .75, .25, 1)",
+      },
+      { ...last, offset: 1 },
+    ],
+    timing: { duration: 360, easing: "linear" },
+  };
 }
 
 function flickHeroPosition(index, activeIndex, count) {
@@ -194,8 +127,11 @@ function l4() {
       animation.onfinish = () => {
         if (slideAnimations.current.get(id) === animation)
           slideAnimations.current.delete(id);
+        if (!slideAnimations.current.size) delete stage.dataset.transitioning;
       };
     }
+    if (slideAnimations.current.size) stage.dataset.transitioning = "true";
+    else delete stage.dataset.transitioning;
   });
 
   w.useLayoutEffect(() => {
@@ -282,7 +218,7 @@ function l4() {
     state.dx = dx;
     stage.style.setProperty(
       "--flick-hero-drag",
-      (140 * Math.tanh(dx / 320)).toFixed(1),
+      (6 * Math.tanh(dx / 100)).toFixed(1),
     );
   }
 

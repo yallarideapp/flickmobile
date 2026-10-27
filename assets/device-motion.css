@@ -68,7 +68,7 @@
 }
 
 .flick-hero[data-hero-tone] {
-  background-color: #fff36a;
+  background-color: #fcf401;
 }
 
 .flick-hero[data-hero-tone] .flick-hero-caption > div:first-child {
@@ -106,15 +106,6 @@
   overflow: visible;
 }
 
-.flick-hero[data-hero-tone] .flick-hero-stage::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: -2% -4%;
-  background: radial-gradient(ellipse, #fffde8b3 0%, #fffde84d 42%, #fffde800 72%);
-  pointer-events: none;
-}
-
 .flick-hero[data-hero-tone] .flick-hero-stage {
   touch-action: pan-y;
   -webkit-user-select: none;
@@ -128,8 +119,8 @@
 /* Poses are inline styles; hero-showcase.js animates between them. */
 .flick-hero[data-hero-tone] .flick-hero-slide {
   position: absolute;
-  inset: 0 9%;
-  width: 82%;
+  inset: 0 22%;
+  width: 56%;
   height: 100%;
   transform-origin: 50% 50%;
 }
@@ -166,6 +157,11 @@
     transform 240ms cubic-bezier(.2, .7, .2, 1),
     translate 520ms cubic-bezier(.2, .8, .2, 1),
     rotate 520ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.flick-hero[data-hero-tone] .flick-hero-stage[data-transitioning="true"]
+  .flick-hero-slide-target {
+  pointer-events: none;
 }
 
 .flick-hero[data-hero-tone] .flick-hero-slide[data-position="active"]
@@ -323,12 +319,12 @@
 
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .flick-hero[data-hero-tone] .flick-hero-slide-target:hover {
-    transform: rotate(-.6deg) scale(1.025);
+    transform: translateY(-2px);
   }
 
   .flick-hero[data-hero-tone] .flick-hero-arrow:not(:disabled):hover {
     background-color: #15140f;
-    color: #fff36a;
+    color: #fcf401;
     transform: translateY(-2px);
   }
 
@@ -392,7 +388,7 @@
 
 @keyframes flick-stage-bob {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  50% { transform: translate3d(0, -7px, 0) rotate(1deg); }
+  50% { transform: translate3d(0, -4px, 0) rotate(0deg); }
 }
 
 .flick-hero[data-hero-tone] .flick-hero-caption > *,
