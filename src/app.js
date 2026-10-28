@@ -1471,7 +1471,7 @@ function useFlickDeviceMotion() {
   }, []);
   return { ref };
 }
-// Homepage categories are curated independently from the complete shop catalog.
+// Hero devices and homepage offers use a curated subset of the shop catalog.
 function isFlickHomeCategory(category) {
   return category !== "speakers" && category !== "accessories";
 }
@@ -1766,64 +1766,42 @@ function l8() {
       }),
       (0, k.jsx)("div", {
         className: "flick-category-grid",
-        children: ez
-          .filter((e) => isFlickHomeCategory(e.id))
-          .map((e) => {
-            let r = n.filter((t) => t.cat === e.id),
-              a =
-                r.find((t) => t.id === e.pictureId) ??
-                r.find((e) => eC(e)) ??
-                r[0];
-            return a
-              ? (0, k.jsxs)(
-                  "a",
-                  {
-                    href: nk(`shop/${e.id}`),
-                    className: "flick-category-card",
-                    "aria-label": e[t],
-                    children: [
-                      (0, k.jsx)("div", {
-                        className: "flick-category-picture",
-                        children: (0, k.jsx)(nv, {
-                          product: a,
-                          className: "flick-category-media",
-                        }),
+        children: ez.map((e) => {
+          let r = n.filter((t) => t.cat === e.id),
+            a =
+              r.find((t) => t.id === e.pictureId) ??
+              r.find((e) => eC(e)) ??
+              r[0];
+          return (0, k.jsxs)(
+            "a",
+            {
+              href: nk(`shop/${e.id}`),
+              className: "flick-category-card",
+              "aria-label": e[t],
+              children: [
+                (0, k.jsx)("div", {
+                  className: "flick-category-picture",
+                  children: a
+                    ? (0, k.jsx)(nv, {
+                        product: a,
+                        className: "flick-category-media",
+                      })
+                    : (0, k.jsx)(ev, {
+                        className: "size-10 text-dust",
+                        "aria-hidden": !0,
                       }),
-                      (0, k.jsx)("h3", {
-                        className: "flick-category-name",
-                        children: e[t],
-                      }),
-                    ],
-                  },
-                  e.id,
-                )
-              : null;
-          }),
+                }),
+                (0, k.jsx)("h3", {
+                  className: "flick-category-name",
+                  children: e[t],
+                }),
+              ],
+            },
+            e.id,
+          );
+        }),
       }),
     ],
-  });
-}
-function l7() {
-  let { t: e } = nm(),
-    t = l2(),
-    n = (0, w.useMemo)(() => {
-      let e = t.filter((e) => isFlickHomeCategory(e.cat) && !eM(e)),
-        n = e.filter((e) => e.featured),
-        r = e.filter((e) => !e.featured);
-      return [...n, ...r].slice(0, 8);
-    }, [t]);
-  return (0, k.jsx)(nx, {
-    title: e("featured.title"),
-    action: (0, k.jsx)("a", {
-      href: nk("shop"),
-      className: "text-sm font-semibold text-flick hover:underline",
-      children: e("featured.all"),
-    }),
-    children: (0, k.jsx)("div", {
-      className:
-        "grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4",
-      children: n.map((e) => (0, k.jsx)(l1, { product: e }, e.id)),
-    }),
   });
 }
 function oe() {
@@ -2029,7 +2007,6 @@ function or() {
         children: [
           (0, k.jsx)(l8, {}),
           (0, k.jsx)(l9, {}),
-          (0, k.jsx)(l7, {}),
           (0, k.jsx)(l5, {}),
           (0, k.jsx)(oe, {}),
           (0, k.jsx)(oc, {}),

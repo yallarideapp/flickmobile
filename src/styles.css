@@ -3257,7 +3257,7 @@ h3 {
   font-size: clamp(24px, 2.6vw, 30px);
 }
 .flick-category-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 10px;
   display: grid;
 }
@@ -3281,6 +3281,8 @@ h3 {
   border-color: #fff500;
 }
 .flick-category-picture {
+  display: grid;
+  place-items: center;
   aspect-ratio: 1.1;
   background: #fff;
   border-radius: 10px;
@@ -3516,7 +3518,7 @@ h3 {
 }
 @media (width<=900px) {
   .flick-category-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .flick-hero-inner {
     gap: 20px;

@@ -19,8 +19,9 @@
   must remain stable after admin setup. Keep ordering/indexing disabled in seed.
 - Tests use disposable local D1/KV and fake providers. `npm run preview:local`
   refuses real secret files and loses data on exit. Never use production to test.
-- Keep bilingual routes, unknown versus zero battery/stock semantics, existing
-  curated homepage exclusions, and the removal of WhatsApp ordering.
+- Keep bilingual routes, unknown versus zero battery/stock semantics, curated
+  hero/offer categories, and the removal of WhatsApp ordering. The homepage
+  category browser includes every configured category.
 - Add migrations for schema changes. A Worker rollback does not undo a migration.
 
 The user expects each requested Flick update to be saved in both places:

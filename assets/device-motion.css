@@ -297,6 +297,21 @@
   }
 }
 
+@media (width > 900px) {
+  .flick-hero[data-hero-tone] .flick-hero-inner {
+    padding-block: 16px;
+  }
+
+  .flick-hero[data-hero-tone] .flick-hero-stage {
+    height: clamp(280px, calc(100svh - 340px), 420px);
+  }
+
+  .flick-hero[data-hero-tone] .flick-hero-navigation,
+  .flick-hero[data-hero-tone] .flick-hero-categories {
+    margin-top: 12px;
+  }
+}
+
 @media (width <= 640px) {
   .flick-hero[data-hero-tone] .flick-hero-stage {
     height: clamp(300px, 88vw, 390px);

@@ -205,3 +205,25 @@ Independent geometry checks across 320–1280px and 10,001 progress samples foun
 at least 14.65px between full artwork wrappers, including the idle drift.
 Browser permission gates declined both the public site and local preview;
 this revision has no new browser visual verification or screenshot.
+
+## 2026-10-28 — compact desktop hero and complete category browser
+
+User requested the desktop hero sit higher so the device category buttons are
+visible, all categories under “What are you looking for?”, and removal of
+“Featured picks”. Above 900px, reduced hero padding from 36px to 16px and made
+the stage height follow the viewport, clamped to 280–420px with space reserved
+for the header and controls. Tightened navigation/category margins to 12px.
+Mobile hero sizing and the animation behavior remain as before. CSS key v10.
+
+The category browser now renders every configured category, including Speakers
+and Accessories. Empty categories retain their shop link with a generic icon.
+The grid uses six columns on desktop, three on tablet and two on phones.
+Removed the Featured picks component and its homepage placement. Hero devices
+and homepage offers retain their curated category subset; AGENTS.md clarifies
+that this is separate from the full category browser.
+
+Both builds and all 12 backend tests pass. Actual-component checks verified
+English/Arabic labels and routes for all six categories, empty-category links,
+and the remaining homepage section order without Featured picks. Both edited
+stylesheets parse without warnings. The prior browser access denials still
+prevent visual verification; desktop fit has not been checked in a browser.
