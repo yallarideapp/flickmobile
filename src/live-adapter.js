@@ -51,6 +51,10 @@ if (window.FlickLive?.enabled) {
       "الصورة غير صالحة. استخدم PNG أو JPEG أو WebP.",
       "Invalid image. Use PNG, JPEG or WebP.",
     ],
+    "consent-required": [
+      "يجب الموافقة على الشروط والأحكام وسياسة الخصوصية.",
+      "Please agree to the Terms & Conditions and Privacy Policy.",
+    ],
     "body-too-large": [
       "حجم الملف أو الطلب أكبر من الحد المسموح.",
       "The file or request exceeds the size limit.",

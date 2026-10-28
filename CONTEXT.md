@@ -241,3 +241,15 @@ warnings. Calculated stage/padding reductions put the controls 48–68px higher
 at typical 650–1080px desktop viewport heights. Arabic component checks also
 confirm six translated category links and no Featured picks section. These
 are source/build checks; browser visual verification remains unavailable.
+
+## 2026-10-29 — privacy policy, terms and trademark notice
+
+Added bilingual Privacy Policy and Terms & Conditions pages (`#/privacy`,
+`#/terms`; live `/ar|en/privacy|terms` rendered by the server and listed in the
+sitemap). Text describes what the site actually collects and follows Jordan's
+Personal Data Protection Law No. 24 of 2023. The footer shows both links and
+"Independent store, not affiliated with Apple, Samsung, Huawei or any other
+manufacturer. Names and trademarks belong to their owners." Checkout and the
+repair form require a consent checkbox, enforced on the server too. Tests and
+both builds pass; pages checked in the browser at 320/390/1440 with no overflow.
+The shop owner should review the texts; they are not legal advice.

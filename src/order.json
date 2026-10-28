@@ -6,6 +6,7 @@
   "vendor/dialog.js",
   "hero-showcase.js",
   "app.js",
+  "legal-pages.js",
   "integration.js",
   "live-adapter.js",
   "mount.js"

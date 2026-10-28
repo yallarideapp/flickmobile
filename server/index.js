@@ -429,6 +429,7 @@ function maintenanceObject(row, admin = false) {
   return result;
 }
 async function placeOrder(request, env, body) {
+  if (body?.consent !== true) fail("consent-required");
   const key = requestKey(body),
     hash = await digest(JSON.stringify(canonical(body)));
   const previous = await stmt(
@@ -501,6 +502,7 @@ async function placeOrder(request, env, body) {
   return response({ order: await orderObject(env, row) }, 201);
 }
 async function placeMaintenance(request, env, body) {
+  if (body?.consent !== true) fail("consent-required");
   const key = requestKey(body),
     hash = await digest(JSON.stringify(canonical(body)));
   const previous = await stmt(

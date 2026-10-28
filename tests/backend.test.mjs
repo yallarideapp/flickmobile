@@ -36,6 +36,7 @@ function orderInput(state, overrides = {}) {
     idempotencyKey: crypto.randomUUID(),
     version: state.version,
     name: "Local Test Customer",
+    consent: true,
     phone: "0790000000",
     method: "pickup",
     branchId: state.content.branches[0].id,
@@ -516,6 +517,7 @@ test("maintenance requests retry safely and tracking requires matching identifie
   const input = {
     idempotencyKey: crypto.randomUUID(),
     name: "Local Repair Customer",
+    consent: true,
     phone: "0790000001",
     device: "Local dummy device",
     issue: "screen",

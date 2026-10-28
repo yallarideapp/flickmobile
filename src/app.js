@@ -1312,8 +1312,24 @@ function l0() {
             "mx-auto flex max-w-6xl flex-wrap justify-between gap-2 px-4 py-5 text-xs text-dust sm:px-6",
           children: [
             (0, k.jsx)("span", { children: "© 2026 FLiCK Mobile" }),
+            (0, k.jsxs)("span", {
+              className: "flex flex-wrap gap-x-4 gap-y-1",
+              children: [
+                (0, k.jsx)("a", {
+                  href: nk("privacy"),
+                  className: "hover:text-paper",
+                  children: flickLegalTitle("privacy", t),
+                }),
+                (0, k.jsx)("a", {
+                  href: nk("terms"),
+                  className: "hover:text-paper",
+                  children: flickLegalTitle("terms", t),
+                }),
+              ],
+            }),
             r.conceptNotice &&
               (0, k.jsx)("span", { children: e("footer.concept") }),
+            (0, k.jsx)(flickTrademarkLine, {}),
           ],
         }),
       }),
@@ -2244,6 +2260,7 @@ function of({ issue: e }) {
     [x, y] = (0, w.useState)({}),
     [N, S] = (0, w.useState)(null),
     [submitting, setSubmitting] = (0, w.useState)(false),
+    [agreed, setAgreed] = (0, w.useState)(false),
     j = (0, w.useMemo)(
       () => (e) => eZ(r.branches.find((t) => t.id === e)?.name, n),
       [r.branches, n],
@@ -2347,6 +2364,7 @@ function of({ issue: e }) {
                         (n.device = t("maint.err.device")),
                       p.trim().length < 2 && (n.name = t("checkout.err.name")),
                       e_(h) || (n.phone = t("checkout.err.phone")),
+                      agreed || (n.consent = flickConsentError(document.documentElement.lang)),
                       y(n),
                       Object.keys(n).length)
                     )
@@ -2364,6 +2382,7 @@ function of({ issue: e }) {
                         issue: i,
                         details: d,
                         branchId: b,
+                        consent: true,
                       });
                       r && (S(r), window.scrollTo({ top: 0 }));
                     } finally {
@@ -2514,6 +2533,18 @@ function of({ issue: e }) {
                     (0, k.jsx)("p", {
                       className: "mt-4 text-[13px] text-dust",
                       children: t("maint.price"),
+                    }),
+                    (0, k.jsx)("div", {
+                      className: "mt-4",
+                      children: (0, k.jsx)(flickConsent, {
+                        id: "mt-consent",
+                        checked: agreed,
+                        onChange: (e) => {
+                          setAgreed(e);
+                          e && y((t) => ({ ...t, consent: void 0 }));
+                        },
+                        error: x.consent,
+                      }),
                     }),
                     (0, k.jsx)("button", {
                       type: "submit",
@@ -4668,6 +4699,7 @@ function oU() {
     [I, M] = (0, w.useState)(""),
     [L, D] = (0, w.useState)({}),
     [submitting, setSubmitting] = (0, w.useState)(false),
+    [agreed, setAgreed] = (0, w.useState)(false),
     R = (0, w.useRef)(null);
   (0, w.useEffect)(() => {
     if (!s) {
@@ -4954,6 +4986,7 @@ function oU() {
                     "delivery" === j &&
                       (T.trim().length < 2 || O.trim().length < 4) &&
                       (t.address = r("checkout.err.address")),
+                    agreed || (t.consent = flickConsentError(a)),
                     D(t),
                     Object.keys(t).length)
                   )
@@ -4971,6 +5004,7 @@ function oU() {
                       area: T,
                       address: O,
                       notes: I,
+                      consent: true,
                     });
                     n && (m(n), f("done"), M(""));
                   } finally {
@@ -5175,6 +5209,15 @@ function oU() {
                       (0, k.jsx)("p", {
                         className: "text-[13px] text-dust",
                         children: r("checkout.privacy"),
+                      }),
+                      (0, k.jsx)(flickConsent, {
+                        id: "co-consent",
+                        checked: agreed,
+                        onChange: (e) => {
+                          setAgreed(e);
+                          e && D((t) => ({ ...t, consent: void 0 }));
+                        },
+                        error: L.consent,
                       }),
                     ],
                   }),
@@ -5875,7 +5918,9 @@ function oZ({ route: e }) {
                 )
               : "trade-in" === n
                 ? (0, k.jsx)(oW, {})
-                : (0, k.jsx)(or, {})
+                : "privacy" === n || "terms" === n
+                  ? (0, k.jsx)(flickLegalPage, { kind: n })
+                  : (0, k.jsx)(or, {})
       : (0, k.jsx)(or, {})),
     (0, k.jsxs)(k.Fragment, {
       children: [
@@ -5927,7 +5972,9 @@ function o$() {
               ? (o = t("maint.title"))
               : "trade-in" === a
                 ? (o = t("nav.tradein"))
-                : "admin" === a && (o = t("admin.title")),
+                : "privacy" === a || "terms" === a
+                  ? (o = flickLegalTitle(a, n))
+                  : "admin" === a && (o = t("admin.title")),
         (document.title = o
           ? `${o} | FLiCK Mobile`
           : `FLiCK Mobile | ${t("hero.l1")} ${t("hero.l2")}`));

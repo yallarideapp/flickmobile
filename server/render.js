@@ -1,3 +1,4 @@
+import { LEGAL, trademarkNotice } from "../shared/legal.js";
 const escape = (value) =>
   String(value ?? "").replace(
     /[&<>"']/g,
@@ -62,6 +63,8 @@ export function renderPage(template, request, payload) {
       ? ["ar", "en"].flatMap((l) => [
           `/${l}/`,
           `/${l}/shop`,
+          `/${l}/privacy`,
+          `/${l}/terms`,
           ...categories.map((c) => `/${l}/shop/${encodeURIComponent(c.id)}`),
           ...content.products.map((p) => `/${l}/p/${encodeURIComponent(p.id)}`),
         ])
@@ -86,7 +89,16 @@ export function renderPage(template, request, payload) {
   const valid =
     privateRoute ||
     !section ||
-    ["shop", "p", "offers", "maintenance", "branches", "trade-in"].includes(
+    [
+      "shop",
+      "p",
+      "offers",
+      "maintenance",
+      "branches",
+      "trade-in",
+      "privacy",
+      "terms",
+    ].includes(
       section,
     );
   let products = content.products,
@@ -115,6 +127,9 @@ export function renderPage(template, request, payload) {
     if (!category) status = 404;
     products = products.filter((p) => p.cat === item);
     title = `${local(category?.name, lang)} | FLiCK Mobile`;
+  } else if (section === "privacy" || section === "terms") {
+    products = [];
+    title = `${LEGAL[section].title[lang]} | FLiCK Mobile`;
   } else if (section === "offers")
     products = products.filter((p) =>
       p.variants.some((v) => v.offerPrice > 0 && v.offerPrice < v.price),
@@ -135,7 +150,25 @@ export function renderPage(template, request, payload) {
     })
     .join("");
   const notFound = lang === "ar" ? "الصفحة غير موجودة" : "Page not found";
-  const fallback = `<section id="flick-first-paint" style="min-height:60vh;background:#12110e;color:#f5f3ed;padding:clamp(20px,5vw,70px);font:16px system-ui"><header style="display:flex;justify-content:space-between;gap:12px"><a style="color:#fdf402;font-size:32px" href="/${lang}/">FLiCK Mobile</a><a style="color:#fdf402" href="/${lang === "ar" ? "en" : "ar"}/${pieces.map(encodeURIComponent).join("/")}">${lang === "ar" ? "English" : "العربية"}</a></header><h1>${escape(status === 404 ? notFound : privateRoute ? (lang === "ar" ? "إدارة المتجر" : "Store administration") : title)}</h1>${privateRoute || status === 404 ? "" : `<nav style="display:flex;gap:16px;flex-wrap:wrap;margin:24px 0">${categories.map((c) => `<a style="color:#fdf402" href="/${lang}/shop/${encodeURIComponent(c.id)}">${escape(local(c.name, lang))}</a>`).join("")}</nav><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px">${cards}</div>`}<p id="flick-startup-status" role="status">${lang === "ar" ? "جار تحميل الأدوات التفاعلية…" : "Loading interactive controls…"}</p><button id="flick-retry" hidden onclick="location.reload()">${lang === "ar" ? "إعادة المحاولة" : "Retry"}</button><noscript><p>${lang === "ar" ? "يمكنك تصفح الكتالوج. فعّل JavaScript لاستخدام السلة والإدارة." : "Browse the catalog here. Enable JavaScript for checkout and administration."}</p></noscript></section>`;
+  const legal =
+    status === 200 && (section === "privacy" || section === "terms")
+      ? LEGAL[section]
+      : null;
+  const legalHtml = legal
+    ? `<article style="max-width:46rem;line-height:1.8"><p style="color:#b9b4a6">${lang === "ar" ? "آخر تحديث: " : "Last updated: "}${escape(LEGAL.updated)}</p><p>${escape(legal.intro[lang])}</p>${legal.sections
+        .map(
+          (sec) =>
+            `<h2>${escape(sec.title[lang])}</h2>${sec.body
+              .map(
+                (b) =>
+                  `<p>${escape(b.notice ? trademarkNotice(content.products, lang) : b[lang])}</p>`,
+              )
+              .join("")}`,
+        )
+        .join("")}</article>`
+    : "";
+  const legalFooter = `<footer style="margin-top:40px;font-size:13px;color:#b9b4a6"><p><a style="color:#fdf402" href="/${lang}/privacy">${escape(LEGAL.privacy.title[lang])}</a> · <a style="color:#fdf402" href="/${lang}/terms">${escape(LEGAL.terms.title[lang])}</a></p><p>${escape(trademarkNotice(content.products, lang))}</p></footer>`;
+  const fallback = `<section id="flick-first-paint" style="min-height:60vh;background:#12110e;color:#f5f3ed;padding:clamp(20px,5vw,70px);font:16px system-ui"><header style="display:flex;justify-content:space-between;gap:12px"><a style="color:#fdf402;font-size:32px" href="/${lang}/">FLiCK Mobile</a><a style="color:#fdf402" href="/${lang === "ar" ? "en" : "ar"}/${pieces.map(encodeURIComponent).join("/")}">${lang === "ar" ? "English" : "العربية"}</a></header><h1>${escape(status === 404 ? notFound : privateRoute ? (lang === "ar" ? "إدارة المتجر" : "Store administration") : title)}</h1>${privateRoute || status === 404 ? "" : `<nav style="display:flex;gap:16px;flex-wrap:wrap;margin:24px 0">${categories.map((c) => `<a style="color:#fdf402" href="/${lang}/shop/${encodeURIComponent(c.id)}">${escape(local(c.name, lang))}</a>`).join("")}</nav>${legalHtml || `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px">${cards}</div>`}${legalFooter}`}<p id="flick-startup-status" role="status">${lang === "ar" ? "جار تحميل الأدوات التفاعلية…" : "Loading interactive controls…"}</p><button id="flick-retry" hidden onclick="location.reload()">${lang === "ar" ? "إعادة المحاولة" : "Retry"}</button><noscript><p>${lang === "ar" ? "يمكنك تصفح الكتالوج. فعّل JavaScript لاستخدام السلة والإدارة." : "Browse the catalog here. Enable JavaScript for checkout and administration."}</p></noscript></section>`;
   const safePayload = JSON.stringify(payload)
     .replace(/</g, "\\u003c")
     .replace(/\u2028/g, "\\u2028")

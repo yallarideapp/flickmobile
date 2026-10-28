@@ -34,6 +34,7 @@ function orderBody(state) {
     idempotencyKey: crypto.randomUUID(),
     version: state.version,
     name: "Local Extra Test",
+    consent: true,
     phone: "0790000002",
     method: "pickup",
     branchId: state.content.branches[0].id,
@@ -134,6 +135,7 @@ test("archiving persists with revision guards and preserves order stock and retr
       json: {
         idempotencyKey: crypto.randomUUID(),
         name: "Local Repair",
+        consent: true,
         phone: "0790000003",
         device: "Dummy device",
         issue: "screen",
@@ -234,6 +236,34 @@ test("rendered routes include real catalog, safe bootstrap, working assets and i
   assert.ok(!sitemap.includes("/p/" + state.content.products[0].id + "<"));
   const robots = expectStatus(await visitor.request("/robots.txt"), 200);
   assert.match(robots, /Disallow: \/admin/);
+  assert.match(sitemap, /\/ar\/privacy</);
+  assert.match(sitemap, /\/en\/terms</);
+  const privacy = expectStatus(await visitor.request("/ar/privacy"), 200);
+  assert.match(privacy, /سياسة الخصوصية/);
+  assert.match(privacy, /رقم \(24\) لسنة 2023/);
+  const terms = expectStatus(await visitor.request("/en/terms"), 200);
+  assert.match(terms, /Terms &amp; Conditions/);
+  assert.match(terms, /Independent store, not affiliated with Apple, Samsung, Huawei or any other/);
+  const home = expectStatus(await visitor.request("/en/"), 200);
+  assert.match(home, /Names and trademarks belong to their owners/);
+  const noConsent = { ...orderBody(state) };
+  delete noConsent.consent;
+  const refused = await visitor.request("/api/orders", { method: "POST", json: noConsent });
+  expectStatus(refused, 400);
+  assert.match(refused.text, /consent-required/);
+  const repairNoConsent = await visitor.request("/api/maintenance", {
+    method: "POST",
+    json: {
+      idempotencyKey: crypto.randomUUID(),
+      name: "Local Repair",
+      phone: "0790000004",
+      device: "Dummy device",
+      issue: "screen",
+      branchId: state.content.branches[0].id,
+    },
+  });
+  expectStatus(repairNoConsent, 400);
+  assert.match(repairNoConsent.text, /consent-required/);
   await backend.db.exec("DROP TABLE content");
   const unavailable = await visitor.request("/en/shop");
   expectStatus(unavailable, 503);

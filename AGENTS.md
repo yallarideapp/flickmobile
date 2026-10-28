@@ -22,6 +22,12 @@
 - Keep bilingual routes, unknown versus zero battery/stock semantics, curated
   hero/offer categories, and the removal of WhatsApp ordering. The homepage
   category browser includes every configured category.
+- Legal pages: Privacy Policy and Terms live in `shared/legal.js` (one source for
+  the storefront and the server pages). The footer shows links plus the trademark
+  notice (Apple, Samsung, Huawei plus any catalog brand). Orders and repair
+  requests need the consent checkbox; the server refuses them without
+  `consent: true` (`consent-required`). Never invent warranty periods, return
+  days or delivery times; the shop must review the texts before launch.
 - Add migrations for schema changes. A Worker rollback does not undo a migration.
 
 The user expects each requested Flick update to be saved in both places:
