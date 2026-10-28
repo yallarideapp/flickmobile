@@ -227,3 +227,17 @@ English/Arabic labels and routes for all six categories, empty-category links,
 and the remaining homepage section order without Featured picks. Both edited
 stylesheets parse without warnings. The prior browser access denials still
 prevent visual verification; desktop fit has not been checked in a browser.
+
+## 2026-10-28 — raise the Arabic desktop hero further
+
+User clarified that the remaining issue is the Arabic hero still sitting too
+low. Added an RTL desktop override above 900px: padding is 8px top / 12px
+bottom, and stage height follows the viewport with a 260–380px clamp and a
+400px viewport reserve. This raises the artwork and controls further in the
+Arabic layout. The English and mobile rules remain unchanged. CSS key v11.
+
+Both builds pass and contain the updated stylesheet; CSS parses without
+warnings. Calculated stage/padding reductions put the controls 48–68px higher
+at typical 650–1080px desktop viewport heights. Arabic component checks also
+confirm six translated category links and no Featured picks section. These
+are source/build checks; browser visual verification remains unavailable.

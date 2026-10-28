@@ -310,6 +310,14 @@
   .flick-hero[data-hero-tone] .flick-hero-categories {
     margin-top: 12px;
   }
+
+  [dir="rtl"] .flick-hero[data-hero-tone] .flick-hero-inner {
+    padding-block: 8px 12px;
+  }
+
+  [dir="rtl"] .flick-hero[data-hero-tone] .flick-hero-stage {
+    height: clamp(260px, calc(100svh - 400px), 380px);
+  }
 }
 
 @media (width <= 640px) {
