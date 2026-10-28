@@ -179,3 +179,29 @@ Both outputs build. CUA checks at390 and320 verified the new size, separate
 device boxes during rapid next/previous movement, no horizontal page overflow,
 and no console errors. English and Arabic layouts were checked. At641px the
 original56% slide width still applies.
+
+## 2026-10-28 — smoother hero motion and touch handling
+
+Refined the existing diagonal exchange to a shared 660ms ease-in/out curve.
+All device artwork and shadows now keep the same 6.4s idle phase through role
+changes, with a restrained 3px vertical float. Removed transition-time resets,
+role-specific idle delays and device hover offsets that caused visible snaps.
+Added a short group entrance and synchronized product names, prices and counter
+on one caption beat. Exact logo yellow #fcf401, larger mobile devices, poses,
+bilingual links and adjacent-step navigation remain in place. CSS cache key v9.
+
+Swipe feedback moves the entire stage by at most 3px, preserving device and
+edge clearance. Swipes during an exchange queue the next selection without
+drag follow. Secondary pointers are ignored, and lost capture clears the drag.
+Changing reduced-motion preference finishes active exchanges and resolves the
+queued selection immediately; listeners and animations clean up on unmount.
+
+Both outputs build; device helper checks and all 12 backend tests pass. A
+temporary actual-source Node harness passed 10 interaction checks covering
+queued input, busy swipes, scrolling, cancellation, multi-pointer handling,
+lost capture, focus, reduced motion, two-category fallback and cleanup. It
+simulates hooks and WAAPI lifecycle, so it does not validate rendered timing.
+Independent geometry checks across 320–1280px and 10,001 progress samples found
+at least 14.65px between full artwork wrappers, including the idle drift.
+Browser permission gates declined both the public site and local preview;
+this revision has no new browser visual verification or screenshot.

@@ -104,6 +104,9 @@
   width: 100%;
   height: clamp(370px, 41vw, 520px);
   overflow: visible;
+  translate: calc(var(--flick-hero-drag, 0) * 1px) 0;
+  transition: translate 180ms cubic-bezier(.2, .7, .2, 1);
+  animation: flick-stage-in 450ms cubic-bezier(.2, .7, .2, 1) both;
 }
 
 .flick-hero[data-hero-tone] .flick-hero-stage {
@@ -153,37 +156,20 @@
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  transition:
-    transform 240ms cubic-bezier(.2, .7, .2, 1),
-    translate 520ms cubic-bezier(.2, .8, .2, 1),
-    rotate 520ms cubic-bezier(.2, .8, .2, 1);
 }
 
 .flick-hero[data-hero-tone] .flick-hero-stage[data-transitioning="true"]
   .flick-hero-slide .flick-hero-slide-target {
   pointer-events: none;
-  transform: none;
-  translate: none;
-  rotate: none;
+}
+
+.flick-hero[data-hero-tone] .flick-hero-stage[data-dragging="true"] {
   transition: none;
-}
-
-.flick-hero[data-hero-tone] .flick-hero-stage[data-transitioning="true"]
-  .flick-hero-slide :is(.flick-hero-art, .flick-hero-ground) {
-  animation: none;
-  transform: none;
-}
-
-.flick-hero[data-hero-tone] .flick-hero-slide[data-position="active"]
-  .flick-hero-slide-target {
-  translate: calc(var(--flick-hero-drag, 0) * 1px) 0;
-  rotate: calc(var(--flick-hero-drag, 0) * .03deg);
 }
 
 .flick-hero[data-hero-tone] .flick-hero-stage[data-dragging="true"]
   .flick-hero-slide-target {
   cursor: grabbing;
-  transition: transform 240ms cubic-bezier(.2, .7, .2, 1);
 }
 
 .flick-hero[data-hero-tone] .flick-hero-slide-target:focus-visible {
@@ -204,28 +190,12 @@
   height: 100%;
   transform-origin: 50% 60%;
   pointer-events: none;
-}
-
-.flick-hero[data-hero-tone] .flick-hero-slide[data-position="active"]
-  .flick-hero-art {
-  animation: flick-stage-float 5.8s ease-in-out infinite;
+  animation: flick-stage-float 6.4s linear infinite;
   animation-play-state: paused;
-}
-
-.flick-hero[data-hero-tone]
-  .flick-hero-slide:is([data-position="previous"], [data-position="next"])
-  .flick-hero-art {
-  animation: flick-stage-bob 5.8s ease-in-out infinite;
-  animation-play-state: paused;
-}
-
-.flick-hero[data-hero-tone] .flick-hero-slide[data-position="next"]
-  .flick-hero-art {
-  animation-delay: -2.3s;
 }
 
 .flick-hero[data-hero-tone][data-motion-active="true"]
-  .flick-hero-slide:not([data-position="hidden"])
+  .flick-hero-slide
   :is(.flick-hero-art, .flick-hero-ground) {
   animation-play-state: running;
 }
@@ -257,20 +227,8 @@
   background: radial-gradient(ellipse, #15140f40 0, #15140f1a 38%, #15140f00 72%);
   opacity: .65;
   pointer-events: none;
-  transition: opacity 500ms ease;
-}
-
-/* Same timing as the float: the shadow tightens as the device rises. */
-.flick-hero[data-hero-tone] .flick-hero-slide[data-position="active"]
-  .flick-hero-ground {
-  animation: flick-stage-shadow 5.8s infinite;
+  animation: flick-stage-shadow 6.4s linear infinite;
   animation-play-state: paused;
-}
-
-.flick-hero[data-hero-tone]
-  .flick-hero-slide:is([data-position="previous"], [data-position="next"])
-  .flick-hero-ground {
-  opacity: .4;
 }
 
 .flick-hero[data-hero-tone] .flick-hero-navigation {
@@ -328,10 +286,6 @@
 }
 
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .flick-hero[data-hero-tone] .flick-hero-slide-target:hover {
-    transform: translateY(-2px);
-  }
-
   .flick-hero[data-hero-tone] .flick-hero-arrow:not(:disabled):hover {
     background-color: #15140f;
     color: #fcf401;
@@ -357,29 +311,22 @@
     gap: 20px;
     margin-top: 10px;
   }
-
-  .flick-hero[data-hero-tone] .flick-hero-slide[data-position="active"]
-    :is(.flick-hero-art, .flick-hero-ground) {
-    animation-duration: 6.4s;
-  }
 }
 
-/* Starts and ends level so a device arriving mid-swing does not jump. The
-   per-keyframe easing approximates a sine: fast through level, slow at peaks. */
 @keyframes flick-stage-float {
   0%, 50% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
+    transform: translate3d(0, 0, 0);
     animation-timing-function: cubic-bezier(.37, 0, .63, 1);
   }
   25% {
-    transform: translate3d(0, -6px, 0) rotate(.7deg);
+    transform: translate3d(0, -3px, 0);
     animation-timing-function: cubic-bezier(.37, 0, .63, 1);
   }
   75% {
-    transform: translate3d(0, 5px, 0) rotate(-.7deg);
+    transform: translate3d(0, 3px, 0);
     animation-timing-function: cubic-bezier(.37, 0, .63, 1);
   }
-  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  100% { transform: translate3d(0, 0, 0); }
 }
 
 @keyframes flick-stage-shadow {
@@ -389,35 +336,26 @@
     animation-timing-function: cubic-bezier(.37, 0, .63, 1);
   }
   25% {
-    transform: scale(.86);
-    opacity: .48;
+    transform: scale(.94);
+    opacity: .58;
     animation-timing-function: cubic-bezier(.37, 0, .63, 1);
   }
   75% {
-    transform: scale(1.07);
-    opacity: .74;
+    transform: scale(1.04);
+    opacity: .7;
     animation-timing-function: cubic-bezier(.37, 0, .63, 1);
   }
   100% { transform: scale(1); opacity: .65; }
 }
 
-@keyframes flick-stage-bob {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  50% { transform: translate3d(0, -4px, 0) rotate(0deg); }
+@keyframes flick-stage-in {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to { opacity: 1; transform: none; }
 }
 
 .flick-hero[data-hero-tone] .flick-hero-caption > *,
 .flick-hero[data-hero-tone] .flick-hero-progress {
-  animation: flick-caption-in 320ms cubic-bezier(.2, .75, .25, 1) 80ms both;
-}
-
-.flick-hero[data-hero-tone] .flick-hero-caption > .flick-hero-price {
-  animation-delay: 120ms;
-}
-
-.flick-hero[data-hero-tone] .flick-hero-progress {
-  animation-duration: 260ms;
-  animation-delay: 40ms;
+  animation: flick-caption-in 240ms cubic-bezier(.2, .75, .25, 1) 140ms both;
 }
 
 .flick-hero[data-hero-tone] .flick-hero-categories button {
@@ -435,7 +373,7 @@
 @keyframes flick-caption-in {
   from {
     opacity: 0;
-    transform: translate3d(0, 10px, 0);
+    transform: translate3d(0, 6px, 0);
   }
   to {
     opacity: 1;
@@ -445,6 +383,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .flick-hero[data-hero-tone],
+  .flick-hero[data-hero-tone] .flick-hero-stage,
   .flick-hero[data-hero-tone] .flick-hero-slide-target,
   .flick-hero[data-hero-tone] .flick-hero-ground,
   .flick-hero[data-hero-tone] .flick-hero-arrow,
@@ -452,6 +391,7 @@
     transition: none;
   }
 
+  .flick-hero[data-hero-tone] .flick-hero-stage,
   .flick-hero[data-hero-tone] .flick-hero-slide .flick-hero-art,
   .flick-hero[data-hero-tone] .flick-hero-slide .flick-hero-ground,
   .flick-hero[data-hero-tone] .flick-hero-caption > *,
@@ -460,9 +400,7 @@
     transform: none;
   }
 
-  .flick-hero[data-hero-tone] .flick-hero-slide[data-position="active"]
-    .flick-hero-slide-target {
+  .flick-hero[data-hero-tone] .flick-hero-stage {
     translate: none;
-    rotate: none;
   }
 }

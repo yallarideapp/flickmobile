@@ -58,7 +58,7 @@ function flickHeroMotion(from, to, direction) {
           { ...last, offset: 1 },
         ]
       : [first, last],
-    timing: { duration: 720, easing: "cubic-bezier(.22, .68, 0, 1)" },
+    timing: { duration: 660, easing: "cubic-bezier(.4, 0, .2, 1)" },
   };
 }
 
@@ -156,14 +156,21 @@ function l4() {
     }
   });
 
-  w.useEffect(
-    () => () => {
+  w.useEffect(() => {
+    const preference = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    const settle = () => {
+      if (!preference?.matches) return;
+      for (const animation of [...slideAnimations.current.values()])
+        animation.finish();
+    };
+    preference?.addEventListener("change", settle);
+    return () => {
+      preference?.removeEventListener("change", settle);
       for (const animation of slideAnimations.current.values())
         animation.cancel();
       slideAnimations.current.clear();
-    },
-    [],
-  );
+    };
+  }, []);
 
   w.useLayoutEffect(() => {
     if (!focusAfterNavigation.current) return;
@@ -245,7 +252,8 @@ function l4() {
   // Horizontal swipes follow the finger with resistance; vertical drags scroll.
   function handlePointerDown(event) {
     if (
-      transitioning.current ||
+      drag.current ||
+      event.isPrimary === false ||
       items.length < 2 ||
       (event.pointerType === "mouse" && event.button !== 0)
     )
@@ -257,6 +265,7 @@ function l4() {
       dx: 0,
       time: event.timeStamp,
       active: false,
+      follow: !transitioning.current,
     };
   }
 
@@ -281,10 +290,11 @@ function l4() {
       }
     }
     state.dx = dx;
-    stage.style.setProperty(
-      "--flick-hero-drag",
-      (6 * Math.tanh(dx / 100)).toFixed(1),
-    );
+    if (state.follow)
+      stage.style.setProperty(
+        "--flick-hero-drag",
+        (3 * Math.tanh(dx / 100)).toFixed(1),
+      );
   }
 
   function endDrag(event, commit) {
@@ -369,6 +379,7 @@ function l4() {
             onPointerMove: handlePointerMove,
             onPointerUp: (event) => endDrag(event, true),
             onPointerCancel: (event) => endDrag(event, false),
+            onLostPointerCapture: (event) => endDrag(event, false),
             onClickCapture: (event) => {
               if (!suppressClick.current) return;
               event.preventDefault();
