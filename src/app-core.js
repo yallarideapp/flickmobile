@@ -452,6 +452,7 @@ let eJ = {
   "admin.campaign": { ar: "الحملة", en: "Campaign" },
   "admin.branches": { ar: "الفروع", en: "Branches" },
   "admin.settings": { ar: "الإعدادات", en: "Settings" },
+  "admin.banner": { ar: "أجهزة الواجهة", en: "Banner devices" },
   "admin.categories": { ar: "الأقسام", en: "Categories" },
   "admin.texts": { ar: "نصوص الموقع", en: "Website texts" },
   "admin.sections": { ar: "أقسام لوحة التحكم", en: "Admin sections" },

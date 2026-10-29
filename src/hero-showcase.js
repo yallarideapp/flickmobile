@@ -78,9 +78,26 @@ function l4() {
       isFlickHomeCategory(category.id) &&
       products.some((product) => product.cat === category.id),
   );
+  // Each banner slot shows the device chosen in the admin "Banner" tab, or an
+  // uploaded picture; otherwise the category's featured (or first) device.
+  const slots = Array.isArray(content.heroSlots) ? content.heroSlots : [];
   const items = categories.map((category) => {
     const choices = products.filter((product) => product.cat === category.id);
-    const product = choices.find((product) => product.featured) ?? choices[0];
+    const slot = slots.find((entry) => entry && entry.cat === category.id) || {};
+    const chosen = products.find((product) => product.id === slot.productId);
+    if (slot.image) {
+      const name = eZ(slot.name, "ar") || eZ(slot.name, "en")
+        ? slot.name
+        : chosen?.name ?? { ar: category.ar, en: category.en };
+      return {
+        category,
+        product: { id: `banner-${category.id}`, cat: category.id, name, photo: slot.image, img: null, variants: [] },
+        variant: undefined,
+        href: nk(chosen ? `p/${chosen.id}` : `shop/${category.id}`),
+      };
+    }
+    const product =
+      chosen ?? choices.find((product) => product.featured) ?? choices[0];
     const variant = product.variants
       .filter((variant) => flickDeviceFeatures.available(variant))
       .sort((a, b) => eO(a) - eO(b))[0];

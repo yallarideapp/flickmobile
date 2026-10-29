@@ -112,6 +112,16 @@ export function cleanContent(value) {
     unique(result.categories.map(c => c.id));
     if (products.some(p => !result.categories.some(c => c.id === p.cat))) fail('invalid-category');
   }
+  // Banner slots: per home category, a chosen device and/or an uploaded picture.
+  if (value.heroSlots != null) {
+    result.heroSlots = list(value.heroSlots, 12).map(slot => {
+      if (!record(slot)) fail('invalid-banner');
+      const entry = { cat: id(slot.cat), productId: slot.productId ? id(slot.productId) : '', image: safeUrl(slot.image, true), name: pair(slot.name, 200) };
+      if (entry.productId && !products.some(p => p.id === entry.productId)) entry.productId = ''; // deleted device: back to automatic
+      return entry;
+    });
+    unique(result.heroSlots.map(slot => slot.cat));
+  }
   // Edited storefront wording: plain text only, keyed by the storefront's text ids.
   if (value.texts != null) {
     if (!record(value.texts)) fail('invalid-texts');

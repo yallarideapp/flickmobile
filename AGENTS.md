@@ -33,6 +33,10 @@
   texts as plain text per language), Excel (CSV) export of orders and repairs,
   and quick stock / home toggles in the device list. Live admin refreshes orders
   and repairs every 15 seconds. The campaign section closes the home page.
+- Banner devices tab: `content.heroSlots` (one per home category) is Automatic,
+  a chosen device, or an uploaded picture with a caption and optional device
+  link. Pictures upload like product photos; a deleted device falls back to
+  Automatic on the server.
 - Add migrations for schema changes. A Worker rollback does not undo a migration.
 
 The user expects each requested Flick update to be saved in both places:

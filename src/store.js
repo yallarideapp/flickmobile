@@ -427,6 +427,7 @@ function nu() {
       ? { categories: e.categories }
       : {}),
     ...(e.texts && "object" == typeof e.texts ? { texts: e.texts } : {}),
+    ...(Array.isArray(e.heroSlots) ? { heroSlots: e.heroSlots } : {}),
   };
 }
 function nd() {

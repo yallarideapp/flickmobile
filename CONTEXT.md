@@ -264,3 +264,11 @@ to original), an Excel export for orders and repairs (UTF-8 CSV, phones kept as
 text, formula-safe), quick In stock / On home toggles in the device list, and a
 15-second refresh of orders and repairs in the live admin. Server validates
 texts. Tests and both builds pass; checked in the browser at 1440 and 390 px.
+
+## 2026-10-29 — banner devices in the admin panel
+
+New admin tab «أجهزة الواجهة»: for each banner slide (one per home category)
+choose Automatic (featured device), a specific device from the list, or upload
+a picture with an Arabic/English caption and an optional device it opens.
+Saved as `heroSlots`, validated on the server (pictures must be uploaded photo
+links or site assets). Tests and builds pass; checked at 1440 and 390 px.

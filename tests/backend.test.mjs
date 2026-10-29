@@ -303,6 +303,34 @@ test("catalog shares updates, guards stale writes and keeps hidden products and 
   assert.equal((await adminContent(admin)).version, updated.version);
 });
 
+test("banner slots keep a chosen device or a stored picture, and forget deleted devices", async (t) => {
+  const backend = await withBackend(t);
+  const admin = await setupAdmin(backend);
+  let state = await adminContent(admin);
+  const [first, second] = state.content.products;
+  state = await publish(admin, state, (content) => {
+    content.heroSlots = [
+      { cat: first.cat, productId: second.id, image: "", name: { ar: "", en: "" } },
+      { cat: "tablets", productId: "", image: "/assets/hero.png", name: { ar: "عرض", en: "Offer" } },
+    ];
+  });
+  assert.equal(state.content.heroSlots[0].productId, second.id);
+  assert.equal(state.content.heroSlots[1].image, "/assets/hero.png");
+  state = await publish(admin, state, (content) => {
+    content.products = content.products.filter((p) => p.id !== second.id);
+  });
+  assert.equal(state.content.heroSlots[0].productId, "");
+  for (const bad of [
+    [{ cat: "phones", image: "javascript:alert(1)" }],
+    [{ cat: "phones" }, { cat: "phones" }],
+    "x",
+  ]) {
+    const invalid = structuredClone(state);
+    invalid.content.heroSlots = bad;
+    expectStatus(await admin.request("/api/admin/content", { method: "PUT", json: invalid }), 400);
+  }
+});
+
 test("edited website texts and categories are saved as plain text and published", async (t) => {
   const backend = await withBackend(t);
   const admin = await setupAdmin(backend);

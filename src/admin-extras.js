@@ -285,11 +285,11 @@ function FlickCategoriesAdmin() {
                   ],
                 }),
                 children: (0, k.jsxs)("div", {
-                  className: "grid gap-4 sm:grid-cols-[96px_1fr]",
+                  className: "grid gap-4 sm:grid-cols-[160px_1fr]",
                   children: [
                     picture
-                      ? (0, k.jsx)(nv, { product: picture, className: "size-24 rounded-[12px]" })
-                      : (0, k.jsx)("div", { className: "flick-category-blank size-24 rounded-[12px] bg-shelf-2" }),
+                      ? (0, k.jsx)(nv, { product: picture, className: "aspect-square w-full max-w-[160px] rounded-[12px]" })
+                      : (0, k.jsx)("div", { className: "aspect-square w-full max-w-[160px] rounded-[12px] bg-shelf-2" }),
                     (0, k.jsxs)("div", {
                       className: "space-y-3",
                       children: [
@@ -511,6 +511,229 @@ function FlickTextsAdmin() {
           setError("");
           (await r((c) => ({ ...c, texts: next }))) &&
             (setDraft(structuredClone(next)), D.success(flickL(t, "انحفظت النصوص", "Texts saved")));
+        },
+      }),
+    ],
+  });
+}
+
+// ---------------------------------------------------------------- banner tab
+// One card per banner slot (home categories): automatic, a chosen device, or an
+// uploaded picture with its own name and an optional device it opens.
+function FlickBannerAdmin() {
+  let { lang: t, content: n, updateContent: r } = nm(),
+    visible = n.products.filter((p) => p.visible),
+    cats = ez.filter((c) => isFlickHomeCategory(c.id) && visible.some((p) => p.cat === c.id)),
+    saved = Array.isArray(n.heroSlots) ? n.heroSlots : [],
+    initial = () =>
+      cats.map((c) => {
+        let s = saved.find((x) => x.cat === c.id) || {};
+        return {
+          cat: c.id,
+          mode: s.image ? "image" : s.productId ? "device" : "auto",
+          productId: s.productId || "",
+          image: s.image || "",
+          name: { ar: s.name?.ar || "", en: s.name?.en || "" },
+        };
+      }),
+    [rows, setRows] = (0, w.useState)(initial),
+    [busy, setBusy] = (0, w.useState)(-1),
+    [error, setError] = (0, w.useState)(""),
+    toSave = (list) =>
+      list
+        .filter((x) => "auto" !== x.mode)
+        .map((x) => ({
+          cat: x.cat,
+          productId: x.productId || "",
+          image: "image" === x.mode ? x.image : "",
+          name: "image" === x.mode ? { ar: x.name.ar.trim(), en: x.name.en.trim() } : { ar: "", en: "" },
+        })),
+    dirty = JSON.stringify(toSave(rows)) !== JSON.stringify(toSave(initial())),
+    change = (i, patch) => setRows((old) => old.map((x, n) => (n === i ? { ...x, ...patch } : x))),
+    upload = async (i, file) => {
+      if (!file) return;
+      setBusy(i);
+      try {
+        let data = await oC(file);
+        if (0.75 * data.length > 1e6)
+          return void D.error(flickL(t, "الصورة كبيرة كثير. جرّب صورة أصغر.", "The picture is too large. Try a smaller one."));
+        change(i, { image: data, mode: "image" });
+      } catch {
+        D.error(flickL(t, "ما قدرنا نقرأ الصورة. جرّب PNG أو JPG.", "Couldn't read that picture. Try PNG or JPG."));
+      } finally {
+        setBusy(-1);
+      }
+    },
+    // Saved slots may come back with server picture links: show what was stored.
+    _sync = (0, w.useEffect)(() => setRows(initial()), [n.heroSlots]),
+    modes = [
+      ["auto", flickL(t, "تلقائي", "Automatic")],
+      ["device", flickL(t, "اختار جهاز", "Choose a device")],
+      ["image", flickL(t, "ارفع صورة", "Upload a picture")],
+    ];
+  return (0, k.jsxs)("div", {
+    className: "space-y-4",
+    children: [
+      (0, k.jsx)("p", {
+        className: "text-sm text-dust",
+        children: flickL(
+          t,
+          "هاي الأجهزة اللي بتتحرك بالواجهة أول الصفحة الرئيسية، وحدة لكل قسم. اختار جهاز من القائمة، أو ارفع صورة بدلها. «تلقائي» بيعرض الجهاز المميّز بالقسم.",
+          "These are the devices moving in the banner at the top of the home page, one per category. Choose a device from your list, or upload a picture instead. Automatic shows the category's featured device.",
+        ),
+      }),
+      (0, k.jsx)("ol", {
+        className: "space-y-3",
+        children: rows.map((row, i) => {
+          let cat = cats.find((c) => c.id === row.cat),
+            device = visible.find((p) => p.id === row.productId),
+            auto = visible.filter((p) => p.cat === row.cat),
+            autoDevice = auto.find((p) => p.featured) ?? auto[0],
+            preview =
+              "image" === row.mode && row.image
+                ? { id: `banner-${row.cat}`, name: row.name, photo: row.image, img: null, variants: [] }
+                : "device" === row.mode && device
+                  ? device
+                  : autoDevice;
+          return (0, k.jsx)(
+            "li",
+            {
+              children: (0, k.jsx)(lb, {
+                title: `${flickL(t, "الشريحة", "Slide")} ${i + 1}: ${flickL(t, cat.ar, cat.en)}`,
+                children: (0, k.jsxs)("div", {
+                  className: "grid gap-4 sm:grid-cols-[160px_1fr]",
+                  children: [
+                    preview
+                      ? (0, k.jsx)(nv, { product: preview, className: "aspect-square w-full max-w-[160px] rounded-[12px]" })
+                      : (0, k.jsx)("div", { className: "aspect-square w-full max-w-[160px] rounded-[12px] bg-shelf-2" }),
+                    (0, k.jsxs)("div", {
+                      className: "space-y-3",
+                      children: [
+                        (0, k.jsx)("div", {
+                          role: "radiogroup",
+                          "aria-label": flickL(t, "شو يظهر", "What shows"),
+                          className: "flex flex-wrap gap-1.5",
+                          children: modes.map(([id, label]) =>
+                            (0, k.jsx)(
+                              "button",
+                              {
+                                type: "button",
+                                role: "radio",
+                                "aria-checked": row.mode === id,
+                                onClick: () => change(i, { mode: id }),
+                                className: t0(
+                                  "inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-3.5 text-[13px] font-semibold",
+                                  row.mode === id ? "border-flick bg-flick text-ink" : "bg-shelf text-paper hover:border-flick",
+                                ),
+                                children: label,
+                              },
+                              id,
+                            ),
+                          ),
+                        }),
+                        "auto" === row.mode &&
+                          (0, k.jsx)("p", {
+                            className: "text-xs text-dust",
+                            children: autoDevice
+                              ? `${flickL(t, "بيظهر هلأ", "Showing now")}: ${eZ(autoDevice.name, t)}`
+                              : "",
+                          }),
+                        "image" === row.mode &&
+                          (0, k.jsxs)("div", {
+                            className: "space-y-3",
+                            children: [
+                              (0, k.jsxs)("label", {
+                                className: t0(
+                                  "inline-flex h-10 cursor-pointer items-center gap-1.5 rounded-[9px] bg-shelf-2 px-3.5 text-[14px] font-semibold hover:bg-shelf-2/70",
+                                  busy === i && "opacity-50",
+                                ),
+                                children: [
+                                  row.image ? flickL(t, "غيّر الصورة", "Change picture") : flickL(t, "ارفع صورة", "Upload picture"),
+                                  (0, k.jsx)("input", {
+                                    type: "file",
+                                    accept: "image/png,image/jpeg,image/webp",
+                                    className: "sr-only",
+                                    "aria-label": `${flickL(t, "صورة الشريحة", "Slide picture")} ${i + 1}`,
+                                    onChange: (e) => {
+                                      upload(i, e.target.files?.[0]);
+                                      e.target.value = "";
+                                    },
+                                  }),
+                                ],
+                              }),
+                              (0, k.jsx)("p", {
+                                className: "text-xs text-dust",
+                                children: flickL(t, "أحلى إشي صورة جهاز بخلفية شفافة (PNG).", "A device photo with a transparent background (PNG) looks best."),
+                              }),
+                              (0, k.jsx)(lk, {
+                                value: row.name,
+                                onChange: (name) => change(i, { name }),
+                                labels: [flickL(t, "الاسم تحت الصورة بالعربي", "Caption in Arabic"), flickL(t, "الاسم تحت الصورة بالإنجليزي", "Caption in English")],
+                                ids: [`bn-${i}-ar`, `bn-${i}-en`],
+                              }),
+                            ],
+                          }),
+                        "auto" !== row.mode &&
+                          (0, k.jsx)(lu, {
+                            label:
+                              "image" === row.mode
+                                ? flickL(t, "لما الزبون يضغط عليها تفتح (اختياري)", "Opens when tapped (optional)")
+                                : flickL(t, "الجهاز", "Device"),
+                            htmlFor: `bn-${i}-device`,
+                            children: (0, k.jsxs)("select", {
+                              id: `bn-${i}-device`,
+                              className: lc,
+                              value: row.productId,
+                              onChange: (e) => change(i, { productId: e.target.value }),
+                              children: [
+                                (0, k.jsx)("option", {
+                                  value: "",
+                                  children: "image" === row.mode ? flickL(t, "صفحة القسم", "The category page") : "—",
+                                }),
+                                ...ez
+                                  .filter((c) => visible.some((p) => p.cat === c.id))
+                                  .map((c) =>
+                                    (0, k.jsx)(
+                                      "optgroup",
+                                      {
+                                        label: flickL(t, c.ar, c.en),
+                                        children: visible
+                                          .filter((p) => p.cat === c.id)
+                                          .map((p) => (0, k.jsx)("option", { value: p.id, children: eZ(p.name, t) }, p.id)),
+                                      },
+                                      c.id,
+                                    ),
+                                  ),
+                              ],
+                            }),
+                          }),
+                      ],
+                    }),
+                  ],
+                }),
+              }),
+            },
+            row.cat,
+          );
+        }),
+      }),
+      (0, k.jsx)(ly, {
+        error,
+        dirty,
+        onSave: async () => {
+          let bad = rows.findIndex(
+            (x) => ("device" === x.mode && !x.productId) || ("image" === x.mode && !x.image),
+          );
+          if (bad >= 0)
+            return setError(
+              "device" === rows[bad].mode
+                ? flickL(t, `اختار جهاز للشريحة ${bad + 1} أو رجّعها تلقائي.`, `Choose a device for slide ${bad + 1}, or set it to Automatic.`)
+                : flickL(t, `ارفع صورة للشريحة ${bad + 1} أو رجّعها تلقائي.`, `Upload a picture for slide ${bad + 1}, or set it to Automatic.`),
+            );
+          setError("");
+          let next = toSave(rows);
+          (await r((c) => ({ ...c, heroSlots: next }))) &&
+            D.success(flickL(t, "انحفظت أجهزة الواجهة", "Banner devices saved"));
         },
       }),
     ],

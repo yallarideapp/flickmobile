@@ -11,6 +11,10 @@ if (window.FlickLive?.enabled) {
       "Ordering is currently closed.",
     ],
     unauthorized: ["سجّل دخول الإدارة مجددًا.", "Please sign in again."],
+    "invalid-banner": [
+      "في جهاز بالواجهة مش موجود بالقائمة. اختار جهاز ثاني.",
+      "A banner device no longer exists. Choose another one.",
+    ],
     "invalid-texts": [
       "في نص غير صالح. راجع نصوص الموقع وجرّب مرة ثانية.",
       "A website text is not valid. Check the texts and try again.",
@@ -209,6 +213,8 @@ if (window.FlickLive?.enabled) {
     for (const p of copy.products) if (p.photo) p.photo = await upload(p.photo);
     for (const c of copy.categories || [])
       if (c.image) c.image = await upload(c.image);
+    for (const slot of copy.heroSlots || [])
+      if (slot.image) slot.image = await upload(slot.image);
     if (copy.appearance?.heroImage)
       copy.appearance.heroImage = await upload(copy.appearance.heroImage);
     return FlickRules.cleanContent(copy);
