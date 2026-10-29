@@ -279,3 +279,17 @@ Removed the "On home" toggle and "Featured" badge from the device list and the
 featured switch from the device editor. Automatic banner slides now use the
 first device in each category (same devices as before, since they matched the
 featured ones). Tests and builds pass; checked in the browser.
+
+## 2026-10-29 — stock availability only inside the device editor
+
+User requested removing the outer «متوفر» option and keeping it inside only.
+Removed the quick stock switch from the admin device-list cards and deleted
+its unused component/bulk mutation handler. Availability remains per option
+inside Edit → Options and prices. Updated AGENTS.md to preserve this preference.
+
+Both builds and all 14 backend tests pass. Actual-component checks in Arabic
+and English verified that list cards retain only the visibility switch, stock
+checkboxes remain inside the editor, and saving one changed option preserves
+every other option's availability. The checks simulate hooks rather than
+browser rendering. Browser access remains unavailable after the earlier origin
+denials; no visual verification is claimed. Logged in Documents/TESTING.md.

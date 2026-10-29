@@ -1,5 +1,5 @@
 // Admin tools brought over from the Trio panel: store categories, website texts,
-// Excel (CSV) export of orders and repairs, and a quick stock toggle.
+// Excel (CSV) export of orders and repairs.
 // Categories and texts are saved inside the catalog content and applied on render.
 
 const flickL = (lang, ar, en) => ("ar" === lang ? ar : en);
@@ -148,50 +148,6 @@ function FlickExportButton({ kind: e }) {
       ]);
     },
     children: flickL(t, "تصدير Excel", "Export to Excel"),
-  });
-}
-
-// ---------------------------------------------------------------- device list
-function flickProductAvailable(product) {
-  return product.variants.some((v) => window.FlickDeviceFeatures.available(v));
-}
-function FlickQuickToggles({ product: e }) {
-  let { lang: t, updateContent: n } = nm(),
-    inStock = flickProductAvailable(e),
-    patch = (change) =>
-      n((c) => ({
-        ...c,
-        products: c.products.map((p) => (p.id === e.id ? change(p) : p)),
-      }));
-  return (0, k.jsxs)(k.Fragment, {
-    children: [
-      (0, k.jsx)("button", {
-        type: "button",
-        role: "switch",
-        "aria-checked": inStock,
-        title: flickL(t, "اضغط لتغيير حالة التوفر لكل الخيارات", "Switch availability for every option"),
-        onClick: () =>
-          patch((p) => ({
-            ...p,
-            variants: p.variants.map((v) =>
-              inStock
-                ? { ...v, inStock: !1 }
-                : {
-                    ...v,
-                    inStock: !0,
-                    soldOut: !1,
-                    stockQuantity: 0 === v.stockQuantity ? null : v.stockQuantity,
-                  },
-            ),
-          })),
-        className: t0(
-          "h-9 rounded-[9px] px-3 text-[13px] font-semibold",
-          inStock ? "bg-shelf-2 text-paper" : "bg-sale/20 text-red-200",
-        ),
-        "aria-label": `${eZ(e.name, t)}: ${inStock ? flickL(t, "متوفر", "In stock") : flickL(t, "نفد", "Sold out")}`,
-        children: inStock ? flickL(t, "متوفر", "In stock") : flickL(t, "نفد", "Sold out"),
-      }),
-    ],
   });
 }
 

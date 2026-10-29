@@ -3254,7 +3254,6 @@ function oE() {
                       className:
                         "flex basis-full items-center justify-end gap-1 border-t pt-2 sm:basis-auto sm:border-0 sm:pt-0",
                       children: [
-                        (0, k.jsx)(FlickQuickToggles, { product: n }),
                         (0, k.jsx)("button", {
                           type: "button",
                           role: "switch",
