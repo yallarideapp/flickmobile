@@ -188,10 +188,8 @@
         h('div', { className: 'flick-device-option-list' }, (product.variants || []).map((option, index) =>
           h('button', { type: 'button', key: option.key, className: 'flick-device-option', 'aria-pressed': option.key === variant?.key, disabled: !available(option), onClick: () => onSelect(option.key) },
             h('span', { className: 'flick-device-option-name', dir: 'auto' }, optionLabel(option, lang) || `${text('option')} ${index + 1}`),
-            h('span', { className: 'flick-device-option-price', dir: 'auto' }, !available(option) ? text('unavailable') : [
-              hasOffer(option) ? h('s', { key: 'was' }, money(option.price, lang)) : null,
-              h('bdi', { key: 'now' }, money(hasOffer(option) ? option.offerPrice : option.price, lang))
-            ])
+            // Only the storage name here; the selected option's price shows under the choices.
+            !available(option) ? h('span', { className: 'flick-device-option-price', dir: 'auto' }, text('unavailable')) : null
           ))));
     }
     function Details({ product, variant }) {

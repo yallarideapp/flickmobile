@@ -293,3 +293,9 @@ checkboxes remain inside the editor, and saving one changed option preserves
 every other option's availability. The checks simulate hooks rather than
 browser rendering. Browser access remains unavailable after the earlier origin
 denials; no visual verification is claimed. Logged in Documents/TESTING.md.
+
+## 2026-10-29 — storage choices without prices
+
+Device option buttons show only the storage/option name (unavailable options
+still say so); the selected option's price shows once under the choices.
+Buttons are shorter and centred. Asset cache keys bumped to v=2.
