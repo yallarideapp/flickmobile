@@ -299,3 +299,9 @@ denials; no visual verification is claimed. Logged in Documents/TESTING.md.
 Device option buttons show only the storage/option name (unavailable options
 still say so); the selected option's price shows once under the choices.
 Buttons are shorter and centred. Asset cache keys bumped to v=2.
+
+## 2026-10-29 — add-to-bag button and Arabic spec alignment
+
+Device page Add to bag button is larger with the bag icon and the chosen price.
+Spec values now follow the page direction (right in Arabic, left in English),
+so Arabic values like «موبايلات» line up with the English ones. CSS key v=3.

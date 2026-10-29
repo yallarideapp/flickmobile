@@ -5537,10 +5537,14 @@ function oG({ id: e, variantKey: t }) {
                         }));
                     },
                     disabled: !flickDeviceFeatures.available(p),
-                    className:
-                      "h-12 flex-1 rounded-[10px] bg-flick px-5 text-[15px] font-bold text-ink hover:bg-flick/90 disabled:opacity-50",
+                    className: "flick-add-bag",
                     children: flickDeviceFeatures.available(p)
-                      ? a("product.add")
+                      ? [
+                          (0, k.jsx)(lQ, { key: "icon", className: "flick-add-bag-icon", "aria-hidden": !0 }),
+                          (0, k.jsx)("span", { key: "label", children: a("product.add") }),
+                          (0, k.jsx)("span", { key: "dot", className: "flick-add-bag-dot", "aria-hidden": !0 }),
+                          (0, k.jsx)(ng, { key: "price", value: eO(p), className: "flick-add-bag-price" }),
+                        ]
                       : a("card.soldout"),
                   }),
                 ],

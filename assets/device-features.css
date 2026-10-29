@@ -355,3 +355,7 @@
     gap: 2px;
   }
 }
+
+/* Values follow the page direction so Arabic and English values line up. */
+html[dir="rtl"] .flick-device-specs dd { text-align: right; }
+html[dir="ltr"] .flick-device-specs dd { text-align: left; }
