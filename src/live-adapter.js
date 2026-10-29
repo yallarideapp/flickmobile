@@ -11,6 +11,14 @@ if (window.FlickLive?.enabled) {
       "Ordering is currently closed.",
     ],
     unauthorized: ["سجّل دخول الإدارة مجددًا.", "Please sign in again."],
+    "invalid-texts": [
+      "في نص غير صالح. راجع نصوص الموقع وجرّب مرة ثانية.",
+      "A website text is not valid. Check the texts and try again.",
+    ],
+    "invalid-category": [
+      "في جهاز بقسم مش موجود. انقل الجهاز لقسم ثاني قبل الحذف.",
+      "A device is in a category that no longer exists. Move it first.",
+    ],
     "content-conflict": [
       "تغيّر الكتالوج أو المخزون. أعد تحميل الصفحة وراجع التعديل قبل الحفظ.",
       "Catalog or stock changed. Reload and review your changes before saving.",
@@ -291,6 +299,25 @@ if (window.FlickLive?.enabled) {
         maintenance: repairs.nextBefore,
       });
     }, [accept]);
+    // Newest orders and repair requests, merged with older pages already loaded.
+    const refreshActivity = R.useCallback(async () => {
+      const [purchases, repairs] = await Promise.all([
+        request("/api/admin/orders"),
+        request("/api/admin/maintenance"),
+      ]);
+      const merge = (fresh, old) => {
+        const ids = new Set(fresh.map((item) => item.id)),
+          oldest = fresh.length ? fresh[fresh.length - 1].createdAt : "";
+        return [
+          ...fresh,
+          ...old.filter(
+            (item) => !ids.has(item.id) && (!oldest || item.createdAt < oldest),
+          ),
+        ];
+      };
+      setOrders((old) => merge(purchases.orders, old));
+      setMaint((old) => merge(repairs.requests, old));
+    }, []);
     const checkAuth = R.useCallback(async () => {
       const state = await request("/api/admin/session");
       setAuth(state);
@@ -317,6 +344,19 @@ if (window.FlickLive?.enabled) {
         clearInterval(timer);
       };
     }, []);
+    // Like a till screen: new orders and repairs appear without reloading.
+    R.useEffect(() => {
+      if (!auth?.authenticated) return;
+      const timer = setInterval(() => {
+        if (
+          location.pathname.startsWith("/admin") &&
+          document.visibilityState === "visible" &&
+          !refs.current.saving
+        )
+          refreshActivity().catch(() => {});
+      }, 15000);
+      return () => clearInterval(timer);
+    }, [auth?.authenticated, refreshActivity]);
     R.useEffect(() => {
       document.documentElement.lang = lang;
       document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
@@ -771,7 +811,6 @@ if (window.FlickLive?.enabled) {
       h(
         "div",
         { className: "flick-live-toolbar", dir: lang === "ar" ? "rtl" : "ltr" },
-        h("a", { href: "/admin/categories" }, L(lang, "الأقسام", "Categories")),
         h(
           "a",
           { href: "/admin/settings" },
@@ -798,14 +837,12 @@ if (window.FlickLive?.enabled) {
             L(lang, "تحميل سجلات أقدم", "Load older records"),
           ),
       ),
-      page === "categories"
-        ? h(CategoriesEditor, {})
-        : h(
-            R.Fragment,
-            null,
-            page === "settings" && h(ConnectionSettings, {}),
-            children,
-          ),
+      h(
+        R.Fragment,
+        null,
+        page === "settings" && h(ConnectionSettings, {}),
+        children,
+      ),
     );
   }
   function ConnectionSettings() {
@@ -936,116 +973,6 @@ if (window.FlickLive?.enabled) {
           "button",
           { disabled: busy },
           L(lang, "تغيير كلمة المرور", "Change password"),
-        ),
-      ),
-    );
-  }
-  function CategoriesEditor() {
-    const { lang, content, updateContent } = api.useStore(),
-      [rows, setRows] = R.useState(() =>
-        structuredClone(content.categories || []),
-      ),
-      [busy, setBusy] = R.useState(false);
-    const change = (index, key, value) =>
-      setRows((old) =>
-        old.map((row, n) => (n === index ? { ...row, [key]: value } : row)),
-      );
-    return h(
-      "main",
-      { className: "flick-live-panel", dir: lang === "ar" ? "rtl" : "ltr" },
-      h("h1", null, L(lang, "أقسام المتجر", "Store categories")),
-      h("a", { href: "/admin" }, L(lang, "الإدارة", "Administration")),
-      h(
-        "form",
-        {
-          onSubmit: async (event) => {
-            event.preventDefault();
-            setBusy(true);
-            const ok = await updateContent((old) => ({
-              ...old,
-              categories: rows,
-            }));
-            if (ok)
-              api.toast.success(
-                L(lang, "تم حفظ الأقسام.", "Categories saved."),
-              );
-            setBusy(false);
-          },
-        },
-        rows.map((row, index) =>
-          h(
-            "fieldset",
-            { key: index },
-            field("ID", "id-" + index, "text", {
-              value: row.id,
-              onChange: (e) => change(index, "id", e.target.value),
-              pattern: "[A-Za-z0-9_.-]+",
-              readOnly: content.products.some((p) => p.cat === row.id),
-            }),
-            field("العربي", "ar-" + index, "text", {
-              value: row.name.ar,
-              onChange: (e) =>
-                change(index, "name", { ...row.name, ar: e.target.value }),
-            }),
-            field("English", "en-" + index, "text", {
-              value: row.name.en,
-              onChange: (e) =>
-                change(index, "name", { ...row.name, en: e.target.value }),
-            }),
-            h(
-              "label",
-              { className: "flick-live-field" },
-              L(lang, "صورة جهاز القسم", "Category device image"),
-              h(
-                "select",
-                {
-                  value: row.pictureId || "",
-                  onChange: (e) => change(index, "pictureId", e.target.value),
-                },
-                h("option", { value: "" }, "—"),
-                content.products.map((p) =>
-                  h(
-                    "option",
-                    { key: p.id, value: p.id },
-                    p.name[lang] || p.name.en,
-                  ),
-                ),
-              ),
-            ),
-            h(
-              "button",
-              {
-                type: "button",
-                disabled: content.products.some((p) => p.cat === row.id),
-                onClick: () =>
-                  setRows((old) => old.filter((_, n) => n !== index)),
-              },
-              L(lang, "حذف القسم الفارغ", "Remove empty category"),
-            ),
-          ),
-        ),
-        h(
-          "button",
-          {
-            type: "button",
-            className: "flick-live-secondary",
-            onClick: () =>
-              setRows((old) => [
-                ...old,
-                {
-                  id: "",
-                  name: { ar: "", en: "" },
-                  pictureId: "",
-                  visible: true,
-                },
-              ]),
-          },
-          L(lang, "إضافة قسم", "Add category"),
-        ),
-        h(
-          "button",
-          { disabled: busy },
-          L(lang, "حفظ الأقسام", "Save categories"),
         ),
       ),
     );

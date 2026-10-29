@@ -452,6 +452,8 @@ let eJ = {
   "admin.campaign": { ar: "الحملة", en: "Campaign" },
   "admin.branches": { ar: "الفروع", en: "Branches" },
   "admin.settings": { ar: "الإعدادات", en: "Settings" },
+  "admin.categories": { ar: "الأقسام", en: "Categories" },
+  "admin.texts": { ar: "نصوص الموقع", en: "Website texts" },
   "admin.sections": { ar: "أقسام لوحة التحكم", en: "Admin sections" },
   "common.cancel": { ar: "إلغاء", en: "Cancel" },
   "common.delete": { ar: "احذف", en: "Delete" },

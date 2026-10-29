@@ -423,6 +423,10 @@ function nu() {
     branches: Array.isArray(e.branches) ? e.branches : t.branches,
     campaign: { ...t.campaign, ...(e.campaign ?? {}) },
     settings: { ...t.settings, ...(e.settings ?? {}) },
+    ...(Array.isArray(e.categories) && e.categories.length
+      ? { categories: e.categories }
+      : {}),
+    ...(e.texts && "object" == typeof e.texts ? { texts: e.texts } : {}),
   };
 }
 function nd() {

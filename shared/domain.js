@@ -112,6 +112,18 @@ export function cleanContent(value) {
     unique(result.categories.map(c => c.id));
     if (products.some(p => !result.categories.some(c => c.id === p.cat))) fail('invalid-category');
   }
+  // Edited storefront wording: plain text only, keyed by the storefront's text ids.
+  if (value.texts != null) {
+    if (!record(value.texts)) fail('invalid-texts');
+    const entries = Object.entries(value.texts);
+    if (entries.length > 600) fail('invalid-texts');
+    result.texts = {};
+    for (const [key, entry] of entries) {
+      if (!/^[a-zA-Z][a-zA-Z0-9_.-]{0,79}$/.test(key) || !record(entry)) fail('invalid-texts');
+      const words = { ar: text(entry.ar, 1000), en: text(entry.en, 1000) };
+      if (words.ar || words.en) result.texts[key] = words;
+    }
+  }
   // Reserved, explicit appearance controls. No arbitrary HTML/CSS or executable URLs.
   if (record(value.appearance)) result.appearance = { heroTitle: pair(value.appearance.heroTitle, 300), heroText: pair(value.appearance.heroText, 1000), heroImage: safeUrl(value.appearance.heroImage, true), accent: /^#[a-fA-F0-9]{6}$/.test(value.appearance.accent || '') ? value.appearance.accent : '#FDF402' };
   return result;

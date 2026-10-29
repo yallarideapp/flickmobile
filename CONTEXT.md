@@ -253,3 +253,14 @@ manufacturer. Names and trademarks belong to their owners." Checkout and the
 repair form require a consent checkbox, enforced on the server too. Tests and
 both builds pass; pages checked in the browser at 320/390/1440 with no overflow.
 The shop owner should review the texts; they are not legal advice.
+
+## 2026-10-29 — campaign at the end of home, admin tools from the Trio panel
+
+The «ألف طابة وألف هدية» campaign now sits under every other home section.
+Added to the admin panel, following the Trio panel: a Categories tab (rename in
+Arabic/English, reorder, category picture, add, delete empty), a Website texts
+tab (pick a page area or search, edit Arabic/English, keep {placeholders}, reset
+to original), an Excel export for orders and repairs (UTF-8 CSV, phones kept as
+text, formula-safe), quick In stock / On home toggles in the device list, and a
+15-second refresh of orders and repairs in the live admin. Server validates
+texts. Tests and both builds pass; checked in the browser at 1440 and 390 px.

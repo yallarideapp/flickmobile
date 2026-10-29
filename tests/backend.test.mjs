@@ -303,6 +303,35 @@ test("catalog shares updates, guards stale writes and keeps hidden products and 
   assert.equal((await adminContent(admin)).version, updated.version);
 });
 
+test("edited website texts and categories are saved as plain text and published", async (t) => {
+  const backend = await withBackend(t);
+  const admin = await setupAdmin(backend);
+  let state = await adminContent(admin);
+  state = await publish(admin, state, (content) => {
+    content.texts = {
+      "hero.sub": { ar: "  نص   جديد <b>  ", en: "" },
+      "footer.note": { ar: "", en: "" },
+    };
+    content.categories = (content.categories || []).map((c, i) =>
+      i === 0 ? { ...c, name: { ar: "هواتف", en: "Mobiles" } } : c,
+    );
+  });
+  assert.deepEqual(state.content.texts, { "hero.sub": { ar: "نص جديد <b>", en: "" } });
+  if (state.content.categories?.length)
+    assert.equal(state.content.categories[0].name.en, "Mobiles");
+  const visitor = backend.client();
+  const publicState = expectStatus(await visitor.request("/api/content"), 200);
+  assert.equal(publicState.content.texts["hero.sub"].ar, "نص جديد <b>");
+  for (const texts of [[], { "bad key!": { ar: "x", en: "x" } }, { "hero.sub": "x" }]) {
+    const invalid = structuredClone(state);
+    invalid.content.texts = texts;
+    expectStatus(
+      await admin.request("/api/admin/content", { method: "PUT", json: invalid }),
+      400,
+    );
+  }
+});
+
 test("orders reject tampering and invalid selections, retry once atomically, and compete for last stock", async (t) => {
   const backend = await withBackend(t);
   const admin = await setupAdmin(backend);

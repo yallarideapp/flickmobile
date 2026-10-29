@@ -2023,10 +2023,11 @@ function or() {
         children: [
           (0, k.jsx)(l8, {}),
           (0, k.jsx)(l9, {}),
-          (0, k.jsx)(l5, {}),
           (0, k.jsx)(oe, {}),
           (0, k.jsx)(oc, {}),
           (0, k.jsx)(on, {}),
+          // The campaign closes the home page, under every other section.
+          (0, k.jsx)(l5, {}),
         ],
       }),
     ],
@@ -3259,6 +3260,7 @@ function oE() {
                       className:
                         "flex basis-full items-center justify-end gap-1 border-t pt-2 sm:basis-auto sm:border-0 sm:pt-0",
                       children: [
+                        (0, k.jsx)(FlickQuickToggles, { product: n }),
                         (0, k.jsx)("button", {
                           type: "button",
                           role: "switch",
@@ -3876,6 +3878,8 @@ let oP = [
     { id: "products", key: "admin.products", icon: ev },
     { id: "campaign", key: "admin.campaign", icon: es },
     { id: "branches", key: "admin.branches", icon: eo },
+    { id: "categories", key: "admin.categories", icon: ev },
+    { id: "texts", key: "admin.texts", icon: eg },
     { id: "settings", key: "admin.settings", icon: eg },
   ],
   oO = ["new", "confirmed", "ready", "delivered", "cancelled"],
@@ -4028,9 +4032,16 @@ function oI({ page: e }) {
           (0, k.jsxs)("main", {
             className: "min-w-0 flex-1",
             children: [
-              (0, k.jsx)("h1", {
-                className: "mb-5 text-[26px] font-bold",
-                children: t(oP.find((e) => e.id === o).key),
+              (0, k.jsxs)("div", {
+                className: "mb-5 flex flex-wrap items-center justify-between gap-3",
+                children: [
+                  (0, k.jsx)("h1", {
+                    className: "text-[26px] font-bold",
+                    children: t(oP.find((e) => e.id === o).key),
+                  }),
+                  ("orders" === o || "maint" === o) &&
+                    (0, k.jsx)(FlickExportButton, { kind: o }),
+                ],
               }),
               "overview" === o && (0, k.jsx)(oL, {}),
               "orders" === o && (0, k.jsx)(oD, {}),
@@ -4039,6 +4050,8 @@ function oI({ page: e }) {
               "campaign" === o && (0, k.jsx)(lw, {}),
               "branches" === o && (0, k.jsx)(lN, {}),
               "settings" === o && (0, k.jsx)(lS, {}),
+              "categories" === o && (0, k.jsx)(FlickCategoriesAdmin, {}),
+              "texts" === o && (0, k.jsx)(FlickTextsAdmin, {}),
             ],
           }),
         ],
@@ -5956,7 +5969,8 @@ function o$() {
         e
       );
     })(),
-    { lang: t } = nm();
+    { lang: t, content: flickContent } = nm();
+  flickApplyContent(flickContent);
   !(function (e) {
     let { t: t, lang: n, content: r } = nm();
     (0, w.useEffect)(() => {

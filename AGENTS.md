@@ -28,6 +28,11 @@
   requests need the consent checkbox; the server refuses them without
   `consent: true` (`consent-required`). Never invent warranty periods, return
   days or delivery times; the shop must review the texts before launch.
+- Admin tools in `src/admin-extras.js`: Categories and Website texts tabs (saved
+  as `content.categories` / `content.texts`, applied on render; the server keeps
+  texts as plain text per language), Excel (CSV) export of orders and repairs,
+  and quick stock / home toggles in the device list. Live admin refreshes orders
+  and repairs every 15 seconds. The campaign section closes the home page.
 - Add migrations for schema changes. A Worker rollback does not undo a migration.
 
 The user expects each requested Flick update to be saved in both places:
