@@ -126,7 +126,9 @@ test("local setup, admin authentication, CSRF, bounded input and password invali
   expectStatus(
     await visitor.request("/api/admin/login", {
       method: "POST",
-      body: '{"password":"' + "x".repeat(2 * 1024 * 1024) + '"}',
+      // Over the 16 KB login limit but small enough to finish sending before the
+      // early 413, so the runner never sees a connection reset.
+      body: '{"password":"' + "x".repeat(64 * 1024) + '"}',
       headers: { "Content-Type": "application/json" },
     }),
     413,
