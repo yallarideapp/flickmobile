@@ -79,7 +79,8 @@ function l4() {
       products.some((product) => product.cat === category.id),
   );
   // Each banner slot shows the device chosen in the admin "Banner" tab, or an
-  // uploaded picture; otherwise the category's featured (or first) device.
+  // uploaded picture; otherwise the first device in the category. Only that tab
+  // controls the banner.
   const slots = Array.isArray(content.heroSlots) ? content.heroSlots : [];
   const items = categories.map((category) => {
     const choices = products.filter((product) => product.cat === category.id);
@@ -97,7 +98,7 @@ function l4() {
       };
     }
     const product =
-      chosen ?? choices.find((product) => product.featured) ?? choices[0];
+      chosen ?? choices[0];
     const variant = product.variants
       .filter((variant) => flickDeviceFeatures.available(variant))
       .sort((a, b) => eO(a) - eO(b))[0];

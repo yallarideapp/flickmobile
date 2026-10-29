@@ -272,3 +272,10 @@ choose Automatic (featured device), a specific device from the list, or upload
 a picture with an Arabic/English caption and an optional device it opens.
 Saved as `heroSlots`, validated on the server (pictures must be uploaded photo
 links or site assets). Tests and builds pass; checked at 1440 and 390 px.
+
+## 2026-10-29 — banner controlled only from «أجهزة الواجهة»
+
+Removed the "On home" toggle and "Featured" badge from the device list and the
+featured switch from the device editor. Automatic banner slides now use the
+first device in each category (same devices as before, since they matched the
+featured ones). Tests and builds pass; checked in the browser.

@@ -3241,12 +3241,6 @@ function oE() {
                                   "rounded bg-sale/20 px-1.5 text-red-200",
                                 children: e("pr.onOffer"),
                               }),
-                            n.featured &&
-                              (0, k.jsx)("span", {
-                                className:
-                                  "rounded bg-flick/20 px-1.5 text-flick",
-                                children: e("pr.featured"),
-                              }),
                             !n.visible &&
                               (0, k.jsx)("span", {
                                 className: "rounded bg-shelf-2 px-1.5",
@@ -3687,12 +3681,6 @@ function oT({ initial: e, isNew: t, onCancel: n, onSave: r }) {
               checked: l.visible,
               onChange: (e) => o({ ...l, visible: e }),
               label: a("pr.visible"),
-            }),
-            (0, k.jsx)(lp, {
-              id: "pe-featured",
-              checked: l.featured,
-              onChange: (e) => o({ ...l, featured: e }),
-              label: a("pr.featuredLong"),
             }),
           ],
         }),

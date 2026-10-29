@@ -1,5 +1,5 @@
 // Admin tools brought over from the Trio panel: store categories, website texts,
-// Excel (CSV) export of orders and repairs, and quick stock/home toggles.
+// Excel (CSV) export of orders and repairs, and a quick stock toggle.
 // Categories and texts are saved inside the catalog content and applied on render.
 
 const flickL = (lang, ar, en) => ("ar" === lang ? ar : en);
@@ -190,20 +190,6 @@ function FlickQuickToggles({ product: e }) {
         ),
         "aria-label": `${eZ(e.name, t)}: ${inStock ? flickL(t, "متوفر", "In stock") : flickL(t, "نفد", "Sold out")}`,
         children: inStock ? flickL(t, "متوفر", "In stock") : flickL(t, "نفد", "Sold out"),
-      }),
-      (0, k.jsx)("button", {
-        type: "button",
-        role: "switch",
-        "aria-checked": !!e.featured,
-        title: flickL(t, "يظهر بالصفحة الرئيسية", "Shown on the home page"),
-        onClick: () =>
-          patch((p) => ({ ...p, featured: !p.featured, visible: p.featured ? p.visible : !0 })),
-        className: t0(
-          "h-9 rounded-[9px] px-3 text-[13px] font-semibold",
-          e.featured ? "bg-flick/15 text-flick" : "bg-shelf-2 text-dust",
-        ),
-        "aria-label": `${eZ(e.name, t)}: ${flickL(t, "بالرئيسية", "On home")}`,
-        children: flickL(t, "بالرئيسية", "On home"),
       }),
     ],
   });
@@ -578,8 +564,8 @@ function FlickBannerAdmin() {
         className: "text-sm text-dust",
         children: flickL(
           t,
-          "هاي الأجهزة اللي بتتحرك بالواجهة أول الصفحة الرئيسية، وحدة لكل قسم. اختار جهاز من القائمة، أو ارفع صورة بدلها. «تلقائي» بيعرض الجهاز المميّز بالقسم.",
-          "These are the devices moving in the banner at the top of the home page, one per category. Choose a device from your list, or upload a picture instead. Automatic shows the category's featured device.",
+          "هاي الأجهزة اللي بتتحرك بالواجهة أول الصفحة الرئيسية، وحدة لكل قسم. التحكم فيها من هون بس: اختار جهاز من القائمة، أو ارفع صورة بدلها. «تلقائي» بيعرض أول جهاز بالقسم.",
+          "These are the devices moving in the banner at the top of the home page, one per category. They are controlled only here: choose a device from your list, or upload a picture instead. Automatic shows the first device in the category.",
         ),
       }),
       (0, k.jsx)("ol", {
@@ -588,7 +574,7 @@ function FlickBannerAdmin() {
           let cat = cats.find((c) => c.id === row.cat),
             device = visible.find((p) => p.id === row.productId),
             auto = visible.filter((p) => p.cat === row.cat),
-            autoDevice = auto.find((p) => p.featured) ?? auto[0],
+            autoDevice = auto[0],
             preview =
               "image" === row.mode && row.image
                 ? { id: `banner-${row.cat}`, name: row.name, photo: row.image, img: null, variants: [] }

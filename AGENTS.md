@@ -31,9 +31,11 @@
 - Admin tools in `src/admin-extras.js`: Categories and Website texts tabs (saved
   as `content.categories` / `content.texts`, applied on render; the server keeps
   texts as plain text per language), Excel (CSV) export of orders and repairs,
-  and quick stock / home toggles in the device list. Live admin refreshes orders
+  and a quick stock toggle in the device list. Live admin refreshes orders
   and repairs every 15 seconds. The campaign section closes the home page.
-- Banner devices tab: `content.heroSlots` (one per home category) is Automatic,
+- Banner devices tab is the only banner control (the device list and editor no
+  longer set it). `content.heroSlots` (one per home category) is Automatic (first
+  device in the category),
   a chosen device, or an uploaded picture with a caption and optional device
   link. Pictures upload like product photos; a deleted device falls back to
   Automatic on the server.
