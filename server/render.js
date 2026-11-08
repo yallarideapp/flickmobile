@@ -181,6 +181,12 @@ export function renderPage(template, request, payload) {
       `<html lang="${lang}" dir="${lang === "ar" ? "rtl" : "ltr"}">`,
     )
     .replace(/<title>[^<]*<\/title>/, `<title>${escape(title)}</title>`)
+    // Link previews: absolute address, this page's title and description.
+    .replace(/<meta property="og:locale" content="[^"]*"/, `<meta property="og:locale" content="${lang === "ar" ? "ar_JO" : "en_US"}"`)
+    .replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${escape(title)}"`)
+    .replace(/<meta\s+property="og:description"\s+content="[^"]*"/, `<meta property="og:description" content="${escape(description)}"`)
+    .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${escape(canonical)}"`)
+    .replace(/<meta property="og:image" content="\/?assets\//, `<meta property="og:image" content="${escape(origin)}/assets/`)
     .replace(
       /<meta\s+name=["']?robots["']?[^>]*>/,
       `<meta name="robots" content="${indexed && !privateRoute && status === 200 ? "index,follow" : "noindex,nofollow"}">`,

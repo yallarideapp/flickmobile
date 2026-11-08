@@ -1070,6 +1070,7 @@ function lZ({ route: e }) {
         (0, k.jsxs)("div", {
           className: "ms-auto flex items-center gap-1.5",
           children: [
+            (0, k.jsx)(FlickHeaderSearch, {}),
             (0, k.jsx)("button", {
               type: "button",
               onClick: () => r("ar" === n ? "en" : "ar"),
@@ -5547,6 +5548,7 @@ function oG({ id: e, variantKey: t }) {
                         ]
                       : a("card.soldout"),
                   }),
+                  (0, k.jsx)(FlickAskWhatsApp, { name: m, variant: p }),
                 ],
               }),
               (0, k.jsx)(FlickDeviceDetails, { product: c, variant: p }),
@@ -5621,7 +5623,12 @@ function oX({ cat: e }) {
   let { t: t, content: n } = nm(),
     r = l2(),
     a = eT.includes(e) ? e : "all",
-    [l, o] = (0, w.useState)(""),
+    [l, o] = (0, w.useState)(() => flickTakePendingSearch()),
+    _flickSearch = (0, w.useEffect)(() => {
+      const take = (event) => (o(event.detail || ""), flickTakePendingSearch());
+      window.addEventListener("flick-search", take);
+      return () => window.removeEventListener("flick-search", take);
+    }, []),
     [i, s] = (0, w.useState)("all"),
     [c, u] = (0, w.useState)("featured"),
     [deviceCondition, setDeviceCondition] = (0, w.useState)("all"),
@@ -5650,9 +5657,7 @@ function oX({ cat: e }) {
         );
       return (
         e &&
-          (t = t.filter((t) =>
-            `${t.name.ar} ${t.name.en} ${t.brand}`.toLowerCase().includes(e),
-          )),
+          (t = t.filter((t) => flickSearchMatch(t, e))),
         (t = [...t].sort((e, t) => {
           if ("low" === c) return eI(e) - eI(t);
           if ("high" === c) return eI(t) - eI(e);

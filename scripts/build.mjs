@@ -47,6 +47,13 @@ for (const mode of ["demo", "live"]) {
   let html = shell
     .replace("{{STYLES}}", styles + (mode === "live" ? liveStyles : ""))
     .replace("{{BOOTSTRAP}}", modeScript + bootstrap)
+    // Absolute address for link previews. The Worker rewrites it per page on the live site.
+    .replaceAll(
+      "{{SITE_URL}}",
+      mode === "demo"
+        ? process.env.FLICK_DEMO_URL || "https://yallarideapp.github.io/flickmobile/"
+        : "/",
+    )
     .replace(
       /<script type="module">\s*\{\{APP\}\}\s*<\/script>/,
       `<script type="module" src="/assets/${appName}"></script>`,
@@ -57,7 +64,7 @@ for (const mode of ["demo", "live"]) {
     html = html
       .replace(/(href|src)="assets\//g, '$1="/assets/')
       .replace("</head>", '<base href="/">\n</head>');
-  if (/\{\{(?:APP|STYLES|BOOTSTRAP)\}\}|\bAPP;|\bBOOTSTRAP;/.test(html))
+  if (/\{\{(?:APP|STYLES|BOOTSTRAP|SITE_URL)\}\}|\bAPP;|\bBOOTSTRAP;/.test(html))
     throw new Error("Unresolved application template");
   html = html.replace(
     "</body>",

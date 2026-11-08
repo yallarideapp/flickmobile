@@ -40,6 +40,10 @@
   a chosen device, or an uploaded picture with a caption and optional device
   link. Pictures upload like product photos; a deleted device falls back to
   Automatic on the server.
+- Link preview image is `assets/share.jpg`; rebuild it with
+  `node scripts/make-share-image.mjs` after changing the banner, then bump `?v=`
+  in the og:image tag in `src/shell.html`.
+- Device search goes through `flickSearchMatch` (header dialog and devices page).
 - Add migrations for schema changes. A Worker rollback does not undo a migration.
 
 The user expects each requested Flick update to be saved in both places:

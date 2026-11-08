@@ -246,6 +246,11 @@ test("rendered routes include real catalog, safe bootstrap, working assets and i
   assert.match(terms, /Independent store, not affiliated with Apple, Samsung, Huawei or any other/);
   const home = expectStatus(await visitor.request("/en/"), 200);
   assert.match(home, /Names and trademarks belong to their owners/);
+  // Link previews use absolute addresses and the page's own title.
+  assert.match(home, /<meta property="og:image" content="https?:\/\/[^"\/]+\/assets\/share\.jpg\?v=1"/);
+  assert.match(home, /<meta property="og:url" content="https?:\/\/[^"]+\/en\/"/);
+  assert.match(home, /<meta property="og:locale" content="en_US"/);
+  assert.doesNotMatch(home, /\{\{SITE_URL\}\}/);
   const noConsent = { ...orderBody(state) };
   delete noConsent.consent;
   const refused = await visitor.request("/api/orders", { method: "POST", json: noConsent });

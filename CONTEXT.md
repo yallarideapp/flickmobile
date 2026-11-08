@@ -305,3 +305,20 @@ Buttons are shorter and centred. Asset cache keys bumped to v=2.
 Device page Add to bag button is larger with the bag icon and the chosen price.
 Spec values now follow the page direction (right in Arabic, left in English),
 so Arabic values like «موبايلات» line up with the English ones. CSS key v=3.
+
+## 2026-11-08 — share preview, WhatsApp question, header search, shorter phone banner
+
+- Link previews (WhatsApp, Instagram, Facebook): `assets/share.jpg` (1200×630,
+  made from the real banner by `scripts/make-share-image.mjs`) plus og/twitter
+  tags in `src/shell.html`. The demo build uses the GitHub Pages address
+  (`FLICK_DEMO_URL` to change it); the Worker rewrites og:url, og:image, title,
+  description and locale per page with absolute addresses.
+- Device page: «اسأل على واتساب» beside Add to bag, using the store WhatsApp
+  number from Settings, with the device, option, price and page link written in.
+  Hidden when no valid Jordanian mobile number is set.
+- Header search on every page: dialog with results as you type (up to 6, with
+  picture and price), Enter opens the only result or the devices page with the
+  search filled in. Matching understands common Arabic spellings (ايفون،
+  سامسونج، جالكسي، برو، ماكس...) and is shared with the devices page search.
+- Phones: shorter banner (stage 190–240px), banner category chips and
+  description hidden under 640px, so the categories show on the first screen.

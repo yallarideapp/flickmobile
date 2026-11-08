@@ -681,3 +681,203 @@ function FlickBannerAdmin() {
     ],
   });
 }
+
+// ---------------------------------------------------------------- storefront
+// "Ask on WhatsApp" on the device page: opens a chat with the store's WhatsApp
+// number, with the device, chosen option, price and page link already written.
+function FlickAskWhatsApp({ name: e, variant: t }) {
+  let { lang: n, content: r } = nm(),
+    phone = r.settings?.whatsapp;
+  if (!phone || !e_(phone)) return null;
+  let option = eZ(t?.label, n),
+    price = t ? `${eR(eO(t))} ${eF(n)}` : "",
+    device = option ? `${e} (${option})` : e,
+    message =
+      "ar" === n
+        ? `مرحبا FLiCK Mobile، بدي أسأل عن ${device}${price ? ` بسعر ${price}` : ""}.\n${location.href}`
+        : `Hi FLiCK Mobile, I'd like to ask about ${device}${price ? ` at ${price}` : ""}.\n${location.href}`;
+  return (0, k.jsxs)("a", {
+    href: eq(phone, message),
+    target: "_blank",
+    rel: "noopener noreferrer",
+    className: "flick-ask-wa",
+    "aria-label": `${flickL(n, "اسأل على واتساب عن", "Ask on WhatsApp about")} ${device}`,
+    children: [
+      (0, k.jsx)(eu, { className: "flick-ask-wa-icon", "aria-hidden": !0 }),
+      (0, k.jsx)("span", { children: flickL(n, "اسأل على واتساب", "Ask on WhatsApp") }),
+    ],
+  });
+}
+
+// Device search used by the header and the devices page. Every word must match;
+// common Arabic spellings of brands and device types are understood.
+const FLICK_SEARCH_WORDS = [
+  [/^(ايفون|آيفون|أيفون|ايفن)$/, "iphone"],
+  [/^(ايباد|آيباد|أيباد)$/, "ipad"],
+  [/^(سامسونج|سامسونغ|سامسنج)$/, "samsung"],
+  [/^(جالكسي|جلاكسي|غالاكسي|جالاكسي)$/, "galaxy"],
+  [/^(ابل|آبل|أبل)$/, "apple"],
+  [/^(شاومي|شاومي)$/, "xiaomi"],
+  [/^(هواوي)$/, "huawei"],
+  [/^(ايربودز|ايربود|إيربودز)$/, "airpods"],
+  [/^(برو)$/, "pro"],
+  [/^(ماكس)$/, "max"],
+  [/^(الترا|ألترا)$/, "ultra"],
+  [/^(بلس)$/, "plus"],
+];
+function flickSearchWords(query) {
+  return String(query || "")
+    .toLowerCase()
+    .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => FLICK_SEARCH_WORDS.find(([re]) => re.test(word))?.[1] ?? word);
+}
+function flickSearchMatch(product, query) {
+  const words = flickSearchWords(query);
+  if (!words.length) return !0;
+  const cat = ez.find((c) => c.id === product.cat);
+  const haystack = `${product.name.ar} ${product.name.en} ${product.brand || ""} ${cat ? `${cat.ar} ${cat.en}` : ""} ${product.variants
+    .map((v) => `${v.label?.ar || ""} ${v.label?.en || ""}`)
+    .join(" ")}`
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+  const compact = haystack.replace(/\s/g, "");
+  // Words with numbers also match without spaces ("17pro" finds "17 Pro").
+  return words.every(
+    (word) => haystack.includes(word) || (/\d/.test(word) && compact.includes(word)),
+  );
+}
+// A search typed in the header is handed to the devices page when "all results" is chosen.
+let flickPendingSearch = "";
+function flickTakePendingSearch() {
+  const query = flickPendingSearch;
+  flickPendingSearch = "";
+  return query;
+}
+
+function FlickHeaderSearch() {
+  let { lang: e } = nm(),
+    products = l2(),
+    dialog = (0, w.useRef)(null),
+    input = (0, w.useRef)(null),
+    [query, setQuery] = (0, w.useState)(""),
+    found = (0, w.useMemo)(
+      () => (query.trim() ? products.filter((p) => flickSearchMatch(p, query)) : []),
+      [products, query],
+    ),
+    close = () => dialog.current?.close(),
+    showAll = () => {
+      flickPendingSearch = query.trim();
+      close();
+      // An open devices page takes the search straight away; otherwise it reads it on load.
+      window.dispatchEvent(new CustomEvent("flick-search", { detail: flickPendingSearch }));
+      nw("shop");
+    };
+  return (0, k.jsxs)(k.Fragment, {
+    children: [
+      (0, k.jsx)("button", {
+        type: "button",
+        className: "flick-search-open",
+        "aria-label": flickL(e, "ابحث عن جهاز", "Search devices"),
+        "aria-haspopup": "dialog",
+        onClick: () => {
+          dialog.current?.showModal();
+          requestAnimationFrame(() => input.current?.select());
+        },
+        children: (0, k.jsx)(em, { className: "size-[19px]", "aria-hidden": !0 }),
+      }),
+      (0, k.jsx)("dialog", {
+        ref: dialog,
+        className: "flick-search",
+        "aria-label": flickL(e, "ابحث عن جهاز", "Search devices"),
+        onClick: (t) => t.target === dialog.current && close(),
+        // Escape closes at once, even while the search box still has text.
+        onKeyDown: (t) => "Escape" === t.key && (t.preventDefault(), close()),
+        children: (0, k.jsxs)("div", {
+          className: "flick-search-panel",
+          children: [
+            (0, k.jsxs)("form", {
+              role: "search",
+              className: "flick-search-bar",
+              onSubmit: (t) => {
+                t.preventDefault();
+                if (1 === found.length) {
+                  close();
+                  nw(`p/${found[0].id}`);
+                } else if (query.trim()) showAll();
+              },
+              children: [
+                (0, k.jsx)(em, { className: "flick-search-icon", "aria-hidden": !0 }),
+                (0, k.jsx)("input", {
+                  ref: input,
+                  type: "search",
+                  enterKeyHint: "search",
+                  autoComplete: "off",
+                  value: query,
+                  onChange: (t) => setQuery(t.target.value),
+                  placeholder: flickL(e, "مثلاً: ايفون 17 برو، جالكسي، سماعات", "e.g. iPhone 17 Pro, Galaxy, headphones"),
+                  "aria-label": flickL(e, "ابحث عن جهاز", "Search devices"),
+                }),
+                (0, k.jsx)("button", {
+                  type: "button",
+                  className: "flick-search-close",
+                  onClick: close,
+                  children: flickL(e, "إغلاق", "Close"),
+                }),
+              ],
+            }),
+            query.trim() &&
+              (0, k.jsx)("p", {
+                className: "flick-search-count",
+                role: "status",
+                children: found.length
+                  ? flickL(e, `${found.length} نتيجة`, `${found.length} results`)
+                  : flickL(e, "ما لقينا جهاز بهالاسم. جرّب كلمة ثانية.", "No devices found. Try another word."),
+              }),
+            found.length > 0 &&
+              (0, k.jsx)("ul", {
+                className: "flick-search-results",
+                children: found.slice(0, 6).map((p) =>
+                  (0, k.jsx)(
+                    "li",
+                    {
+                      children: (0, k.jsxs)("a", {
+                        href: nk(`p/${p.id}`),
+                        onClick: close,
+                        className: "flick-search-result",
+                        children: [
+                          (0, k.jsx)(nv, { product: p, className: "flick-search-thumb" }),
+                          (0, k.jsxs)("span", {
+                            className: "flick-search-text",
+                            children: [
+                              (0, k.jsx)("span", { className: "flick-search-name", children: eZ(p.name, e) }),
+                              (0, k.jsxs)("span", {
+                                className: "flick-search-price",
+                                children: [
+                                  p.variants.length > 1 ? flickL(e, "من ", "From ") : "",
+                                  (0, k.jsx)(ng, { value: eI(p) }),
+                                ],
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    },
+                    p.id,
+                  ),
+                ),
+              }),
+            found.length > 6 &&
+              (0, k.jsx)("button", {
+                type: "button",
+                className: "flick-search-all",
+                onClick: showAll,
+                children: flickL(e, `اعرض كل النتائج (${found.length})`, `Show all results (${found.length})`),
+              }),
+          ],
+        }),
+      }),
+    ],
+  });
+}
