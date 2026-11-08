@@ -202,11 +202,6 @@ let eJ = {
     ar: "وصلت للكمية المتوفرة من هذا الخيار.",
     en: "You have reached the available quantity for this option.",
   },
-  "concept.text": {
-    ar: "نسخة عرض مقترحة لموقع FLiCK Mobile. الأسعار أمثلة، والطلبات ما بتوصل للمحل.",
-    en: "A proposed website for FLiCK Mobile. Prices are examples; orders don’t reach the shop.",
-  },
-  "concept.admin": { ar: "جرّب لوحة التحكم", en: "Try the admin panel" },
   "nav.home": { ar: "الرئيسية", en: "Home" },
   "nav.shop": { ar: "الأجهزة", en: "Devices" },
   "nav.offers": { ar: "العروض", en: "Offers" },
@@ -678,10 +673,10 @@ let eJ = {
     ar: "كل فرع بده اسم ورقم موبايل أردني صحيح.",
     en: "Every branch needs a name and a valid Jordanian number.",
   },
-  "st.concept": { ar: "شريط نسخة العرض", en: "Concept notice" },
+  "st.concept": { ar: "علامات نسخة العرض", en: "Concept labels" },
   "st.conceptHelp": {
-    ar: "بيطلع فوق الموقع وبيوضح إن الأسعار أمثلة. طفّيه لما يصير الموقع رسمي.",
-    en: "Shown above the site to say prices are examples. Turn it off when the site goes live.",
+    ar: "بتكتب «سعر مثال» تحت الأسعار، وجملة بأسفل الصفحة إن التصميم مقترح. طفّيها لما يصير الموقع رسمي.",
+    en: "Shows “Example price” under prices and a line in the footer saying the design is a proposal. Turn it off when the site goes live.",
   },
   "st.whatsapp": {
     ar: "رقم واتساب للاستفسارات",

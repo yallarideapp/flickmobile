@@ -330,3 +330,11 @@ count, language, WhatsApp / call the main branch / Instagram, and privacy,
 terms and admin links. Native dialog: Escape and backdrop close it, page scroll
 is locked while open, current page highlighted. Slides from the left in Arabic
 and from the right in English. Checked at 390 and 1440 in both languages.
+
+## 2026-11-08 — no top notice bar, floating admin button
+
+Removed the yellow concept bar above the header (and its texts). The
+`conceptNotice` setting («علامات نسخة العرض») still controls «سعر مثال» under
+prices, the devices page note and the footer line. New floating «لوحة التحكم»
+button in the bottom-left corner of every storefront page, like the Trio site:
+icon only on phones (above the bottom bar), icon and label on desktop.

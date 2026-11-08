@@ -1089,3 +1089,18 @@ function FlickSideMenu({ route: e }) {
     ],
   });
 }
+
+// Floating admin panel button in the bottom-left corner (like the Trio site).
+// Icon only on phones, above the bottom navigation.
+function FlickAdminCorner() {
+  let { t: e } = nm();
+  return (0, k.jsxs)("a", {
+    href: nk("admin"),
+    className: "flick-admin-corner",
+    "aria-label": e("nav.admin"),
+    children: [
+      (0, k.jsx)(ea, { className: "flick-admin-corner-icon", "aria-hidden": !0 }),
+      (0, k.jsx)("span", { children: e("nav.admin") }),
+    ],
+  });
+}

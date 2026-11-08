@@ -3747,3 +3747,13 @@ html.flick-menu-open{overflow:hidden}
 .flick-menu-foot{display:flex;flex-wrap:wrap;gap:4px 14px;margin:auto 0 0;padding:16px 12px 0;border-top:1px solid #2e2c25;font-size:13px;color:#b1ada1}
 .flick-menu-foot a{display:inline-flex;align-items:center;min-height:40px}
 .flick-menu-foot a:hover{color:#f6f5ef}
+/* Floating admin button, bottom-left on every storefront page. */
+.flick-admin-corner{position:fixed;z-index:44;left:16px;bottom:16px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 15px;border:1px solid rgba(253,244,2,.5);border-radius:24px;background:rgba(18,17,14,.96);color:#fdf402;font-size:13px;font-weight:700;box-shadow:0 5px 20px rgba(0,0,0,.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:background-color .15s ease,color .15s ease}
+.flick-admin-corner:hover{background:#fdf402;color:#12110e}
+.flick-admin-corner:focus-visible{outline:3px solid #f6f5ef;outline-offset:3px}
+.flick-admin-corner-icon{width:17px;height:17px;flex:none}
+@media (width < 768px){
+  .flick-admin-corner{left:12px;bottom:calc(76px + env(safe-area-inset-bottom));width:44px;height:44px;padding:10px}
+  .flick-admin-corner>span{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+}
+@media print{.flick-admin-corner{display:none}}

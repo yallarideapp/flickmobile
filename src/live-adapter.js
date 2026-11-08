@@ -162,11 +162,6 @@ if (window.FlickLive?.enabled) {
   });
   // Live copy never describes a saved server record as a browser demo.
   const liveWords = {
-    "concept.text": [
-      "كتالوج مبدئي؛ راجع الأسعار والصور مع الإدارة قبل إطلاق المتجر.",
-      "Initial catalog; review prices and photos with the owner before launch.",
-    ],
-    "concept.admin": ["لوحة الإدارة", "Administration"],
     "done.demo": [
       "تم حفظ طلبك. سيتواصل معك الفريق لتأكيد التفاصيل.",
       "Your request was saved. The team will contact you to confirm the details.",

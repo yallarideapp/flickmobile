@@ -1003,26 +1003,6 @@ let lQ = Q(lV),
 lK.node;
 let lY = Q(lK),
   lG = (e) => `cat.${e}`;
-function lJ() {
-  let { t: e, content: t } = nm();
-  return t.settings.conceptNotice
-    ? (0, k.jsx)("div", {
-        className: "bg-flick text-ink",
-        children: (0, k.jsxs)("div", {
-          className:
-            "mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4 py-1.5 text-center text-[12px] font-medium leading-snug sm:px-6 sm:py-2 sm:text-[13px]",
-          children: [
-            (0, k.jsx)("span", { children: e("concept.text") }),
-            (0, k.jsx)("a", {
-              href: nk("admin"),
-              className: "font-bold underline underline-offset-2",
-              children: e("concept.admin"),
-            }),
-          ],
-        }),
-      })
-    : null;
-}
 function lX() {
   let { bag: e } = nm();
   return e.reduce((e, t) => e + t.qty, 0);
@@ -5936,7 +5916,6 @@ function oZ({ route: e }) {
       : (0, k.jsx)(or, {})),
     (0, k.jsxs)(k.Fragment, {
       children: [
-        (0, k.jsx)(lJ, {}),
         (0, k.jsx)(lZ, { route: e }),
         (0, k.jsx)("main", {
           id: "main",
@@ -5944,6 +5923,7 @@ function oZ({ route: e }) {
           children: t,
         }),
         (0, k.jsx)(l0, {}),
+        (0, k.jsx)(FlickAdminCorner, {}),
         (0, k.jsx)(l$, { route: e }),
         (0, k.jsx)(oU, {}),
       ],
