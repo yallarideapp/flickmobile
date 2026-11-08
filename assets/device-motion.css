@@ -321,15 +321,8 @@
 }
 
 @media (width <= 640px) {
-  /* Shorter banner on phones so the categories show on the first screen. */
   .flick-hero[data-hero-tone] .flick-hero-stage {
-    height: clamp(190px, 50vw, 240px);
-  }
-
-  /* The categories section right under the banner does the same job. */
-  .flick-hero[data-hero-tone] .flick-hero-categories,
-  .flick-hero[data-hero-tone] .flick-hero-description {
-    display: none;
+    height: clamp(300px, 88vw, 390px);
   }
 
   .flick-hero[data-hero-tone] .flick-hero-slide {

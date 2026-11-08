@@ -44,6 +44,8 @@
   `node scripts/make-share-image.mjs` after changing the banner, then bump `?v=`
   in the og:image tag in `src/shell.html`.
 - Device search goes through `flickSearchMatch` (header dialog and devices page).
+- Side menu (`FlickSideMenu` in `src/admin-extras.js`) lists every page; add new
+  pages there as well as in the footer.
 - Add migrations for schema changes. A Worker rollback does not undo a migration.
 
 The user expects each requested Flick update to be saved in both places:

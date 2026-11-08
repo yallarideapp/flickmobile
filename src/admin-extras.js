@@ -881,3 +881,211 @@ function FlickHeaderSearch() {
     ],
   });
 }
+
+// Side menu with every page of the site, opened from the header (like the Trio site).
+const flickMenuIcon = Q({
+  name: "menu",
+  size: 24,
+  node: [
+    ["path", { d: "M4 7h16", key: "m1" }],
+    ["path", { d: "M4 12h16", key: "m2" }],
+    ["path", { d: "M4 17h16", key: "m3" }],
+  ],
+});
+const flickCloseIcon = Q({
+  name: "x",
+  size: 24,
+  node: [
+    ["path", { d: "M18 6 6 18", key: "x1" }],
+    ["path", { d: "m6 6 12 12", key: "x2" }],
+  ],
+});
+const flickInstagramIcon = Q({
+  name: "instagram",
+  size: 24,
+  node: [
+    ["rect", { width: "20", height: "20", x: "2", y: "2", rx: "5", ry: "5", key: "i1" }],
+    ["path", { d: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z", key: "i2" }],
+    ["line", { x1: "17.5", x2: "17.51", y1: "6.5", y2: "6.5", key: "i3" }],
+  ],
+});
+
+function FlickSideMenu({ route: e }) {
+  let { t: t, lang: n, setLang: r, setBagOpen: a, content: c } = nm(),
+    bag = lX(),
+    dialog = (0, w.useRef)(null),
+    current = e?.[0] ?? "",
+    settings = c.settings || {},
+    mainBranch = c.branches.find((b) => b.main) ?? c.branches[0],
+    visible = l2(),
+    cats = ez.filter((x) => visible.some((p) => p.cat === x.id)),
+    open = () => {
+      dialog.current?.showModal();
+      document.documentElement.classList.add("flick-menu-open");
+    },
+    close = () => dialog.current?.close(),
+    pages = [
+      { path: "", key: "nav.home", icon: lW, match: "" },
+      { path: "shop", key: "nav.shop", icon: ev, match: "shop" },
+      { path: "offers", key: "nav.offers", icon: lY, match: "offers" },
+      { path: "trade-in", key: "nav.tradein", icon: nE, match: "trade-in" },
+      { path: "maintenance", key: "nav.maint", icon: ew, match: "maintenance" },
+      { path: "branches", key: "nav.branches", icon: eo, match: "branches" },
+    ],
+    link = (href, label, icon, active, extra = {}) =>
+      (0, k.jsxs)("a", {
+        href,
+        className: "flick-menu-link",
+        "aria-current": active ? "page" : void 0,
+        onClick: extra.external ? void 0 : close,
+        ...(extra.external ? { target: "_blank", rel: "noopener noreferrer" } : {}),
+        children: [
+          icon ? (0, k.jsx)(icon, { className: "flick-menu-icon", "aria-hidden": !0 }) : null,
+          (0, k.jsx)("span", { children: label }),
+        ],
+      });
+  return (0, k.jsxs)(k.Fragment, {
+    children: [
+      (0, k.jsx)("button", {
+        type: "button",
+        className: "flick-menu-open",
+        "aria-label": flickL(n, "فتح القائمة", "Open menu"),
+        "aria-haspopup": "dialog",
+        onClick: open,
+        children: (0, k.jsx)(flickMenuIcon, { className: "size-[22px]", "aria-hidden": !0 }),
+      }),
+      (0, k.jsx)("dialog", {
+        ref: dialog,
+        className: "flick-menu",
+        "aria-label": t("nav.menu"),
+        onClose: () => document.documentElement.classList.remove("flick-menu-open"),
+        onClick: (x) => x.target === dialog.current && close(),
+        children: (0, k.jsxs)("div", {
+          className: "flick-menu-panel",
+          children: [
+            (0, k.jsxs)("div", {
+              className: "flick-menu-head",
+              children: [
+                (0, k.jsx)("a", {
+                  href: nk(""),
+                  onClick: close,
+                  "aria-label": t("nav.home.aria"),
+                  children: (0, k.jsx)(nh, { className: "h-10" }),
+                }),
+                (0, k.jsx)("button", {
+                  type: "button",
+                  className: "flick-menu-close",
+                  onClick: close,
+                  "aria-label": flickL(n, "إغلاق القائمة", "Close menu"),
+                  children: (0, k.jsx)(flickCloseIcon, { className: "size-[22px]", "aria-hidden": !0 }),
+                }),
+              ],
+            }),
+            (0, k.jsx)("nav", {
+              "aria-label": flickL(n, "صفحات الموقع", "Site pages"),
+              children: (0, k.jsx)("ul", {
+                className: "flick-menu-list",
+                children: pages.map((p) =>
+                  (0, k.jsx)(
+                    "li",
+                    {
+                      children: link(
+                        nk(p.path),
+                        t(p.key),
+                        p.icon,
+                        current === p.match || ("shop" === p.match && "p" === current),
+                      ),
+                    },
+                    p.key,
+                  ),
+                ),
+              }),
+            }),
+            cats.length > 0 &&
+              (0, k.jsxs)("nav", {
+                "aria-label": flickL(n, "أقسام الأجهزة", "Device categories"),
+                className: "flick-menu-section",
+                children: [
+                  (0, k.jsx)("p", { className: "flick-menu-title", children: flickL(n, "الأقسام", "Categories") }),
+                  (0, k.jsx)("ul", {
+                    className: "flick-menu-chips",
+                    children: cats.map((x) =>
+                      (0, k.jsx)(
+                        "li",
+                        {
+                          children: (0, k.jsx)("a", {
+                            href: nk(`shop/${x.id}`),
+                            onClick: close,
+                            "aria-current": "shop" === current && e?.[1] === x.id ? "page" : void 0,
+                            children: flickL(n, x.ar, x.en),
+                          }),
+                        },
+                        x.id,
+                      ),
+                    ),
+                  }),
+                ],
+              }),
+            (0, k.jsxs)("div", {
+              className: "flick-menu-section flick-menu-actions",
+              children: [
+                (0, k.jsxs)("button", {
+                  type: "button",
+                  className: "flick-menu-link",
+                  onClick: () => (close(), a(!0)),
+                  children: [
+                    (0, k.jsx)(lQ, { className: "flick-menu-icon", "aria-hidden": !0 }),
+                    (0, k.jsx)("span", { children: t("nav.bag") }),
+                    bag > 0 && (0, k.jsx)("span", { className: "flick-menu-badge num", children: bag }),
+                  ],
+                }),
+                (0, k.jsxs)("button", {
+                  type: "button",
+                  className: "flick-menu-link",
+                  lang: "ar" === n ? "en" : "ar",
+                  onClick: () => r("ar" === n ? "en" : "ar"),
+                  children: [
+                    (0, k.jsx)("span", { className: "flick-menu-icon flick-menu-lang", "aria-hidden": !0, children: "ar" === n ? "EN" : "ع" }),
+                    (0, k.jsx)("span", { children: t("lang.switch") }),
+                  ],
+                }),
+              ],
+            }),
+            (0, k.jsxs)("div", {
+              className: "flick-menu-section",
+              children: [
+                (0, k.jsx)("p", { className: "flick-menu-title", children: flickL(n, "تواصل معنا", "Contact us") }),
+                settings.whatsapp &&
+                  e_(settings.whatsapp) &&
+                  link(eq(settings.whatsapp), flickL(n, "واتساب", "WhatsApp"), eu, !1, { external: !0 }),
+                mainBranch?.phone &&
+                  link(
+                    eW(mainBranch.phone),
+                    (0, k.jsxs)(k.Fragment, {
+                      children: [
+                        flickL(n, "اتصل فينا ", "Call us "),
+                        (0, k.jsx)("bdi", { className: "num", children: mainBranch.phone }),
+                      ],
+                    }),
+                    ef,
+                    !1,
+                    { external: !0 },
+                  ),
+                settings.instagram &&
+                  link(settings.instagram, "Instagram", flickInstagramIcon, !1, { external: !0 }),
+              ],
+            }),
+            (0, k.jsxs)("p", {
+              className: "flick-menu-foot",
+              children: [
+                (0, k.jsx)("a", { href: nk("privacy"), onClick: close, children: flickLegalTitle("privacy", n) }),
+                (0, k.jsx)("a", { href: nk("terms"), onClick: close, children: flickLegalTitle("terms", n) }),
+                (0, k.jsx)("a", { href: nk("admin"), onClick: close, children: t("nav.admin") }),
+              ],
+            }),
+          ],
+        }),
+      }),
+    ],
+  });
+}

@@ -320,5 +320,13 @@ so Arabic values like «موبايلات» line up with the English ones. CSS ke
   picture and price), Enter opens the only result or the devices page with the
   search filled in. Matching understands common Arabic spellings (ايفون،
   سامسونج، جالكسي، برو، ماكس...) and is shared with the devices page search.
-- Phones: shorter banner (stage 190–240px), banner category chips and
-  description hidden under 640px, so the categories show on the first screen.
+
+## 2026-11-08 — banner restored, side menu with every page
+
+The phone banner is back to its original size (stage 300–390px, chips shown).
+New side menu (button at the end of the header, all screen sizes): pages
+(home, devices, offers, trade-in, repairs, branches), category chips, bag with
+count, language, WhatsApp / call the main branch / Instagram, and privacy,
+terms and admin links. Native dialog: Escape and backdrop close it, page scroll
+is locked while open, current page highlighted. Slides from the left in Arabic
+and from the right in English. Checked at 390 and 1440 in both languages.

@@ -1097,6 +1097,7 @@ function lZ({ route: e }) {
                 }),
               ],
             }),
+            (0, k.jsx)(FlickSideMenu, { route: e }),
           ],
         }),
       ],

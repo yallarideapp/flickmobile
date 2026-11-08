@@ -3713,3 +3713,37 @@ h3 {
 .flick-search-price{color:#fdf402;font-size:14px;font-weight:700}
 .flick-search-all{width:100%;min-height:48px;margin-top:8px;border-radius:12px;background:#2a2924;font-weight:700}
 .flick-search-all:hover{background:#34322b}
+/* Side menu: every page, opened from the header. */
+.flick-menu-open{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;color:#f6f5ef}
+.flick-menu-open:hover{background:#2a2924}
+.flick-menu-open:focus-visible,.flick-menu-close:focus-visible,.flick-menu a:focus-visible,.flick-menu button:focus-visible{outline:3px solid #fdf402;outline-offset:2px}
+html.flick-menu-open{overflow:hidden}
+.flick-menu{position:fixed;inset-block:0;inset-inline-end:0;inset-inline-start:auto;width:min(340px,88vw);height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;border-inline-start:1px solid #3d3a32;background:#171612;color:#f6f5ef;overflow-y:auto;overscroll-behavior:contain}
+.flick-menu::backdrop{background:rgba(10,10,8,.66)}
+.flick-menu[open]{animation:flick-menu-in .22s cubic-bezier(.2,.75,.25,1)}
+@keyframes flick-menu-in{from{transform:translateX(var(--flick-menu-from,-100%))}to{transform:none}}
+[dir="rtl"] .flick-menu{--flick-menu-from:-100%}
+[dir="ltr"] .flick-menu{--flick-menu-from:100%}
+@media (prefers-reduced-motion:reduce){.flick-menu[open]{animation:none}}
+.flick-menu-panel{display:flex;flex-direction:column;min-height:100%;padding:16px 16px max(20px,env(safe-area-inset-bottom))}
+.flick-menu-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:14px;border-bottom:1px solid #2e2c25}
+.flick-menu-close{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;color:#f6f5ef}
+.flick-menu-close:hover{background:#2a2924}
+.flick-menu-list,.flick-menu-chips{margin:0;padding:0;list-style:none}
+.flick-menu-list{display:grid;gap:2px;padding-block:12px}
+.flick-menu-link{display:flex;align-items:center;gap:12px;width:100%;min-height:50px;padding:0 12px;border-radius:12px;font-size:16px;font-weight:600;color:#f6f5ef;text-align:start}
+.flick-menu-link:hover{background:#22211c}
+.flick-menu-link[aria-current=page]{background:#fdf402;color:#12110e}
+.flick-menu-link[aria-current=page] .flick-menu-icon{color:#12110e}
+.flick-menu-icon{width:20px;height:20px;flex:none;color:#fdf402}
+.flick-menu-lang{display:inline-grid;place-items:center;font-size:12px;font-weight:800}
+.flick-menu-badge{margin-inline-start:auto;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:#fdf402;color:#12110e;font-size:12px;font-weight:800;line-height:22px;text-align:center}
+.flick-menu-section{padding-block:12px;border-top:1px solid #2e2c25}
+.flick-menu-title{margin:0 12px 8px;color:#b1ada1;font-size:13px;font-weight:600}
+.flick-menu-chips{display:flex;flex-wrap:wrap;gap:8px;padding-inline:8px}
+.flick-menu-chips a{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:1px solid #3d3a32;border-radius:999px;font-size:14px;font-weight:600}
+.flick-menu-chips a:hover{border-color:#fdf402}
+.flick-menu-chips a[aria-current=page]{border-color:#fdf402;background:#fdf402;color:#12110e}
+.flick-menu-foot{display:flex;flex-wrap:wrap;gap:4px 14px;margin:auto 0 0;padding:16px 12px 0;border-top:1px solid #2e2c25;font-size:13px;color:#b1ada1}
+.flick-menu-foot a{display:inline-flex;align-items:center;min-height:40px}
+.flick-menu-foot a:hover{color:#f6f5ef}
