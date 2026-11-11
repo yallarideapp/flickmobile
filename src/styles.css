@@ -3618,47 +3618,58 @@ h3 {
 }
 @media (width<=640px) {
   .flick-hero-inner {
-    gap: 12px;
-    padding-block: 16px 14px;
+    gap: 4px;
+    padding-block: 8px;
   }
-  .flick-hero-copy > .flick-eyebrow,
-  .flick-hero-copy > .flick-hero-description,
-  .flick-hero-copy > .flick-hero-branches {
-    display: none;
+  .flick-hero-copy > .flick-eyebrow {
+    margin-bottom: 3px;
+    font-size: 10px;
   }
-  .flick-hero-actions {
-    margin-top: 14px;
+  .flick-hero h1 {
+    line-height: 1.1;
   }
-  .flick-hero-image {
-    aspect-ratio: auto;
-    height: clamp(300px, 92vw, 420px);
-  }
-  .flick-hero-caption {
-    padding-top: 8px;
-  }
-  .flick-hero-categories {
-    margin-top: 10px;
-  }
-  .flick-hero-categories button {
-    min-height: 34px;
-    padding-block: 6px;
-  }
-  [dir="ltr"] .flick-hero h1 span:first-child {
-    font-size: 40px;
-  }
-}
-@media (width<=370px) {
   .flick-hero h1 span:first-child {
-    font-size: 42px;
+    font-size: clamp(29px, 8vw, 43px);
   }
   .flick-hero h1 span:last-child {
-    font-size: 26px;
+    margin-top: 2px;
+    font-size: clamp(21px, 5.7vw, 28px);
   }
-  [dir="ltr"] .flick-hero h1 span:first-child {
-    font-size: 36px;
+  .flick-hero-description {
+    margin-top: 5px;
+    font-size: 12px;
+    line-height: 1.4;
   }
-  [dir="ltr"] .flick-hero h1 span:last-child {
-    font-size: 24px;
+  .flick-hero-actions {
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .flick-hero-actions .flick-button {
+    min-height: 40px;
+    padding: 5px 12px;
+    font-size: 13px;
+  }
+  .flick-hero-branches {
+    margin-top: 4px;
+    font-size: 10px;
+  }
+  .flick-hero-caption {
+    padding-top: 4px;
+    line-height: 1.25;
+  }
+  .flick-hero-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(62px, 1fr));
+    gap: 4px;
+    max-width: 400px;
+    margin: 4px auto 0;
+  }
+  .flick-hero-categories button {
+    min-height: 36px;
+    padding: 4px;
+    font-size: 10px;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
   }
 }
 
@@ -3757,3 +3768,16 @@ html.flick-menu-open{overflow:hidden}
   .flick-admin-corner>span{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 }
 @media print{.flick-admin-corner{display:none}}
+
+@media (width <= 640px) {
+  body:has(.flick-hero) .flick-mobile-nav {
+    padding-left: 48px;
+  }
+  body:has(.flick-hero) .flick-admin-corner {
+    left: 5px;
+    bottom: calc(5px + env(safe-area-inset-bottom));
+    width: 40px;
+    height: 40px;
+    min-height: 40px;
+  }
+}

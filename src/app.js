@@ -1098,7 +1098,7 @@ function l$({ route: e }) {
       "flex min-h-[52px] flex-1 flex-col items-center justify-center gap-1 text-[11px] font-medium";
   return (0, k.jsx)("nav", {
     className:
-      "fixed inset-x-0 bottom-0 z-40 border-t bg-ink/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden",
+      "flick-mobile-nav fixed inset-x-0 bottom-0 z-40 border-t bg-ink/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden",
     "aria-label": t("nav.menu"),
     children: (0, k.jsxs)("div", {
       className: "mx-auto flex max-w-md px-2",
