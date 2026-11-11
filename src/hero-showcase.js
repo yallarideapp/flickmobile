@@ -354,7 +354,6 @@ function l4() {
           h("span", null, t("hero.l1")),
           h("span", null, t("hero.l2")),
         ),
-        h("p", { className: "flick-hero-description" }, t("hero.desc")),
         h(
           "div",
           { className: "flick-hero-actions" },
@@ -374,11 +373,6 @@ function l4() {
             },
             t("nav.offers"),
           ),
-        ),
-        h(
-          "p",
-          { className: "flick-hero-branches" },
-          t("hero.branches", { n: content.branches.length }),
         ),
       ),
       h(

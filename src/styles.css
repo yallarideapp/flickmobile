@@ -3334,12 +3334,6 @@ h3 {
   font-size: clamp(25px, 3vw, 42px);
   display: block;
 }
-.flick-hero-description {
-  max-width: 430px;
-  margin-top: 24px;
-  font-size: 17px;
-  line-height: 1.9;
-}
 .flick-hero-actions {
   flex-wrap: wrap;
   gap: 10px;
@@ -3366,11 +3360,6 @@ h3 {
 }
 .flick-button-outline:hover {
   background: #15140f0d;
-}
-.flick-hero-branches {
-  opacity: 0.75;
-  margin-top: 24px;
-  font-size: 12px;
 }
 .flick-hero-showcase {
   min-width: 0;
@@ -3549,16 +3538,8 @@ h3 {
   .flick-hero h1 span:last-child {
     font-size: 29px;
   }
-  .flick-hero-description {
-    max-width: 100%;
-    margin-top: 16px;
-    font-size: 15px;
-  }
   .flick-hero-actions {
     margin-top: 20px;
-  }
-  .flick-hero-branches {
-    margin-top: 16px;
   }
   .flick-hero-image {
     aspect-ratio: 1.05;
@@ -3635,11 +3616,6 @@ h3 {
     margin-top: 2px;
     font-size: clamp(21px, 5.7vw, 28px);
   }
-  .flick-hero-description {
-    margin-top: 5px;
-    font-size: 12px;
-    line-height: 1.4;
-  }
   .flick-hero-actions {
     gap: 6px;
     margin-top: 6px;
@@ -3648,10 +3624,6 @@ h3 {
     min-height: 40px;
     padding: 5px 12px;
     font-size: 13px;
-  }
-  .flick-hero-branches {
-    margin-top: 4px;
-    font-size: 10px;
   }
   .flick-hero-caption {
     padding-top: 4px;

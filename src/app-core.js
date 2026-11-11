@@ -231,15 +231,7 @@ let eJ = {
   "hero.from": { ar: "تبدأ من", en: "From" },
   "hero.switch": { ar: "اختار نوع الجهاز", en: "Choose a device type" },
   "hero.eyebrow": { ar: "FLiCK MOBILE · AMMAN", en: "FLiCK MOBILE · AMMAN" },
-  "hero.desc": {
-    ar: "موبايل جديد، تابلت، سماعات، أو ساعة ذكية. اختار اللي بناسبك وشوف عروضنا.",
-    en: "Your next phone, tablet, earbuds, or smartwatch. Find your pick and explore our offers.",
-  },
   "hero.shopAll": { ar: "تسوّق الأجهزة", en: "Shop devices" },
-  "hero.branches": {
-    ar: "{n} فروع في عمّان · أهلاً فيك بأقرب فرع",
-    en: "{n} branches in Amman · Visit your nearest branch",
-  },
   "cats.ask": { ar: "شو عم تدوّر عليه؟", en: "What are you looking for?" },
   "cats.all": { ar: "شوف كل المنتجات", en: "View all products" },
   "photo.unavailable": { ar: "الصورة غير متوفرة", en: "Photo unavailable" },
