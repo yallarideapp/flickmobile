@@ -115,6 +115,8 @@ function l4() {
   );
   const active = items[activeIndex];
   const motion = useFlickDeviceMotion();
+  useFlickHeroIntro(motion.ref);
+  useFlickSignal(motion.ref);
   const stageRef = w.useRef(null);
   const focusAfterNavigation = w.useRef(false);
   const slideAnimations = w.useRef(new Map());
@@ -351,9 +353,10 @@ function l4() {
         h(
           "h1",
           { id: "flick-hero-title" },
-          h("span", null, t("hero.l1")),
-          h("span", null, t("hero.l2")),
+          h("span", null, flickHeroWords(t("hero.l1"))),
+          h("span", null, flickHeroWords(t("hero.l2"))),
         ),
+        h(FlickHeroStatus),
         h(
           "div",
           { className: "flick-hero-actions" },

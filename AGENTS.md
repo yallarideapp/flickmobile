@@ -46,6 +46,9 @@
 - Device search goes through `flickSearchMatch` (header dialog and devices page).
 - Side menu (`FlickSideMenu` in `src/admin-extras.js`) lists every page; add new
   pages there as well as in the footer.
+- Motion lives in `src/hero-intro.js`. Keep it transform/opacity only, respect
+  reduced motion, and make sure nothing stays hidden if a script fails (the
+  splash only shows when its inline script adds `html.flick-splashing`).
 - Add migrations for schema changes. A Worker rollback does not undo a migration.
 
 The user expects each requested Flick update to be saved in both places:

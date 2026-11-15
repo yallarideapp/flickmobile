@@ -338,3 +338,26 @@ Removed the yellow concept bar above the header (and its texts). The
 prices, the devices page note and the footer line. New floating «لوحة التحكم»
 button in the bottom-left corner of every storefront page, like the Trio site:
 icon only on phones (above the bottom bar), icon and label on desktop.
+
+## 2026-11-15 — motion inspired by the Hydrogen+ site
+
+All in `src/hero-intro.js` (+ styles in `src/styles.css`), no libraries, Web
+Animations API and CSS only. Reduced motion: none of it runs.
+- Splash (`#flick-splash` in `src/shell.html`, logo file `assets/logo.webp`): first
+  home visit of a session only (sessionStorage `flick.splash`). Badge outline
+  draws, fills, logo lands, a charging line fills, «MOBILE STORE · AMMAN» tracks
+  in; ends at ≥1.55s once the banner is ready (safety timeout 4.5s).
+- Banner «charging» intro (after the splash only): the three visible devices
+  drop in one by one; each landing nudges the stage, lands part of the heading
+  and charges the battery (34 → 67 → 100%); a bolt pops, then eyebrow, signal,
+  buttons, caption and controls fade in. Animations are cancelled afterwards.
+- Status row under the heading (`FlickHeroStatus`): battery, 5G bars, a signal
+  wave and «120 Mbps». Scrolling raises the speed (up to 980) and it settles
+  back about a second after stopping; paused while the banner is off screen.
+- Page motion (`useFlickPageMotion` in the storefront layout): content rises on
+  each page change; below the first screen, lists/grids of 3+ items reveal item
+  by item as they scroll in (data-reveal attributes), other sections as a whole.
+- Admin corner button: pulsing ring. Search dialog pops in; side menu and search
+  results arrive one after another.
+Checked: frame-by-frame video, nothing left hidden after scrolling any page, no
+errors, reduced motion fully static, Arabic and English, 390 and 1440.

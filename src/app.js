@@ -5892,6 +5892,7 @@ function oX({ cat: e }) {
   });
 }
 function oZ({ route: e }) {
+  useFlickPageMotion(e);
   let t,
     [n, r, a] = e;
   return (

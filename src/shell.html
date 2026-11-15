@@ -44,6 +44,54 @@
     </script>
   </head>
   <body>
+    <!-- Splash: shown once per visit when the first page is home. Hidden unless the
+         script below adds html.flick-splashing, so nothing is hidden without scripts. -->
+    <div id="flick-splash" aria-hidden="true">
+      <div class="flick-splash-in">
+        <div class="flick-splash-mark">
+          <svg viewBox="0 0 360 278" focusable="false">
+            <path
+              class="flick-splash-outline"
+              pathLength="100"
+              d="M180 6 L350 61 Q357 63 357 70 L357 207 Q357 214 350 216 L180 272 L10 216 Q3 214 3 207 L3 70 Q3 63 10 61 Z"
+            />
+          </svg>
+          <img class="flick-splash-logo" src="assets/logo.webp" alt="" width="360" height="278" />
+        </div>
+        <div class="flick-splash-charge"><i></i></div>
+        <p class="flick-splash-word">MOBILE STORE <b>·</b> AMMAN</p>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var d = document.documentElement,
+          s = document.getElementById("flick-splash");
+        try {
+          var live = window.FlickLive && window.FlickLive.enabled,
+            hash = location.hash,
+            seg = location.pathname.replace(/\/+$/, "").split("/").pop() || "",
+            home = live
+              ? ["", "ar", "en"].indexOf(seg) > -1
+              : !hash || hash === "#" || hash === "#/";
+          if (
+            home &&
+            !matchMedia("(prefers-reduced-motion: reduce)").matches &&
+            !sessionStorage.getItem("flick.splash")
+          ) {
+            sessionStorage.setItem("flick.splash", "1");
+            d.classList.add("flick-splashing");
+            window.flickSplashStart = Date.now();
+            // Safety: never keep the splash if the app fails to start.
+            setTimeout(function () {
+              if (window.flickSplashEnd) window.flickSplashEnd();
+              else if (s) s.remove(), d.classList.remove("flick-splashing");
+            }, 4500);
+            return;
+          }
+        } catch (e) {}
+        if (s) s.remove();
+      })();
+    </script>
     <div id="root"></div>
     <script src="assets/device-specifications.js?v=1"></script>
     <script src="assets/device-features.js?v=2"></script>
