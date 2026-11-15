@@ -3741,18 +3741,6 @@ html.flick-menu-open{overflow:hidden}
 }
 @media print{.flick-admin-corner{display:none}}
 
-@media (width <= 640px) {
-  body:has(.flick-hero) .flick-mobile-nav {
-    padding-left: 48px;
-  }
-  body:has(.flick-hero) .flick-admin-corner {
-    left: 5px;
-    bottom: calc(5px + env(safe-area-inset-bottom));
-    width: 40px;
-    height: 40px;
-    min-height: 40px;
-  }
-}
 /* Splash (once per visit, first page home): the badge outline draws in, fills,
    the logo lands, a charging line fills and the words track in. */
 #flick-splash{display:none}
@@ -4102,5 +4090,16 @@ html[dir="rtl"] .flick-status{justify-content:flex-end}
     justify-self: start;
     width: fit-content;
     max-width: 100%;
+  }
+}
+
+/* Home on phones: the admin button floats beside the banner arrows, above the
+   category chips and clear of the bottom bar. */
+@media (width <= 640px) {
+  body:has(.flick-hero) .flick-admin-corner {
+    bottom: max(
+      var(--flick-admin-lift, calc(119px + env(safe-area-inset-bottom))),
+      calc(64px + env(safe-area-inset-bottom))
+    );
   }
 }

@@ -5924,7 +5924,7 @@ function oZ({ route: e }) {
           children: t,
         }),
         (0, k.jsx)(l0, {}),
-        (0, k.jsx)(FlickAdminCorner, {}),
+        (0, k.jsx)(FlickAdminCorner, { route: e }),
         (0, k.jsx)(l$, { route: e }),
         (0, k.jsx)(oU, {}),
       ],

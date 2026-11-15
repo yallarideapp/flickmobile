@@ -1092,8 +1092,46 @@ function FlickSideMenu({ route: e }) {
 
 // Floating admin panel button in the bottom-left corner (like the Trio site).
 // Icon only on phones, above the bottom navigation.
-function FlickAdminCorner() {
-  let { t: e } = nm();
+// On the home page of a phone, the floating admin button lines up with the
+// banner arrows, so it never covers the category chips or the bottom bar.
+function useFlickAdminLift(route, lang) {
+  w.useEffect(() => {
+    let root = document.documentElement;
+    let frame = 0;
+    let clear = () => root.style.removeProperty("--flick-admin-lift");
+    let place = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        let row = document.querySelector(".flick-hero-navigation");
+        if (!row || innerWidth > 640) return clear();
+        // Layout position, so the banner's entrance animation does not skew it.
+        let top = 0;
+        for (let node = row; node; node = node.offsetParent) top += node.offsetTop;
+        let lift = Math.round(innerHeight - top - row.offsetHeight + (row.offsetHeight - 44) / 2);
+        if (lift > 0) root.style.setProperty("--flick-admin-lift", lift + "px");
+        else clear();
+      });
+    };
+    place();
+    let later = setTimeout(place, 1200);
+    let hero = document.querySelector(".flick-hero");
+    let watch = hero && "ResizeObserver" in window ? new ResizeObserver(place) : null;
+    if (watch) watch.observe(hero);
+    addEventListener("resize", place);
+    addEventListener("flick-splash-done", place);
+    return () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(later);
+      if (watch) watch.disconnect();
+      removeEventListener("resize", place);
+      removeEventListener("flick-splash-done", place);
+      clear();
+    };
+  }, [route, lang]);
+}
+function FlickAdminCorner({ route }) {
+  let { t: e, lang: n } = nm();
+  useFlickAdminLift(route, n);
   return (0, k.jsxs)("a", {
     href: nk("admin"),
     className: "flick-admin-corner",

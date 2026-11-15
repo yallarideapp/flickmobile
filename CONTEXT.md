@@ -395,3 +395,13 @@ links (`.flick-nav-link`) are 16–20px semibold from 768px up.
 Update: the badge is centered over the title (the copy column is fit-content on
 computers), 92–160px tall, and the header logo hides on computers while the home
 banner (with its badge) is on screen; other pages and phones keep the header logo.
+
+## 2026-11-15 — admin button out of the phone bottom bar
+
+The floating admin button no longer sits inside the bottom bar on the home page
+of a phone. There it floats at the left of the banner arrows row (01 / 04), so it
+covers neither the category chips nor the bar: `useFlickAdminLift` in
+`src/admin-extras.js` measures that row's layout position (offsetTop, so the
+entrance animation does not skew it) on load, resize, language change, banner
+resize and after the splash, and sets `--flick-admin-lift`. Other pages keep it
+above the bottom bar.
