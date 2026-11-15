@@ -4077,12 +4077,30 @@ html[dir="rtl"] .flick-status{justify-content:flex-end}
   .flick-hero-logo {
     display: block;
     width: fit-content;
-    margin-bottom: clamp(18px, 1.6vw, 36px);
+    margin-inline: auto;
+    margin-bottom: clamp(20px, 1.8vw, 40px);
   }
   .flick-hero-logo img {
     display: block;
     width: auto;
-    height: clamp(72px, 5.4vw, 128px);
+    height: clamp(92px, 6.8vw, 160px);
     filter: drop-shadow(0 6px 14px rgba(21, 20, 15, 0.18));
+  }
+}
+
+/* On computers the home banner shows the big badge, so the header logo hides there
+   (other pages keep it, so there is always a logo to go home with). */
+@media (width > 900px) {
+  body:has(.flick-hero-logo) .flick-header-logo {
+    display: none;
+  }
+}
+/* The copy column is only as wide as its widest line, so the badge sits exactly
+   over the middle of the title. */
+@media (width > 900px) {
+  .flick-hero[data-hero-tone] .flick-hero-copy {
+    justify-self: start;
+    width: fit-content;
+    max-width: 100%;
   }
 }

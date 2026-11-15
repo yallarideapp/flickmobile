@@ -392,3 +392,6 @@ languages get more room between the title, the status row and the buttons.
 On computers (>900px) the FLiCK badge sits above the banner title
 (`.flick-hero-logo`, 72–128px tall, part of the intro fade). Header section
 links (`.flick-nav-link`) are 16–20px semibold from 768px up.
+Update: the badge is centered over the title (the copy column is fit-content on
+computers), 92–160px tall, and the header logo hides on computers while the home
+banner (with its badge) is on screen; other pages and phones keep the header logo.

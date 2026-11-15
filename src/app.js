@@ -1020,7 +1020,7 @@ function lZ({ route: e }) {
         (0, k.jsx)("a", {
           href: nk(""),
           "aria-label": t("nav.home.aria"),
-          className: "shrink-0 rounded-md",
+          className: "flick-header-logo shrink-0 rounded-md",
           children: (0, k.jsx)(nh, { className: "h-10" }),
         }),
         (0, k.jsx)("nav", {
