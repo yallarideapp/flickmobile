@@ -405,3 +405,11 @@ covers neither the category chips nor the bar: `useFlickAdminLift` in
 entrance animation does not skew it) on load, resize, language change, banner
 resize and after the splash, and sets `--flick-admin-lift`. Other pages keep it
 above the bottom bar.
+
+## 2026-11-15 — badge centered on the title itself
+
+The computer badge and the h1 now share `.flick-hero-heading` (fit-content), so
+the badge is centered on the title's words, not on the whole copy column (the
+status row or buttons could be wider and pull it off-center). From 901 to 1279px
+each title line stays on one line (`white-space: nowrap`), since a wrapped line
+left the badge off-center on smaller laptop screens.

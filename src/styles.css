@@ -4083,13 +4083,27 @@ html[dir="rtl"] .flick-status{justify-content:flex-end}
     display: none;
   }
 }
-/* The copy column is only as wide as its widest line, so the badge sits exactly
-   over the middle of the title. */
+/* The badge sits exactly over the middle of the title: badge and title share a
+   box only as wide as the title's longest line. */
 @media (width > 900px) {
+  .flick-hero-heading {
+    width: fit-content;
+    max-width: 100%;
+  }
+  .flick-hero-heading > h1 {
+    width: fit-content;
+  }
   .flick-hero[data-hero-tone] .flick-hero-copy {
     justify-self: start;
     width: fit-content;
     max-width: 100%;
+  }
+}
+/* Small computer screens: each title line stays on one line, so the badge is
+   centered on the words and not on a half-empty wrapped line. */
+@media (900px < width < 1280px) {
+  .flick-hero-heading > h1 > span {
+    white-space: nowrap;
   }
 }
 

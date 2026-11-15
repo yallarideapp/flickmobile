@@ -350,12 +350,18 @@ function l4() {
         "div",
         { className: "flick-hero-copy" },
         // The FLiCK badge above the title on computers (hidden on phones by CSS).
-        h("span", { className: "flick-hero-logo", "aria-hidden": true }, h(nh, {})),
+        // Badge and title share a box as wide as the title, so the badge is
+        // centered on the title itself.
         h(
-          "h1",
-          { id: "flick-hero-title" },
-          h("span", null, flickHeroWords(t("hero.l1"))),
-          h("span", null, flickHeroWords(t("hero.l2"))),
+          "div",
+          { className: "flick-hero-heading" },
+          h("span", { className: "flick-hero-logo", "aria-hidden": true }, h(nh, {})),
+          h(
+            "h1",
+            { id: "flick-hero-title" },
+            h("span", null, flickHeroWords(t("hero.l1"))),
+            h("span", null, flickHeroWords(t("hero.l2"))),
+          ),
         ),
         h(FlickHeroStatus),
         h(
