@@ -3761,17 +3761,26 @@ html.flick-splashing{overflow:hidden}
 #flick-splash.flick-splash-out{opacity:0;visibility:hidden}
 #flick-splash.flick-splash-out .flick-splash-in{transform:scale(1.08);filter:blur(2px)}
 .flick-splash-in{display:flex;flex-direction:column;align-items:center;gap:22px;transition:transform .5s ease,filter .5s ease}
-.flick-splash-mark{position:relative;width:min(56vw,230px);aspect-ratio:360/278}
-.flick-splash-mark svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.flick-splash-outline{fill:#fdf402;fill-opacity:0;stroke:#fdf402;stroke-width:5;stroke-linejoin:round;stroke-dasharray:100;stroke-dashoffset:100;animation:flick-splash-draw .65s cubic-bezier(.6,.05,.3,1) forwards,flick-splash-fill .3s ease .55s forwards}
-.flick-splash-logo{position:absolute;inset:0;width:100%;height:100%;opacity:0;transform:scale(.86);animation:flick-splash-land .45s cubic-bezier(.2,.9,.3,1.25) .72s forwards}
-.flick-splash-charge{width:min(44vw,180px);height:4px;border-radius:4px;background:#2e2c25;overflow:hidden}
-.flick-splash-charge i{display:block;height:100%;width:100%;background:#fdf402;transform:scaleX(0);transform-origin:left;animation:flick-splash-charge .9s cubic-bezier(.4,0,.2,1) .5s forwards}
-.flick-splash-word{margin:0;font-size:12px;font-weight:700;letter-spacing:.32em;color:#f6f5ef;opacity:0;direction:ltr;animation:flick-splash-track .6s ease 1s forwards}
-.flick-splash-word b{color:#fdf402}
+/* Vector badge: outline draws along the real edge, fills, the black border appears,
+   F-L-I-C-K land one by one, ® pops, MOBILE rises letter by letter. */
+.flick-splash-mark{position:relative;width:min(62vw,250px);aspect-ratio:360/278;filter:drop-shadow(0 10px 34px rgba(253,244,2,.18))}
+.flick-splash-mark svg{display:block;width:100%;height:100%;overflow:visible}
+.flick-splash-mark path{transform-box:fill-box;transform-origin:50% 50%}
+.flick-splash-badge{fill:#fcf402;fill-opacity:0;stroke:#fcf402;stroke-width:3;stroke-linejoin:round;stroke-dasharray:100;stroke-dashoffset:100;animation:flick-splash-draw .62s cubic-bezier(.6,.05,.3,1) forwards,flick-splash-fill .32s ease .5s forwards}
+.flick-splash-ring{fill:#0d0d0b;opacity:0;animation:flick-splash-show .25s ease .72s forwards}
+.flick-splash-letter{fill:#0d0d0b;opacity:0;transform:translateY(-34%) scale(1.45) rotate(-4deg);animation:flick-splash-slam .3s cubic-bezier(.2,.9,.3,1.2) forwards;animation-delay:calc(.82s + var(--i) * 75ms)}
+.flick-splash-reg{fill:#0d0d0b;opacity:0;transform:scale(0);animation:flick-splash-pop .3s cubic-bezier(.2,.9,.3,1.4) 1.24s forwards}
+.flick-splash-small{fill:#0d0d0b;opacity:0;transform:translateY(40%);animation:flick-splash-rise .28s cubic-bezier(.22,1,.36,1) forwards;animation-delay:calc(1.12s + var(--i) * 35ms)}
 @keyframes flick-splash-draw{to{stroke-dashoffset:0}}
 @keyframes flick-splash-fill{to{fill-opacity:1}}
-@keyframes flick-splash-land{to{opacity:1;transform:none}}
+@keyframes flick-splash-show{to{opacity:1}}
+@keyframes flick-splash-slam{to{opacity:1;transform:none}}
+@keyframes flick-splash-pop{to{opacity:1;transform:none}}
+@keyframes flick-splash-rise{to{opacity:1;transform:none}}
+.flick-splash-charge{width:min(44vw,180px);height:4px;border-radius:4px;background:#2e2c25;overflow:hidden}
+.flick-splash-charge i{display:block;height:100%;width:100%;background:#fdf402;transform:scaleX(0);transform-origin:left;animation:flick-splash-charge 1.05s cubic-bezier(.4,0,.2,1) .45s forwards}
+.flick-splash-word{margin:0;font-size:12px;font-weight:700;letter-spacing:.32em;color:#f6f5ef;opacity:0;direction:ltr;animation:flick-splash-track .6s ease 1.3s forwards}
+.flick-splash-word b{color:#fdf402}
 @keyframes flick-splash-charge{to{transform:scaleX(1)}}
 @keyframes flick-splash-track{from{opacity:0;letter-spacing:.7em}to{opacity:.85;letter-spacing:.32em}}
 @media (prefers-reduced-motion:reduce){#flick-splash{display:none!important}}

@@ -29,7 +29,7 @@ window.flickSplashEnd = function flickSplashEnd() {
         root.classList.remove("flick-splashing");
       }, 520);
     },
-    Math.max(0, 1550 - shown),
+    Math.max(0, 1800 - shown),
   );
 };
 

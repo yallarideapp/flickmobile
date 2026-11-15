@@ -343,10 +343,12 @@ icon only on phones (above the bottom bar), icon and label on desktop.
 
 All in `src/hero-intro.js` (+ styles in `src/styles.css`), no libraries, Web
 Animations API and CSS only. Reduced motion: none of it runs.
-- Splash (`#flick-splash` in `src/shell.html`, logo file `assets/logo.webp`): first
-  home visit of a session only (sessionStorage `flick.splash`). Badge outline
-  draws, fills, logo lands, a charging line fills, «MOBILE STORE · AMMAN» tracks
-  in; ends at ≥1.55s once the banner is ready (safety timeout 4.5s).
+- Splash (`#flick-splash` in `src/shell.html`): first
+  home visit of a session only (sessionStorage `flick.splash`). The badge is
+  vector paths traced from the logo (sharp at any size): the outline draws along
+  the real edge, fills, the black border appears, F-L-I-C-K land one by one, ®
+  pops, MOBILE rises; a charging line fills and «MOBILE STORE · AMMAN» tracks in.
+  Ends at ≥1.8s once the banner is ready (safety timeout 4.5s).
 - Banner «charging» intro (after the splash only): the three visible devices
   drop in one by one; each landing nudges the stage, lands part of the heading
   and charges the battery (34 → 67 → 100%); a bolt pops, then eyebrow, signal,
