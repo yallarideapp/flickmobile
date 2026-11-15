@@ -363,3 +363,19 @@ Animations API and CSS only. Reduced motion: none of it runs.
   results arrive one after another.
 Checked: frame-by-frame video, nothing left hidden after scrolling any page, no
 errors, reduced motion fully static, Arabic and English, 390 and 1440.
+
+## 2026-11-15 — banner fills the phone screen, scales up on big screens
+
+Banner sizing block at the end of `src/styles.css`:
+- Phones (≤640px): the banner fills the screen between the header (65px) and
+  the bottom bar (53px + safe area). Copy and controls have comfortable gaps
+  (title 34–46px, buttons 46px, chips 40px); the device stage takes the rest
+  (170–430px). Short phones (<700px tall) tighten the gaps a little.
+- ≥1280px: banner fills the screen under the header (max 1180px tall), stage
+  380–860px, and the title, eyebrow, status row, buttons, caption, arrows and
+  category chips grow with the width (title 76px at 1440, ~98px at 1920, ~128px
+  at 2560).
+- ≥1600px: the site container (`max-w-6xl` and `.flick-section`) widens to
+  clamp(1152px, 78vw, 1680px) everywhere, so header, banner, sections and footer
+  stay aligned.
+Heading size rules use `h1 > span` so they never hit the per-word spans.
