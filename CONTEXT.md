@@ -379,3 +379,10 @@ Banner sizing block at the end of `src/styles.css`:
   clamp(1152px, 78vw, 1680px) everywhere, so header, banner, sections and footer
   stay aligned.
 Heading size rules use `h1 > span` so they never hit the per-word spans.
+
+## 2026-11-15 — clearer banner title, no «FLiCK MOBILE · AMMAN» line
+
+Removed the small eyebrow line above the banner title (both languages). The
+Arabic title now has no negative letter-spacing (Arabic letters join), line
+height 1.38 (1.32 on phones) and a clear gap between its two lines. Both
+languages get more room between the title, the status row and the buttons.

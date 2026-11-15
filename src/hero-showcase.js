@@ -349,7 +349,6 @@ function l4() {
       h(
         "div",
         { className: "flick-hero-copy" },
-        h("p", { className: "flick-eyebrow" }, t("hero.eyebrow")),
         h(
           "h1",
           { id: "flick-hero-title" },
