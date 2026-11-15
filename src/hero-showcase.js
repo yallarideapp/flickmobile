@@ -349,6 +349,8 @@ function l4() {
       h(
         "div",
         { className: "flick-hero-copy" },
+        // The FLiCK badge above the title on computers (hidden on phones by CSS).
+        h("span", { className: "flick-hero-logo", "aria-hidden": true }, h(nh, {})),
         h(
           "h1",
           { id: "flick-hero-title" },

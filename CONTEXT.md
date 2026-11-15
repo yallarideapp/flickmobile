@@ -386,3 +386,9 @@ Removed the small eyebrow line above the banner title (both languages). The
 Arabic title now has no negative letter-spacing (Arabic letters join), line
 height 1.38 (1.32 on phones) and a clear gap between its two lines. Both
 languages get more room between the title, the status row and the buttons.
+
+## 2026-11-15 — logo above the banner title, bigger header links
+
+On computers (>900px) the FLiCK badge sits above the banner title
+(`.flick-hero-logo`, 72–128px tall, part of the intro fade). Header section
+links (`.flick-nav-link`) are 16–20px semibold from 768px up.

@@ -1038,7 +1038,7 @@ function lZ({ route: e }) {
                 href: nk(e.path),
                 "aria-current": o === e.match ? "page" : void 0,
                 className: t0(
-                  "rounded-lg px-3 py-2 text-[15px] font-medium text-dust transition-colors hover:text-paper",
+                  "flick-nav-link rounded-lg px-3 py-2 text-[15px] font-medium text-dust transition-colors hover:text-paper",
                   o === e.match && "text-flick hover:text-flick",
                 ),
                 children: t(e.key),

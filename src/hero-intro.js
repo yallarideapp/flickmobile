@@ -168,6 +168,7 @@ function useFlickHeroIntro(heroRef) {
 
     // The rest of the banner settles in once the bar is full.
     [
+      ".flick-hero-logo",
       ".flick-status-signal",
       ".flick-status-wave",
       ".flick-status-speed",

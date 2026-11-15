@@ -4061,3 +4061,28 @@ html[dir="rtl"] .flick-status{justify-content:flex-end}
     margin-top: clamp(32px, 2.6vw, 64px);
   }
 }
+
+/* Header section links: bigger and easier to read on computers. */
+@media (width >= 768px) {
+  .flick-nav-link {
+    font-size: clamp(16px, 1.05vw, 20px);
+    font-weight: 600;
+  }
+}
+/* FLiCK badge above the banner title on computers only. */
+.flick-hero-logo {
+  display: none;
+}
+@media (width > 900px) {
+  .flick-hero-logo {
+    display: block;
+    width: fit-content;
+    margin-bottom: clamp(18px, 1.6vw, 36px);
+  }
+  .flick-hero-logo img {
+    display: block;
+    width: auto;
+    height: clamp(72px, 5.4vw, 128px);
+    filter: drop-shadow(0 6px 14px rgba(21, 20, 15, 0.18));
+  }
+}
