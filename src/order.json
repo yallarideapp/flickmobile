@@ -9,6 +9,7 @@
   "app.js",
   "legal-pages.js",
   "admin-extras.js",
+  "device-share.js",
   "integration.js",
   "live-adapter.js",
   "mount.js"

@@ -177,6 +177,15 @@ test("rendered routes include real catalog, safe bootstrap, working assets and i
     admin = await setupAdmin(backend);
   const livePage = await visitor.request("/en/shop/phones");
   const page = expectStatus(livePage, 200);
+  // A device page shares its own picture and name, not the banner.
+  {
+    const page = expectStatus(await visitor.request("/ar/p/iphone-17-pro-max"), 200);
+    assert.match(page, /<meta property="og:image" content="https?:\/\/[^"\/]+\/assets\/share\/devices\/iphone-17-pro-max-ar\.jpg\?v=[0-9a-f]{8}"/);
+    assert.match(page, /<meta property="og:title" content="iPhone 17 Pro Max \| FLiCK Mobile"/);
+    assert.match(page, /<meta property="og:type" content="product"/);
+    const english = expectStatus(await visitor.request("/en/p/iphone-17-pro-max"), 200);
+    assert.match(english, /share\/devices\/iphone-17-pro-max-en\.jpg/);
+  }
   const imagePolicy = livePage.headers
     .get("Content-Security-Policy")
     ?.split(";")

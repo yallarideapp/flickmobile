@@ -1,4 +1,5 @@
 import { LEGAL, trademarkNotice } from "../shared/legal.js";
+import { deviceShareCard } from "../shared/share.js";
 const escape = (value) =>
   String(value ?? "").replace(
     /[&<>"']/g,
@@ -103,7 +104,8 @@ export function renderPage(template, request, payload) {
     );
   let products = content.products,
     title = "FLiCK Mobile",
-    status = 200;
+    status = 200,
+    device = null;
   if (
     !valid ||
     (!privateRoute &&
@@ -118,6 +120,7 @@ export function renderPage(template, request, payload) {
         (!variant || p.variants.some((v) => v.key === variant)),
     );
     if (!product || pieces.length > 3) status = 404;
+    device = status === 200 ? product : null;
     products = product ? [product] : [];
     title = product
       ? `${local(product.name, lang)} | FLiCK Mobile`
@@ -135,10 +138,30 @@ export function renderPage(template, request, payload) {
       p.variants.some((v) => v.offerPrice > 0 && v.offerPrice < v.price),
     );
   const canonical = origin + url.pathname;
-  const description =
-    lang === "ar"
+  const deviceName = device ? local(device.name, lang) : "";
+  const description = device
+    ? lang === "ar"
+      ? `${deviceName} متوفر الآن في FLiCK Mobile، عمّان. شوف الخيارات والأسعار واطلب أونلاين.`
+      : `${deviceName} is available now at FLiCK Mobile, Amman. See the options and prices and order online.`
+    : lang === "ar"
       ? "FLiCK Mobile — الأجهزة والعروض والفروع في عمّان."
       : "FLiCK Mobile — devices, offers and branches in Amman.";
+  // A device page shares the device's own picture: its card, else its uploaded
+  // photo, else the store picture.
+  let shareImage = null,
+    shareCard = false;
+  if (device) {
+    const card = deviceShareCard(device, lang);
+    if (card) {
+      shareImage = `${origin}/${card}`;
+      shareCard = true;
+    } else if (device.photo) {
+      try {
+        const photo = new URL(device.photo, origin);
+        if (photo.protocol === "https:" || photo.protocol === "http:") shareImage = photo.href;
+      } catch {}
+    }
+  }
   const cards = products
     .map((p) => {
       const price = Math.min(
@@ -187,6 +210,18 @@ export function renderPage(template, request, payload) {
     .replace(/<meta\s+property="og:description"\s+content="[^"]*"/, `<meta property="og:description" content="${escape(description)}"`)
     .replace(/<meta property="og:url" content="[^"]*"/, `<meta property="og:url" content="${escape(canonical)}"`)
     .replace(/<meta property="og:image" content="\/?assets\//, `<meta property="og:image" content="${escape(origin)}/assets/`)
+    .replace(/<meta property="og:image" content="[^"]*"/, (tag) =>
+      shareImage ? `<meta property="og:image" content="${escape(shareImage)}"` : tag,
+    )
+    .replace(/\s*<meta property="og:image:(?:type|width|height)" content="[^"]*"\s*\/?>/g, (tag) =>
+      shareImage && !shareCard ? "" : tag,
+    )
+    .replace(/<meta property="og:image:alt" content="[^"]*"/, (tag) =>
+      device ? `<meta property="og:image:alt" content="${escape(deviceName)} — FLiCK Mobile"` : tag,
+    )
+    .replace(/<meta property="og:type" content="[^"]*"/, (tag) =>
+      device ? '<meta property="og:type" content="product"' : tag,
+    )
     .replace(
       /<meta\s+name=["']?robots["']?[^>]*>/,
       `<meta name="robots" content="${indexed && !privateRoute && status === 200 ? "index,follow" : "noindex,nofollow"}">`,

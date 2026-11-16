@@ -5456,7 +5456,7 @@ function oG({ id: e, variantKey: t }) {
               (0, k.jsx)(nv, {
                 product: c,
                 eager: !0,
-                className: "aspect-[4/3] rounded-[20px] md:aspect-square",
+                className: "flick-product-media aspect-[4/3] rounded-[20px] md:aspect-square",
                 artClass: "p-[6%] md:p-[10%]",
               }),
               eC(c)
@@ -5470,9 +5470,15 @@ function oG({ id: e, variantKey: t }) {
           (0, k.jsxs)("div", {
             className: "min-w-0",
             children: [
-              (0, k.jsx)("p", {
-                className: "text-sm text-dust",
-                children: c.brand || a(lG(c.cat)),
+              (0, k.jsxs)("div", {
+                className: "flick-device-top",
+                children: [
+                  (0, k.jsx)("p", {
+                    className: "text-sm text-dust",
+                    children: c.brand || a(lG(c.cat)),
+                  }),
+                  (0, k.jsx)(FlickShareDevice, { product: c }),
+                ],
               }),
               (0, k.jsx)("h1", {
                 className:

@@ -421,3 +421,16 @@ On computers the FLiCK badge is now bigger (`--flick-badge`, clamp(112px, 8.4vw,
 `.flick-hero-heading`), raised about a third of its height above the first line,
 so the title keeps its size. English: the right of the title is the device stage,
 so the badge sits above the title, lined up with its left edge.
+
+## 2026-11-16 — share any device with its own picture
+
+- Device pages have a "مشاركة / Share" button (`src/device-share.js`): the phone's
+  share sheet where available, otherwise the link is copied.
+- Each of the 23 catalog devices has a 1200×630 preview picture per language in
+  `assets/share/devices/` (`npm run cards`, from the real device photo; no prices,
+  since they change). `shared/share.js` decides if a device still matches its card.
+- Demo: the shared link is `…/flickmobile/p/<id>/` (or `en/p/<id>/`), a small page
+  with the device's preview tags that forwards to `#/p/<id>` in that language.
+  Devices added in the demo admin share their # address (store picture).
+- Live: `/<lang>/p/<id>` gets the device's title, description, og:type product and
+  its card; an admin-added device uses its uploaded photo.

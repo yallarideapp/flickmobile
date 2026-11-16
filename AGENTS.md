@@ -43,6 +43,14 @@
 - Link preview image is `assets/share.jpg`; rebuild it with
   `node scripts/make-share-image.mjs` after changing the banner, then bump `?v=`
   in the og:image tag in `src/shell.html`.
+- Every device has its own link-preview picture, `assets/share/devices/<id>-<lang>.jpg`
+  (1200×630, no prices). After adding or renaming a catalog device in
+  `server/seed.json`, run `npm run build && npm run cards`, then build again; this
+  also rewrites `shared/share-cards.js`. A device renamed or given a new photo in
+  the admin stops using its card (live site: uploaded photo, else the store picture).
+  The demo gets a small share page per device at `p/<id>/` and `en/p/<id>/`
+  (GitHub Pages # addresses are invisible to link previews); the live Worker sets
+  the tags on `/<lang>/p/<id>`. The "Share" button is `src/device-share.js`.
 - Device search goes through `flickSearchMatch` (header dialog and devices page).
 - Side menu (`FlickSideMenu` in `src/admin-extras.js`) lists every page; add new
   pages there as well as in the footer.

@@ -4130,3 +4130,10 @@ html[dir="rtl"] .flick-status{justify-content:flex-end}
     );
   }
 }
+
+/* Device page: brand on one side, "Share" on the other. */
+.flick-device-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.flick-share-device{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border:1px solid #3d3a32;border-radius:999px;background:#1d1c18;color:#f6f5ef;font-size:14px;font-weight:700;transition:border-color .15s ease,background-color .15s ease}
+.flick-share-device:hover{border-color:#fdf402;background:#222119}
+.flick-share-device:focus-visible{outline:3px solid #fdf402;outline-offset:3px}
+.flick-share-device-icon{width:17px;height:17px;flex:none;color:#fdf402}
