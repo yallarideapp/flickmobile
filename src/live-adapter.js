@@ -1,4 +1,6 @@
 import * as FlickRules from "../shared/domain.js";
+import { deviceShareSignature } from "../shared/share.js";
+// deviceShareCard comes from src/device-share.js (same bundle).
 
 if (window.FlickLive?.enabled) {
   const api = window.FlickApp,
@@ -206,6 +208,24 @@ if (window.FlickLive?.enabled) {
       ).url;
     };
     for (const p of copy.products) if (p.photo) p.photo = await upload(p.photo);
+    // Every device added or changed here gets its own link-preview picture, so a
+    // shared link shows that device. Catalog devices that still match their
+    // ready-made card keep it. If drawing fails, the device shares its photo.
+    for (const p of copy.products) {
+      const sig = deviceShareSignature(p);
+      if (deviceShareCard(p, "ar") && deviceShareCard(p, "en")) {
+        delete p.shareImage;
+        continue;
+      }
+      if (p.shareImage?.sig === sig && p.shareImage.ar && p.shareImage.en) continue;
+      delete p.shareImage;
+      try {
+        const share = { sig };
+        for (const lang of ["ar", "en"])
+          share[lang] = await upload(await window.FlickShareCard.render(p, lang));
+        p.shareImage = share;
+      } catch {}
+    }
     for (const c of copy.categories || [])
       if (c.image) c.image = await upload(c.image);
     for (const slot of copy.heroSlots || [])

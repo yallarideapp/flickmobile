@@ -95,6 +95,12 @@ export function cleanContent(value) {
     unique(variants.map(v => v.key));
     const result = { id: id(p.id), cat: id(p.cat), brand: text(p.brand, 100), name: pair(p.name, 200, true), art: text(p.art, 100), img: text(p.img, 100), visible: p.visible !== false, featured: p.featured === true, variants };
     if (p.photo) result.photo = safeUrl(p.photo, true);
+    // Link-preview pictures the admin made for this device (see shared/share.js).
+    if (record(p.shareImage) && (p.shareImage.ar || p.shareImage.en)) {
+      const share = { sig: text(p.shareImage.sig, 1200) };
+      for (const lang of ['ar', 'en']) if (p.shareImage[lang]) share[lang] = safeUrl(p.shareImage[lang], true);
+      result.shareImage = share;
+    }
     if (p.technical) result.technical = technical(p.technical);
     return result;
   });

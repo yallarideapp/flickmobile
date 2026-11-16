@@ -434,3 +434,18 @@ so the badge sits above the title, lined up with its left edge.
   Devices added in the demo admin share their # address (store picture).
 - Live: `/<lang>/p/<id>` gets the device's title, description, og:type product and
   its card; an admin-added device uses its uploaded photo.
+
+## 2026-11-16 — new and changed devices get their picture automatically
+
+- One card renderer for everything: `src/share-card.js` draws the 1200×630 card
+  on a canvas (device photo cut out and trimmed, name in balanced lines, badge,
+  brand · type, "available now", Amman). `npm run cards` uses it for the catalog.
+- Live site: whenever the admin saves, any device that was added, renamed, or got
+  a new photo, brand or section gets new Arabic and English cards, uploaded like
+  photos and saved as `shareImage` with a signature. Price and stock changes do
+  not redraw. Checked end to end on the local live preview: a new device and a
+  rename each produced fresh cards and the device page's og:image pointed to them.
+- Catalog guard: a test fails if a device in `server/seed.json` has no matching
+  card, so code changes to devices cannot ship without their pictures.
+- Demo (GitHub Pages) admin changes stay in that browser, so they cannot have
+  link previews; their Share link opens the device and shows the store picture.

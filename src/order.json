@@ -10,6 +10,7 @@
   "legal-pages.js",
   "admin-extras.js",
   "device-share.js",
+  "share-card.js",
   "integration.js",
   "live-adapter.js",
   "mount.js"

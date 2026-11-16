@@ -367,3 +367,57 @@ test("fabricated image containers and trailing executable bytes are rejected", a
     415,
   );
 });
+
+test("every catalog device has an up-to-date share picture in both languages", async () => {
+  const { readFile, access } = await import("node:fs/promises");
+  const { deviceShareCard } = await import("../shared/share.js");
+  const seed = JSON.parse(await readFile(new URL("../server/seed.json", import.meta.url), "utf8"));
+  const products = (seed.products || seed.content.products).filter((p) => p.visible !== false);
+  for (const product of products)
+    for (const lang of ["ar", "en"]) {
+      const card = deviceShareCard(product, lang);
+      assert.ok(card, `${product.id} (${lang}) needs a new share picture: npm run build && npm run cards`);
+      await access(new URL("../" + card.split("?")[0], import.meta.url));
+    }
+});
+
+test("a device added or changed in the admin shares its own picture", async (t) => {
+  const { deviceShareSignature } = await import("../shared/share.js");
+  const backend = await withBackend(t, { assets: true }),
+    visitor = backend.client(),
+    admin = await setupAdmin(backend);
+  let state = await getContent(admin);
+  const photo = "/api/photo/11111111-2222-4333-8444-555555555555";
+  const device = {
+    ...structuredClone(state.content.products[0]),
+    id: "pixel-test",
+    brand: "Google",
+    name: { ar: "بكسل تجربة", en: "Pixel Test" },
+    img: "",
+    photo,
+  };
+  device.shareImage = {
+    sig: deviceShareSignature(device),
+    ar: "/api/photo/aaaaaaaa-2222-4333-8444-555555555555",
+    en: "/api/photo/bbbbbbbb-2222-4333-8444-555555555555",
+  };
+  state = await publish(admin, state, (content) => content.products.push(device));
+  const arabic = expectStatus(await visitor.request("/ar/p/pixel-test"), 200);
+  assert.match(arabic, /<meta property="og:image" content="https?:\/\/[^"\/]+\/api\/photo\/aaaaaaaa-/);
+  assert.match(arabic, /<meta property="og:title" content="بكسل تجربة \| FLiCK Mobile"/);
+  const english = expectStatus(await visitor.request("/en/p/pixel-test"), 200);
+  assert.match(english, /\/api\/photo\/bbbbbbbb-/);
+  // Renamed without a new picture: the old card is not used; the photo is.
+  state = await publish(admin, state, (content) => {
+    content.products.find((p) => p.id === "pixel-test").name.en = "Pixel Renamed";
+  });
+  const renamed = expectStatus(await visitor.request("/en/p/pixel-test"), 200);
+  assert.doesNotMatch(renamed, /og:image" content="[^"]*bbbbbbbb-/);
+  assert.match(renamed, /<meta property="og:image" content="https?:\/\/[^"\/]+\/api\/photo\/11111111-/);
+  // A catalog device renamed in the admin stops using its ready-made card.
+  state = await publish(admin, state, (content) => {
+    content.products.find((p) => p.id === "iphone-17").name.en = "iPhone 17 (renamed)";
+  });
+  const catalog = expectStatus(await visitor.request("/en/p/iphone-17"), 200);
+  assert.doesNotMatch(catalog, /og:image" content="[^"]*share\/devices\/iphone-17-en/);
+});

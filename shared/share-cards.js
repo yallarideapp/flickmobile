@@ -2,210 +2,118 @@
 // The pictures are assets/share/devices/<id>-<lang>.jpg.
 export const SHARE_CARDS = {
   "airpods-4": {
-    "name": {
-      "ar": "AirPods 4",
-      "en": "AirPods 4"
-    },
-    "img": "airpods-4",
-    "ar": "39acdacf",
-    "en": "608b4ea9"
+    "sig": "[\"AirPods 4\",\"AirPods 4\",\"Apple\",\"headphones\",\"airpods-4\",\"\"]",
+    "ar": "b422669d",
+    "en": "c602e692"
   },
   "airpods-pro-3": {
-    "name": {
-      "ar": "AirPods Pro 3",
-      "en": "AirPods Pro 3"
-    },
-    "img": "airpods-pro-3",
-    "ar": "08c9b2b4",
-    "en": "21faa560"
+    "sig": "[\"AirPods Pro 3\",\"AirPods Pro 3\",\"Apple\",\"headphones\",\"airpods-pro-3\",\"\"]",
+    "ar": "3155f29e",
+    "en": "8e25b82a"
   },
   "apple-watch-s11": {
-    "name": {
-      "ar": "Apple Watch Series 11",
-      "en": "Apple Watch Series 11"
-    },
-    "img": "apple-watch-s11",
-    "ar": "38e45107",
-    "en": "0f1b0ce2"
+    "sig": "[\"Apple Watch Series 11\",\"Apple Watch Series 11\",\"Apple\",\"watches\",\"apple-watch-s11\",\"\"]",
+    "ar": "7ddde05f",
+    "en": "f16b43ff"
   },
   "apple-watch-se3": {
-    "name": {
-      "ar": "Apple Watch SE 3",
-      "en": "Apple Watch SE 3"
-    },
-    "img": "apple-watch-se3",
-    "ar": "bcb46c7d",
-    "en": "8308e07a"
+    "sig": "[\"Apple Watch SE 3\",\"Apple Watch SE 3\",\"Apple\",\"watches\",\"apple-watch-se3\",\"\"]",
+    "ar": "ab186753",
+    "en": "6f074fec"
   },
   "bt-headphones": {
-    "name": {
-      "ar": "سماعة رأس لاسلكية",
-      "en": "Wireless over-ear headphones"
-    },
-    "img": "bt-headphones",
-    "ar": "cae59412",
-    "en": "f0ed14ad"
+    "sig": "[\"سماعة رأس لاسلكية\",\"Wireless over-ear headphones\",\"\",\"headphones\",\"bt-headphones\",\"\"]",
+    "ar": "d05e1648",
+    "en": "93b8868c"
   },
   "bt-speaker": {
-    "name": {
-      "ar": "سماعة بلوتوث محمولة",
-      "en": "Portable Bluetooth speaker"
-    },
-    "img": "bt-speaker",
-    "ar": "316c47da",
-    "en": "a3ab25b9"
+    "sig": "[\"سماعة بلوتوث محمولة\",\"Portable Bluetooth speaker\",\"\",\"speakers\",\"bt-speaker\",\"\"]",
+    "ar": "c140754e",
+    "en": "7cc81c85"
   },
   "cable-c-c": {
-    "name": {
-      "ar": "كيبل USB-A إلى USB-C",
-      "en": "USB-A to USB-C cable"
-    },
-    "img": "cable-c-c",
-    "ar": "36cac734",
-    "en": "13bfc604"
+    "sig": "[\"كيبل USB-A إلى USB-C\",\"USB-A to USB-C cable\",\"\",\"accessories\",\"cable-c-c\",\"\"]",
+    "ar": "72b1fc4f",
+    "en": "e0cc88d8"
   },
   "case-clear": {
-    "name": {
-      "ar": "كفر حماية شفاف",
-      "en": "Clear protective case"
-    },
-    "img": "case-clear",
-    "ar": "c8bca516",
-    "en": "cd7197e2"
+    "sig": "[\"كفر حماية شفاف\",\"Clear protective case\",\"\",\"accessories\",\"case-clear\",\"\"]",
+    "ar": "c942a61d",
+    "en": "99b740b0"
   },
   "charger-20w": {
-    "name": {
-      "ar": "شاحن USB-C سريع 20W",
-      "en": "USB-C fast charger 20W"
-    },
-    "img": "charger-20w",
-    "ar": "5bfe2c4d",
-    "en": "0c64f6ba"
+    "sig": "[\"شاحن USB-C سريع 20W\",\"USB-C fast charger 20W\",\"\",\"accessories\",\"charger-20w\",\"\"]",
+    "ar": "d7bcf9c7",
+    "en": "7bd227f6"
   },
   "galaxy-a56": {
-    "name": {
-      "ar": "Galaxy A56 5G",
-      "en": "Galaxy A56 5G"
-    },
-    "img": "galaxy-a56",
-    "ar": "0977d258",
-    "en": "788d2344"
+    "sig": "[\"Galaxy A56 5G\",\"Galaxy A56 5G\",\"Samsung\",\"phones\",\"galaxy-a56\",\"\"]",
+    "ar": "ee702673",
+    "en": "5970a33f"
   },
   "galaxy-buds3-pro": {
-    "name": {
-      "ar": "Galaxy Buds3 Pro",
-      "en": "Galaxy Buds3 Pro"
-    },
-    "img": "galaxy-buds3-pro",
-    "ar": "c053de3c",
-    "en": "7ea63d8e"
+    "sig": "[\"Galaxy Buds3 Pro\",\"Galaxy Buds3 Pro\",\"Samsung\",\"headphones\",\"galaxy-buds3-pro\",\"\"]",
+    "ar": "bab5a83f",
+    "en": "9e656a52"
   },
   "galaxy-s25-ultra": {
-    "name": {
-      "ar": "Galaxy S25 Ultra",
-      "en": "Galaxy S25 Ultra"
-    },
-    "img": "galaxy-s25-ultra",
-    "ar": "fd69a87b",
-    "en": "ad57652e"
+    "sig": "[\"Galaxy S25 Ultra\",\"Galaxy S25 Ultra\",\"Samsung\",\"phones\",\"galaxy-s25-ultra\",\"\"]",
+    "ar": "39d1862c",
+    "en": "547e1480"
   },
   "galaxy-tab-s10-fe": {
-    "name": {
-      "ar": "Galaxy Tab S10 FE",
-      "en": "Galaxy Tab S10 FE"
-    },
-    "img": "galaxy-tab-s10-fe",
-    "ar": "e548d80a",
-    "en": "004ec1a3"
+    "sig": "[\"Galaxy Tab S10 FE\",\"Galaxy Tab S10 FE\",\"Samsung\",\"tablets\",\"galaxy-tab-s10-fe\",\"\"]",
+    "ar": "3f96c78a",
+    "en": "0a441874"
   },
   "galaxy-watch8": {
-    "name": {
-      "ar": "Galaxy Watch8",
-      "en": "Galaxy Watch8"
-    },
-    "img": "galaxy-watch8",
-    "ar": "9e50026f",
-    "en": "d476caf0"
+    "sig": "[\"Galaxy Watch8\",\"Galaxy Watch8\",\"Samsung\",\"watches\",\"galaxy-watch8\",\"\"]",
+    "ar": "21877f53",
+    "en": "734b55bb"
   },
   "galaxy-z-flip7": {
-    "name": {
-      "ar": "Galaxy Z Flip7",
-      "en": "Galaxy Z Flip7"
-    },
-    "img": "galaxy-z-flip7",
-    "ar": "72964565",
-    "en": "e4e085d2"
+    "sig": "[\"Galaxy Z Flip7\",\"Galaxy Z Flip7\",\"Samsung\",\"phones\",\"galaxy-z-flip7\",\"\"]",
+    "ar": "75ce9f18",
+    "en": "3a524ad2"
   },
   "ipad-a16": {
-    "name": {
-      "ar": "iPad (A16)",
-      "en": "iPad (A16)"
-    },
-    "img": "ipad-a16",
-    "ar": "65d076bb",
-    "en": "fee72dd1"
+    "sig": "[\"iPad (A16)\",\"iPad (A16)\",\"Apple\",\"tablets\",\"ipad-a16\",\"\"]",
+    "ar": "3bc48d0d",
+    "en": "18f788a2"
   },
   "ipad-air-11-m3": {
-    "name": {
-      "ar": "iPad Air 11\" (M3)",
-      "en": "iPad Air 11\" (M3)"
-    },
-    "img": "ipad-air-11-m3",
-    "ar": "fe832d6b",
-    "en": "38d12113"
+    "sig": "[\"iPad Air 11\\\" (M3)\",\"iPad Air 11\\\" (M3)\",\"Apple\",\"tablets\",\"ipad-air-11-m3\",\"\"]",
+    "ar": "be9418db",
+    "en": "a26d1a65"
   },
   "iphone-16": {
-    "name": {
-      "ar": "iPhone 16",
-      "en": "iPhone 16"
-    },
-    "img": "iphone-16",
-    "ar": "625d2ca0",
-    "en": "25959e23"
+    "sig": "[\"iPhone 16\",\"iPhone 16\",\"Apple\",\"phones\",\"iphone-16\",\"\"]",
+    "ar": "4fd733bf",
+    "en": "e378a43c"
   },
   "iphone-17": {
-    "name": {
-      "ar": "iPhone 17",
-      "en": "iPhone 17"
-    },
-    "img": "iphone-17",
-    "ar": "74aa2054",
-    "en": "b5f7abe1"
+    "sig": "[\"iPhone 17\",\"iPhone 17\",\"Apple\",\"phones\",\"iphone-17\",\"\"]",
+    "ar": "9bc33ad1",
+    "en": "3de957df"
   },
   "iphone-17-pro": {
-    "name": {
-      "ar": "iPhone 17 Pro",
-      "en": "iPhone 17 Pro"
-    },
-    "img": "iphone-17-pro",
-    "ar": "91aa0de6",
-    "en": "16015055"
+    "sig": "[\"iPhone 17 Pro\",\"iPhone 17 Pro\",\"Apple\",\"phones\",\"iphone-17-pro\",\"\"]",
+    "ar": "0cefbb7b",
+    "en": "6b5704ef"
   },
   "iphone-17-pro-max": {
-    "name": {
-      "ar": "iPhone 17 Pro Max",
-      "en": "iPhone 17 Pro Max"
-    },
-    "img": "iphone-17-pro-max",
-    "ar": "0de8ecf5",
-    "en": "abb01f04"
+    "sig": "[\"iPhone 17 Pro Max\",\"iPhone 17 Pro Max\",\"Apple\",\"phones\",\"iphone-17-pro-max\",\"\"]",
+    "ar": "e96d4873",
+    "en": "43042a8d"
   },
   "iphone-air": {
-    "name": {
-      "ar": "iPhone Air",
-      "en": "iPhone Air"
-    },
-    "img": "iphone-air",
-    "ar": "7a88d13c",
-    "en": "44e871ac"
+    "sig": "[\"iPhone Air\",\"iPhone Air\",\"Apple\",\"phones\",\"iphone-air\",\"\"]",
+    "ar": "649cb862",
+    "en": "a8cd09e9"
   },
   "powerbank-20k": {
-    "name": {
-      "ar": "باور بانك 20,000 mAh",
-      "en": "Power bank 20,000 mAh"
-    },
-    "img": "powerbank-20k",
-    "ar": "da540e03",
-    "en": "47f11312"
+    "sig": "[\"باور بانك 20,000 mAh\",\"Power bank 20,000 mAh\",\"\",\"accessories\",\"powerbank-20k\",\"\"]",
+    "ar": "40ee1bd8",
+    "en": "e45ac26b"
   }
 };

@@ -1,5 +1,5 @@
 import { LEGAL, trademarkNotice } from "../shared/legal.js";
-import { deviceShareCard } from "../shared/share.js";
+import { deviceShareImage } from "../shared/share.js";
 const escape = (value) =>
   String(value ?? "").replace(
     /[&<>"']/g,
@@ -151,9 +151,9 @@ export function renderPage(template, request, payload) {
   let shareImage = null,
     shareCard = false;
   if (device) {
-    const card = deviceShareCard(device, lang);
-    if (card) {
-      shareImage = `${origin}/${card}`;
+    const own = deviceShareImage(device, lang);
+    if (own) {
+      shareImage = new URL(own, origin).href;
       shareCard = true;
     } else if (device.photo) {
       try {
