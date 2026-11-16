@@ -4057,22 +4057,35 @@ html[dir="rtl"] .flick-status{justify-content:flex-end}
     font-weight: 600;
   }
 }
-/* FLiCK badge above the banner title on computers only. */
+/* FLiCK badge on computers only. Arabic: on the left of the title, raised a
+   little above the first line; it hangs outside the title box, so the title
+   keeps its size. */
 .flick-hero-logo {
   display: none;
 }
 @media (width > 900px) {
+  .flick-hero-heading {
+    position: relative;
+  }
   .flick-hero-logo {
+    --flick-badge: clamp(112px, 8.4vw, 200px);
     display: block;
-    width: fit-content;
-    margin-inline: auto;
-    margin-bottom: clamp(20px, 1.8vw, 40px);
+    position: absolute;
+    top: calc(var(--flick-badge) * -0.38);
+    inset-inline-start: calc(100% + clamp(16px, 1.6vw, 36px));
   }
   .flick-hero-logo img {
     display: block;
     width: auto;
-    height: clamp(92px, 6.8vw, 160px);
+    height: var(--flick-badge);
+    max-width: none;
     filter: drop-shadow(0 6px 14px rgba(21, 20, 15, 0.18));
+  }
+  /* English: the right of the title is the device stage, so the badge sits
+     above the title, lined up with its left edge. */
+  [dir="ltr"] .flick-hero-logo {
+    position: static;
+    margin-bottom: clamp(18px, 1.6vw, 36px);
   }
 }
 
@@ -4083,8 +4096,8 @@ html[dir="rtl"] .flick-status{justify-content:flex-end}
     display: none;
   }
 }
-/* The badge sits exactly over the middle of the title: badge and title share a
-   box only as wide as the title's longest line. */
+/* Badge and title share a box only as wide as the title's longest line, so the
+   badge hangs right beside the words. */
 @media (width > 900px) {
   .flick-hero-heading {
     width: fit-content;
@@ -4099,8 +4112,8 @@ html[dir="rtl"] .flick-status{justify-content:flex-end}
     max-width: 100%;
   }
 }
-/* Small computer screens: each title line stays on one line, so the badge is
-   centered on the words and not on a half-empty wrapped line. */
+/* Small computer screens: each title line stays on one line, so the badge sits
+   beside the words and not beside a half-empty wrapped line. */
 @media (900px < width < 1280px) {
   .flick-hero-heading > h1 > span {
     white-space: nowrap;

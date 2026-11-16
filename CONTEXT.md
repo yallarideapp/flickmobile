@@ -413,3 +413,11 @@ the badge is centered on the title's words, not on the whole copy column (the
 status row or buttons could be wider and pull it off-center). From 901 to 1279px
 each title line stays on one line (`white-space: nowrap`), since a wrapped line
 left the badge off-center on smaller laptop screens.
+
+## 2026-11-16 — badge beside the Arabic title
+
+On computers the FLiCK badge is now bigger (`--flick-badge`, clamp(112px, 8.4vw,
+200px)). Arabic: it hangs on the left of the title (absolute, inline-end of
+`.flick-hero-heading`), raised about a third of its height above the first line,
+so the title keeps its size. English: the right of the title is the device stage,
+so the badge sits above the title, lined up with its left edge.
