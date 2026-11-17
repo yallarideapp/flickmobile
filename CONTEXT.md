@@ -459,3 +459,9 @@ decoded on the main thread while the page scrolled and animated, so frames froze
 in `assets/products/cut/` (~35–75 KB, 23 files ≈ 1 MB, no mask), made by
 `python3 scripts/cut-product-images.py` from the sprites, which stay as sources.
 Pages look the same (screenshot diff ≈ 0); scrolling the shop had no slow frames.
+
+## 2026-11-17 — badge the same in Arabic and English
+
+On computers the FLiCK badge sits above the banner title in both languages, lined
+up with the title's start edge (right edge in Arabic, left edge in English), at
+the same size (`--flick-badge`). The Arabic "beside the title" placement is gone.

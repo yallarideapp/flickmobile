@@ -4057,22 +4057,16 @@ html[dir="rtl"] .flick-status{justify-content:flex-end}
     font-weight: 600;
   }
 }
-/* FLiCK badge on computers only. Arabic: on the left of the title, raised a
-   little above the first line; it hangs outside the title box, so the title
-   keeps its size. */
+/* FLiCK badge on computers only: above the title, lined up with the title's
+   start edge (right edge in Arabic, left edge in English), the same in both. */
 .flick-hero-logo {
   display: none;
 }
 @media (width > 900px) {
-  .flick-hero-heading {
-    position: relative;
-  }
   .flick-hero-logo {
     --flick-badge: clamp(112px, 8.4vw, 200px);
     display: block;
-    position: absolute;
-    top: calc(var(--flick-badge) * -0.38);
-    inset-inline-start: calc(100% + clamp(16px, 1.6vw, 36px));
+    margin-bottom: clamp(18px, 1.6vw, 36px);
   }
   .flick-hero-logo img {
     display: block;
@@ -4080,12 +4074,6 @@ html[dir="rtl"] .flick-status{justify-content:flex-end}
     height: var(--flick-badge);
     max-width: none;
     filter: drop-shadow(0 6px 14px rgba(21, 20, 15, 0.18));
-  }
-  /* English: the right of the title is the device stage, so the badge sits
-     above the title, lined up with its left edge. */
-  [dir="ltr"] .flick-hero-logo {
-    position: static;
-    margin-bottom: clamp(18px, 1.6vw, 36px);
   }
 }
 
@@ -4096,8 +4084,7 @@ html[dir="rtl"] .flick-status{justify-content:flex-end}
     display: none;
   }
 }
-/* Badge and title share a box only as wide as the title's longest line, so the
-   badge hangs right beside the words. */
+/* Badge and title share a box only as wide as the title's longest line. */
 @media (width > 900px) {
   .flick-hero-heading {
     width: fit-content;
