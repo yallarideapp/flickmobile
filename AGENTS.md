@@ -43,6 +43,10 @@
 - Link preview image is `assets/share.jpg`; rebuild it with
   `node scripts/make-share-image.mjs` after changing the banner, then bump `?v=`
   in the og:image tag in `src/shell.html`.
+- Device pictures on the site are the cut-outs in `assets/products/cut/<device>.webp`
+  (`src/app-core.js` → `eE`). After changing a sprite sheet in `assets/products/`,
+  run `python3 scripts/cut-product-images.py`. Never point the site back at the
+  whole sprites: they are 14 MB and made pages stutter.
 - Every device has its own link-preview picture (1200×630, no prices), drawn by
   `src/share-card.js` (`window.FlickShareCard.render`). Catalog devices:
   `assets/share/devices/<id>-<lang>.jpg`, listed with their signature in

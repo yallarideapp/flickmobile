@@ -449,3 +449,13 @@ so the badge sits above the title, lined up with its left edge.
   card, so code changes to devices cannot ship without their pictures.
 - Demo (GitHub Pages) admin changes stay in that browser, so they cannot have
   link previews; their Share link opens the device and shows the store picture.
+
+## 2026-11-17 — device pictures no longer make pages stutter
+
+Every device used to draw its whole sprite sheet (1.2–1.6 MB PNG) plus a whole
+matte sheet through an SVG luminance mask: ~14 MB of pictures on the shop page,
+decoded on the main thread while the page scrolled and animated, so frames froze
+(up to ~0.9 s in a throttled test). Each device now has its own transparent WebP
+in `assets/products/cut/` (~35–75 KB, 23 files ≈ 1 MB, no mask), made by
+`python3 scripts/cut-product-images.py` from the sprites, which stay as sources.
+Pages look the same (screenshot diff ≈ 0); scrolling the shop had no slow frames.
